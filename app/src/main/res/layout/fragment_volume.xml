@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragments.VolumeControlFragment" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="Volume Control"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="16sp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".Fragments.VolumeControlFragment">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorTranslucent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:drawableTop="@drawable/ic_round_warning_24"
+                    android:gravity="center"
+                    android:text="Warning!!! \nPutting this shit on max will fuck up your speakers"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp" />
+
+                <com.sdsmdg.harjot.crollerTest.Croller
+                    android:id="@+id/volumeCroller"
+                    android:layout_width="match_parent"
+                    android:layout_height="256dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="40dp"
+                    android:padding="8dp"
+                    app:back_circle_color="?android:textColorSecondaryInverseNoDisable"
+                    app:indicator_color="@color/colorPrimary"
+                    app:is_continuous="false"
+                    app:label="Volume Boost"
+                    app:label_color="?android:textColorPrimary"
+                    app:main_circle_color="?android:textColorPrimaryInverseNoDisable"
+                    app:max="2000"
+                    app:min="0"
+                    app:progress_primary_circle_size="6"
+                    app:progress_primary_color="@color/colorPrimary"
+                    app:progress_secondary_circle_size="4"
+                    app:progress_secondary_color="?android:textColorSecondaryInverseNoDisable" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchEff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Enable" />
+
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

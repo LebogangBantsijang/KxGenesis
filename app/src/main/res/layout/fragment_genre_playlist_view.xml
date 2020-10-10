@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorButtonNormal"
+    tools:context=".Containers.OtherContainerActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        app:expanded="true"
+        >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorSurface"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
+            app:titleEnabled="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rectangle_round_corner_bottom"
+                android:backgroundTint="?attr/colorSurface"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="112dp"
+                    android:layout_marginBottom="8dp"
+                    app:srcCompat="@drawable/ic_music_light" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/titleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:elevation="2dp"
+                            android:ellipsize="middle"
+                            android:maxLines="2"
+                            android:text="TextView"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        <TextView
+                            android:id="@+id/subtitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Playlist"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorSecondaryInverseNoDisable" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                            android:id="@+id/playAllActionButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:clickable="true"
+                            android:elevation="6dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp"
+                            android:text="play all"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="10sp"
+                            app:backgroundTint="?attr/colorPrimary"
+                            app:icon="@drawable/ic_play"
+                            app:iconPadding="6dp"
+                            app:iconSize="10sp"
+                            app:iconTint="@color/colorWhite" />
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="12sp"
+                            android:layout_height="12sp"
+                            android:layout_weight="1"
+                            android:scaleType="fitEnd"
+                            android:tint="?android:textColorSecondaryInverseNoDisable"
+                            app:srcCompat="@drawable/ic_music" />
+
+                        <TextView
+                            android:id="@+id/numSongsTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorSecondaryInverseNoDisable" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

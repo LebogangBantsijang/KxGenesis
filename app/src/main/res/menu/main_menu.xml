@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/home_fragment"
+        android:title="Home"
+        android:icon="@drawable/ic_dog_house"
+        />
+
+    <item
+        android:id="@+id/settings_fragment"
+        android:icon="@drawable/ic_settings_3"
+        android:title="Settings" />
+
+    <item
+        android:id="@+id/volume_fragment"
+        android:icon="@drawable/ic_sorting_options"
+        android:title="Volume Control" />
+
+    <item
+        android:id="@+id/recent_fragment"
+        android:icon="@drawable/ic_time"
+        android:title="Recent Items"/>
+
+    <item
+        android:id="@+id/about_fragment"
+        android:icon="@drawable/ic_info"
+        android:title="About" />
+
+</menu>

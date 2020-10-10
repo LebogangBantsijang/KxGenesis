@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/m_navigation.xml"
+    app:startDestination="@id/home_fragment">
+
+    <fragment
+        android:id="@+id/home_fragment"
+        tools:layout="@layout/fragment_home"
+        android:name="com.lebogang.kxgenesis.Fragments.HomeFragment" />
+
+    <fragment
+        android:id="@+id/about_fragment"
+        tools:layout="@layout/fragment_about"
+        android:name="com.lebogang.kxgenesis.Fragments.AboutFragment" />
+
+    <fragment
+        android:id="@+id/settings_fragment"
+        tools:layout="@layout/fragment_settings"
+        android:name="com.lebogang.kxgenesis.Fragments.SettingsFragment"/>
+
+    <fragment
+        android:id="@+id/album_artist_view_fragment"
+        tools:layout="@layout/fragment_album_artist_view"
+        android:name="com.lebogang.kxgenesis.Fragments.AlbumArtistViewFragment"/>
+
+    <fragment
+        android:id="@+id/genre_playlist_view_fragment"
+        tools:layout="@layout/fragment_genre_playlist_view"
+        android:name="com.lebogang.kxgenesis.Fragments.GenrePlaylistViewFragment"/>
+
+    <fragment
+        android:id="@+id/search_fragment"
+        tools:layout="@layout/fragment_search"
+        android:name="com.lebogang.kxgenesis.Fragments.SearchFragment"/>
+
+    <fragment
+        android:id="@+id/playlist_item_manager_fragment"
+        tools:layout="@layout/fragment_playlist_item_manager"
+        android:name="com.lebogang.kxgenesis.Fragments.PlaylistItemManagerFragment"/>
+
+    <fragment
+        android:id="@+id/audio_info_fragment"
+        tools:layout="@layout/fragment_audio_info"
+        android:name="com.lebogang.kxgenesis.Fragments.AudioInfoFragment"/>
+
+    <fragment
+        android:id="@+id/volume_fragment"
+        tools:layout="@layout/fragment_volume"
+        android:name="com.lebogang.kxgenesis.Fragments.VolumeControlFragment"/>
+
+    <fragment
+        android:id="@+id/recent_fragment"
+        tools:layout="@layout/fragment_recent"
+        android:name="com.lebogang.kxgenesis.Fragments.RecentFragment"/>
+</navigation>

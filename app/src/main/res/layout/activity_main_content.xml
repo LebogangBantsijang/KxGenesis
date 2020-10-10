@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?actionBarSize"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/main_menu"
+        app:navigationIcon="@drawable/ic_menu_nav_view"
+        app:popupTheme="?attr/popupTheme"
+        app:subtitle="Music Player (v-1.0.2)"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:subtitleTextColor="?android:textColorSecondaryInverseNoDisable"
+        app:title="Kx:Genesis"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <fragment
+        android:id="@+id/fragment_host"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/m_navigation"/>
+</LinearLayout>

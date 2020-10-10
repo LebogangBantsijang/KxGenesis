@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorImageBackground"
+                app:srcCompat="@drawable/ic_music_light" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:text="TextView"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <TextView
+                android:id="@+id/subtitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="?android:textColorSecondaryInverseNoDisable" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/durationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="?android:textColorSecondaryInverseNoDisable"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/listDivider" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:scrollbars="vertical"
+        android:scrollbarSize="2dp"
+        android:verticalScrollbarPosition="defaultPosition"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/editTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_spellcheck"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Edit tags"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_info_16dp"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Info"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/addToPlaylist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_lounge_music_playlist"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Add to playlist"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/goToArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_microphone_16dp"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Go to artist"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/goToAlbum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_music_record_16dp"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Go to album"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_share_16dp"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Share"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_multiply"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Delete"
+                app:drawableTint="?attr/colorPrimary" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:minHeight="52dp"
+        android:shadowRadius="8"
+        android:text="Close"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/colorWhite"
+        app:cornerRadius="18dp"
+        app:elevation="8dp"
+        app:icon="@drawable/ic_return"
+        app:iconSize="24dp"
+        app:iconTint="#FFFFFF"/>
+</LinearLayout>

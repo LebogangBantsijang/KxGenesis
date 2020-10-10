@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorImageBackground"
+                app:srcCompat="@drawable/ic_music_light" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <TextView
+                android:id="@+id/subtitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="?android:textColorSecondaryInverseNoDisable" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/listDivider" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/editPlaylist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_spellcheck"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Edit playlist"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/removeItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_lounge_music_playlist"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Remove items"
+                app:drawableTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/deletePlaylist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_multiply"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="8dp"
+                android:focusable="auto"
+                android:padding="16dp"
+                android:text="Delete playlist"
+                app:drawableTint="?attr/colorPrimary" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:minHeight="52dp"
+        android:shadowRadius="8"
+        android:text="Close"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/colorWhite"
+        app:cornerRadius="18dp"
+        app:elevation="8dp"
+        app:icon="@drawable/ic_return"
+        app:iconSize="24dp"
+        app:iconTint="#FFFFFF"/>
+
+</LinearLayout>

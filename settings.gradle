@@ -1,0 +1,3 @@
+include ':AudioFilelibrary'
+include ':app'
+rootProject.name = "KxGenesis"
