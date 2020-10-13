@@ -6,17 +6,18 @@
     android:layout_height="64dp"
     android:clipToPadding="false"
     android:gravity="center_vertical"
-    android:background="@drawable/shaper_rectangle_round_corners_4dp_with_bg"
+    android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="auto"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
-    android:orientation="horizontal">
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    android:orientation="horizontal"
+    tools:viewBindingIgnore="true">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="58dp"
         android:layout_height="58dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="8dp"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/colorImageBackground">
 
@@ -24,16 +25,28 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_music_light" />
+            app:srcCompat="@drawable/ic_music_record_light" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
         android:layout_weight="1"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/typeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Album"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="?android:textColorSecondaryInverseNoDisable"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -52,15 +65,7 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="?android:textColorSecondaryInverseNoDisable" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/numSongsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:drawableStart="@drawable/ic_music_16dp"
-        android:text="00:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="?android:textColorSecondaryInverseNoDisable"/>
 </LinearLayout>

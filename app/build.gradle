@@ -36,7 +36,6 @@ dependencies {
     implementation 'androidx.media:media:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation 'com.github.LebogangBantsijang:Audio-File-Manager:1.0.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -55,4 +54,5 @@ dependencies {
     implementation 'com.github.massoudss:waveformSeekBar:1.1.4'
     implementation 'com.sdsmdg.harjot:croller:1.0.7'
     implementation 'com.scwang.wave:MultiWaveHeader:1.0.0-alpha-1'
+    implementation 'com.github.LebogangBantsijang:Audio-File-Manager:1.0.7'
 }

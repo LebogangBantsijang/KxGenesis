@@ -14,22 +14,22 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.lebogang.audiofilemanager.Callbacks.ArtistCallBacks;
-import com.lebogang.audiofilemanager.Models.ArtistMediaItem;
-import com.lebogang.audiofilemanager.Models.MediaItem;
-import com.lebogang.kxgenesis.Adapters.ArtistAdapterMultiColumn;
-import com.lebogang.kxgenesis.Adapters.ArtistAdapterSingleColumn;
-import com.lebogang.kxgenesis.Adapters.GeneralItemClick;
+import com.lebogang.audiofilemanager.ArtistManagement.ArtistCallbacks;
+import com.lebogang.audiofilemanager.ArtistManagement.ArtistManager;
+import com.lebogang.audiofilemanager.Models.Album;
+import com.lebogang.audiofilemanager.Models.Artist;
+import com.lebogang.audiofilemanager.Models.Media;
+import com.lebogang.kxgenesis.Adapters.ArtistAdapter;
+import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.ViewModels.ArtistViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
 
 import java.util.List;
 
-public class ArtistFragments extends Fragment implements GeneralItemClick, ArtistCallBacks {
+public class ArtistFragments extends Fragment implements OnClickInterface, ArtistCallbacks {
     private FragmentLayoutBinding binding;
-    private ArtistAdapterMultiColumn adapterMultiColumn = new ArtistAdapterMultiColumn(this);
-    private ArtistAdapterSingleColumn adapterSingleColumn = new ArtistAdapterSingleColumn(this);
+    private ArtistAdapter adapter = new ArtistAdapter(this);
     private ArtistViewModel viewModel;
 
     public ArtistFragments() {
@@ -41,42 +41,39 @@ public class ArtistFragments extends Fragment implements GeneralItemClick, Artis
         binding = FragmentLayoutBinding.inflate(inflater);
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(ArtistViewModel.class);
-        viewModel.initialize(getContext(),getViewLifecycleOwner());
-        viewModel.getObserveItems(this);
+        viewModel.init(getContext());
+        viewModel.registerCallbacks(this,this);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int type = getActivity().getSharedPreferences("Preferences", Context.MODE_PRIVATE)
-                .getInt("Item_Display", SettingsFragment.ITEM_DISPLAY_TILES);
-        if (type == SettingsFragment.ITEM_DISPLAY_SINGLE_LINE){
-            binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
-            binding.recyclerView.setAdapter(adapterSingleColumn);
-        }else {
+        initRecyclerView();
+    }
+
+    private void initRecyclerView(){
+        boolean type = getActivity().getSharedPreferences("Preferences", Context.MODE_PRIVATE).getBoolean("GridLayout", true);
+        adapter.setLayoutGrid(type);
+        if (type)
             binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-            binding.recyclerView.setAdapter(adapterMultiColumn);
-        }
+        else
+            binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
+        binding.recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void onGetAudio(List<ArtistMediaItem> mediaItems) {
-        adapterMultiColumn.setItems(mediaItems);
-        adapterSingleColumn.setItems(mediaItems);
+    public void onQueryComplete(List<Artist> artistList) {
+        adapter.setList(ArtistManager.groupByName(artistList));
         binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override
-    public void onClick(MediaItem mediaItem) {
+    public void onClick(Media media) {
+        Artist artist = (Artist) media;
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
         Bundle bundle = new Bundle();
-        bundle.putParcelable("Item", mediaItem);
-        navController.navigate(R.id.album_artist_view_fragment, bundle);
-    }
-
-    @Override
-    public void onOptionsClick(MediaItem mediaItem) {
-
+        bundle.putParcelable("Artist", artist);
+        navController.navigate(R.id.artist_view_fragment, bundle);
     }
 }

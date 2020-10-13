@@ -20,10 +20,7 @@ public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
     private SharedPreferences preferences;
     private boolean saveRepeatMode;
-    private int theme;
-    private int itemType = 1;
-    public static final int ITEM_DISPLAY_TILES = 1;
-    public static final int ITEM_DISPLAY_SINGLE_LINE = 2;
+    private boolean displaySetting = true;
 
     public SettingsFragment() {
     }
@@ -40,15 +37,13 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         init();
         setupView();
-        setupRadioButtons();
         setupChips();
     }
 
     private void init(){
         preferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         saveRepeatMode = preferences.getBoolean("saveRepeatMode", false);
-        theme = preferences.getInt("Theme", R.style.AppTheme);
-        itemType = preferences.getInt("Item_Display", ITEM_DISPLAY_TILES);
+        displaySetting = preferences.getBoolean("GridLayout", true);
     }
 
     private void setupView(){
@@ -56,34 +51,16 @@ public class SettingsFragment extends Fragment {
         binding.switch2.setOnCheckedChangeListener((buttonView, isChecked) -> saveRepeatMode = isChecked);
     }
 
-    private void setupRadioButtons(){
-        if (theme == R.style.AppTheme)
-            binding.radioGroup.check(R.id.lightRadioButton);
-        else if (theme == R.style.AppTheme_Dark)
-            binding.radioGroup.check(R.id.darkRadioButton);
-        else
-            binding.radioGroup.check(R.id.systemRadioButton);
-        binding.radioGroup.setOnCheckedChangeListener((RadioGroup group, int checkedId)-> {
-            if (checkedId == R.id.lightRadioButton)
-                theme = R.style.AppTheme;
-            if (checkedId == R.id.darkRadioButton)
-                theme = R.style.AppTheme_Dark;
-            if (checkedId == R.id.systemRadioButton)
-                theme = R.style.AppTheme_DayNight;
-            requireActivity().recreate();
-        });
-    }
-
     private void setupChips(){
-        if (itemType == ITEM_DISPLAY_TILES)
+        if (displaySetting)
             binding.chipGroup.check(R.id.multiLineChip);
         else
             binding.chipGroup.check(R.id.singleLineChip);
         binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.multiLineChip)
-                itemType = ITEM_DISPLAY_TILES;
+                displaySetting = true;
             else
-                itemType = ITEM_DISPLAY_SINGLE_LINE;
+                displaySetting = false;
         });
     }
 
@@ -92,8 +69,7 @@ public class SettingsFragment extends Fragment {
         super.onPause();
         preferences.edit()
                 .putBoolean("saveRepeatMode", saveRepeatMode)
-                .putInt("Theme", theme)
-                .putInt("Item_Display", itemType)
+                .putBoolean("GridLayout", displaySetting)
                 .apply();
     }
 }

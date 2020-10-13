@@ -11,14 +11,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
+import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
 import com.lebogang.kxgenesis.databinding.FragmentAudioInfoBinding;
 
 public class AudioInfoFragment extends Fragment {
 
-    private AudioMediaItem audioMediaItem;
+    private Audio audioMediaItem;
     private FragmentAudioInfoBinding binding;
 
     public AudioInfoFragment() {
@@ -45,7 +45,7 @@ public class AudioInfoFragment extends Fragment {
         binding.titleTextText.setText(audioMediaItem.getTitle());
         binding.artistTextText.setText(audioMediaItem.getArtistTitle());
         binding.albumTextText.setText(audioMediaItem.getAlbumTitle());
-        binding.durationTextText.setText(TimeUnitConvert.toMinutes(audioMediaItem.getDuration()));
+        binding.durationTextText.setText(TimeUnitConvert.toMinutes(audioMediaItem.getAudioDuration()));
         binding.sizeTextText.setText(Formatter.formatFileSize(getContext(),audioMediaItem.getAudioSize()));
         binding.composerTextText.setText(audioMediaItem.getComposer());
         binding.yearTextText.setText(audioMediaItem.getReleaseYear());

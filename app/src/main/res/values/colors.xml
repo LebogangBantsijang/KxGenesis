@@ -6,9 +6,9 @@
     <color name="colorTranslucent">#00000000</color>
     <color name="elevationColor">#6DCACACA</color>
     <color name="colorImageBackground">#0D979797</color>
-    <color name="colorWhite">#EAEAEA</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="colorLottieBackground">#AE000000</color>
     <color name="textColor">?editTextColor</color>
     <color name="colorBackground">#ff303030</color>
-    <color name="colorRed">#F10F0F</color>
+    <color name="colorRed">#8BE11C1C</color>
 </resources>

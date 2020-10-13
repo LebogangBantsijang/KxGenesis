@@ -20,11 +20,8 @@
         app:menu="@menu/main_menu"
         app:navigationIcon="@drawable/ic_menu_nav_view"
         app:popupTheme="?attr/popupTheme"
-        app:subtitle="Music Player (v-1.0.2)"
-        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:subtitleTextColor="?android:textColorSecondaryInverseNoDisable"
         app:title="Kx:Genesis"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Button" />
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <fragment
         android:id="@+id/fragment_host"

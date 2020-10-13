@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
+import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
 
 import java.util.ArrayList;
@@ -71,8 +71,8 @@ public class MusicService extends MediaBrowserServiceCompat {
 
     public class MusicCallBacks extends AudioFocusManager{
 
-        private List<AudioMediaItem> mediaItemList;
-        private AudioMediaItem mediaItem;
+        private List<Audio> mediaItemList;
+        private Audio mediaItem;
 
         public MusicCallBacks(Context context) {
             super(context);
@@ -147,7 +147,7 @@ public class MusicService extends MediaBrowserServiceCompat {
                 mediaItem = mediaItemList.get(x);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Item", mediaItem);
-                onPlayFromUri(mediaItem.getContentUri(), bundle);
+                onPlayFromUri(mediaItem.getUri(), bundle);
             }
         }
 
@@ -161,16 +161,16 @@ public class MusicService extends MediaBrowserServiceCompat {
                 mediaItem = mediaItemList.get(x);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Item", mediaItem);
-                onPlayFromUri(mediaItem.getContentUri(), bundle);
+                onPlayFromUri(mediaItem.getUri(), bundle);
             }
         }
 
-        private int getItemIndex(boolean areWeSkippingForward, AudioMediaItem mediaItem){
+        private int getItemIndex(boolean areWeSkippingForward, Audio mediaItem){
             if (mediaSessionCompat.getController().getShuffleMode() == PlaybackStateCompat.SHUFFLE_MODE_NONE){
                 int index = -1;
                 if (mediaItem != null && mediaItemList != null)
-                    for (AudioMediaItem item:mediaItemList){
-                        if (item.getMediaId() == mediaItem.getMediaId()){
+                    for (Audio item:mediaItemList){
+                        if (item.getId() == mediaItem.getId()){
                             if (areWeSkippingForward){
                                 index = mediaItemList.indexOf(item) + 1;
                                 if (index >= mediaItemList.size())

@@ -8,50 +8,72 @@
     <fragment
         android:id="@+id/home_fragment"
         tools:layout="@layout/fragment_home"
+        android:label="Music"
         android:name="com.lebogang.kxgenesis.Fragments.HomeFragment" />
 
     <fragment
         android:id="@+id/about_fragment"
         tools:layout="@layout/fragment_about"
+        android:label="About"
         android:name="com.lebogang.kxgenesis.Fragments.AboutFragment" />
 
     <fragment
         android:id="@+id/settings_fragment"
         tools:layout="@layout/fragment_settings"
+        android:label="Settings"
         android:name="com.lebogang.kxgenesis.Fragments.SettingsFragment"/>
 
     <fragment
-        android:id="@+id/album_artist_view_fragment"
-        tools:layout="@layout/fragment_album_artist_view"
-        android:name="com.lebogang.kxgenesis.Fragments.AlbumArtistViewFragment"/>
+        android:id="@+id/album_view_fragment"
+        tools:layout="@layout/fragment_album_view"
+        android:label="Album"
+        android:name="com.lebogang.kxgenesis.Fragments.AlbumViewFragment"/>
 
     <fragment
-        android:id="@+id/genre_playlist_view_fragment"
-        tools:layout="@layout/fragment_genre_playlist_view"
-        android:name="com.lebogang.kxgenesis.Fragments.GenrePlaylistViewFragment"/>
+        android:id="@+id/artist_view_fragment"
+        tools:layout="@layout/fragment_artist_view"
+        android:label="Artist"
+        android:name="com.lebogang.kxgenesis.Fragments.ArtistViewFragment"/>
+
+    <fragment
+        android:id="@+id/genre_view_fragment"
+        tools:layout="@layout/fragment_genre_view"
+        android:label="Genre"
+        android:name="com.lebogang.kxgenesis.Fragments.GenreViewFragment"/>
+
+    <fragment
+        android:id="@+id/playlist_view_fragment"
+        tools:layout="@layout/fragment_playlist_view"
+        android:label="Playlist"
+        android:name="com.lebogang.kxgenesis.Fragments.PlaylistViewFragment"/>
 
     <fragment
         android:id="@+id/search_fragment"
         tools:layout="@layout/fragment_search"
+        android:label="Search"
         android:name="com.lebogang.kxgenesis.Fragments.SearchFragment"/>
 
     <fragment
-        android:id="@+id/playlist_item_manager_fragment"
+        android:id="@+id/playlist_audio_manager_fragment"
         tools:layout="@layout/fragment_playlist_item_manager"
-        android:name="com.lebogang.kxgenesis.Fragments.PlaylistItemManagerFragment"/>
+        android:label="Edit Playlist"
+        android:name="com.lebogang.kxgenesis.Fragments.PlaylistAudioManagerFragment"/>
 
     <fragment
         android:id="@+id/audio_info_fragment"
         tools:layout="@layout/fragment_audio_info"
+        android:label="Info"
         android:name="com.lebogang.kxgenesis.Fragments.AudioInfoFragment"/>
 
     <fragment
         android:id="@+id/volume_fragment"
         tools:layout="@layout/fragment_volume"
+        android:label="Volume"
         android:name="com.lebogang.kxgenesis.Fragments.VolumeControlFragment"/>
 
     <fragment
         android:id="@+id/recent_fragment"
         tools:layout="@layout/fragment_recent"
+        android:label="Recent"
         android:name="com.lebogang.kxgenesis.Fragments.RecentFragment"/>
 </navigation>

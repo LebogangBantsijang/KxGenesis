@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.media.app.NotificationCompat.MediaStyle;
 
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
+import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.Utils.ExtractColor;
 
@@ -43,11 +43,11 @@ public class NotificationHandler {
         }
     }
 
-    public void displayNotification(AudioMediaItem mediaItem, int state){
+    public void displayNotification(Audio mediaItem, int state){
         managerCompat.notify(1021,getNotification(mediaItem,state));
     }
 
-    public Notification getNotification(AudioMediaItem mediaItem, int state){
+    public Notification getNotification(Audio mediaItem, int state){
         builder = new NotificationCompat.Builder(context, NOTIFICATION_ID);
         builder.addAction(R.drawable.ic_round_navigate_before_24,"Prev", prevPendingIntent);
         if (state == PlaybackStateCompat.STATE_PLAYING){
@@ -70,7 +70,7 @@ public class NotificationHandler {
         builder.setCategory(NotificationCompat.CATEGORY_TRANSPORT);
         builder.setShowWhen(false);
         builder.setContentText(mediaItem.getTitle());
-        builder.setContentTitle(mediaItem.getSubTitle());
+        builder.setContentTitle(mediaItem.getArtistTitle() + " - " + mediaItem.getAlbumTitle());
         Bitmap bitmap = ExtractColor.getBitmap(context, mediaItem.getAlbumArtUri());
         builder.setLargeIcon(bitmap);
         return builder.build();

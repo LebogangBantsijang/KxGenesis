@@ -6,11 +6,9 @@
     android:layout_height="64dp"
     android:clipToPadding="false"
     android:gravity="center_vertical"
-    android:background="@drawable/shaper_rectangle_round_corners_4dp_with_bg"
+    android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="auto"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -32,24 +30,15 @@
             android:id="@+id/subTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="Playlist"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="?android:textColorSecondaryInverseNoDisable" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/numSongsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00:00"
-        android:drawableStart="@drawable/ic_music_16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="?android:textColorSecondaryInverseNoDisable"/>
-
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"

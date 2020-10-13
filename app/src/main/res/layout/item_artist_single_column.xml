@@ -3,27 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="72dp"
     android:clipToPadding="false"
     android:gravity="center_vertical"
-    android:background="@drawable/shaper_rectangle_round_corners_4dp_with_bg"
+    android:background="?selectableItemBackground"
     android:clickable="true"
-    android:focusable="auto"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
+    android:focusable="true"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     android:orientation="horizontal">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="6dp"
-        app:srcCompat="@drawable/ic_music_light" />
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
+        app:civ_circle_background_color="#5EB8B8B8"
+        android:src="@drawable/ic_microphone_white" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -36,23 +38,15 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/subtitleTextView"
+            android:id="@+id/typeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="Artist"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="?android:textColorSecondaryInverseNoDisable" />
+            android:textColor="?android:textColorSecondaryInverseNoDisable"
+            android:textSize="10sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/numSongsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:drawableStart="@drawable/ic_music_16dp"
-        android:text="00:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="?android:textColorSecondaryInverseNoDisable"/>
 </LinearLayout>

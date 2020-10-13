@@ -1,12 +1,7 @@
 package com.lebogang.kxgenesis.Fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,14 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.lebogang.audiofilemanager.Models.MediaItem;
-import com.lebogang.kxgenesis.Adapters.GeneralItemClick;
 import com.lebogang.kxgenesis.Adapters.MenuPagerAdapter;
 import com.lebogang.kxgenesis.CallBacksAndAnimations.PagerTransformer;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment implements GeneralItemClick {
+public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private MenuPagerAdapter menuPagerAdapter;
@@ -61,13 +54,4 @@ public class HomeFragment extends Fragment implements GeneralItemClick {
         binding.viewpager.setOffscreenPageLimit(5);
     }
 
-    @Override
-    public void onClick(MediaItem mediaItem) {
-
-    }
-
-    @Override
-    public void onOptionsClick(MediaItem mediaItem) {
-
-    }
 }

@@ -5,22 +5,22 @@ import android.content.Context;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
-import com.lebogang.audiofilemanager.Callbacks.PlaylistCallBacks;
-import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistFileManager;
+import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistCallbacks;
+import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistManager;
 
 
 public class PlaylistViewModel extends ViewModel {
-    private PlaylistFileManager playlistFileManager;
+    private PlaylistManager playlistManager;
 
-    public void initialize(Context context, LifecycleOwner owner){
-        playlistFileManager = new PlaylistFileManager(context, owner);
+    public void init(Context context){
+        playlistManager = new PlaylistManager(context);
     }
 
-    public void getObserveItems(PlaylistCallBacks playlistCallBacks){
-        playlistFileManager.registerCallbacks(playlistCallBacks);
+    public void registerCallbacks(PlaylistCallbacks playlistCallBacks, LifecycleOwner owner){
+        playlistManager.registerCallbacks(playlistCallBacks, owner);
     }
 
-    public PlaylistFileManager getPlaylistFileManager() {
-        return playlistFileManager;
+    public PlaylistManager getPlaylistManager() {
+        return playlistManager;
     }
 }

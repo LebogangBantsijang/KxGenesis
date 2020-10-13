@@ -5,18 +5,18 @@ import android.content.Context;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
-import com.lebogang.audiofilemanager.Callbacks.GenreCallBacks;
-import com.lebogang.audiofilemanager.GenreManagement.GenreFileManager;
+import com.lebogang.audiofilemanager.GenreManagement.GenreCallbacks;
+import com.lebogang.audiofilemanager.GenreManagement.GenreManager;
 
 public class GenreViewModel extends ViewModel {
-    private GenreFileManager genreFileManager;
+    private GenreManager genreFileManager;
 
-    public void initialize(Context context, LifecycleOwner owner){
-        genreFileManager = new GenreFileManager(context, owner);
+    public void init(Context context){
+        genreFileManager = new GenreManager(context);
     }
 
-    public void getObserveItems(GenreCallBacks genreCallBacks){
-        genreFileManager.registerCallbacks(genreCallBacks);
+    public void registerCallbacks(GenreCallbacks genreCallBacks, LifecycleOwner owner){
+        genreFileManager.registerCallbacks(owner, genreCallBacks);
     }
 
 }

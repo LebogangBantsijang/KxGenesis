@@ -1,24 +1,23 @@
 package com.lebogang.kxgenesis.ViewModels;
 
-import android.content.ContentValues;
 import android.content.Context;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
-import com.lebogang.audiofilemanager.AlbumManagement.AlbumFileManager;
-import com.lebogang.audiofilemanager.Callbacks.AlbumCallBacks;
+import com.lebogang.audiofilemanager.AlbumManagement.AlbumCallbacks;
+import com.lebogang.audiofilemanager.AlbumManagement.AlbumManager;
 
 
 public class AlbumViewModel extends ViewModel {
-    private AlbumFileManager albumFileManager;
+    private AlbumManager albumManager;
 
-    public void initialize(Context context, LifecycleOwner owner){
-        albumFileManager = new AlbumFileManager(context, owner);
+    public void init(Context context){
+        albumManager = new AlbumManager(context);
     }
 
-    public void getObserveItems(AlbumCallBacks albumCallBacks){
-        albumFileManager.registerCallbacks(albumCallBacks);
+    public void registerCallbacks(AlbumCallbacks callbacks, LifecycleOwner owner){
+        albumManager.registerCallbacks(owner,callbacks);
     }
 
 }

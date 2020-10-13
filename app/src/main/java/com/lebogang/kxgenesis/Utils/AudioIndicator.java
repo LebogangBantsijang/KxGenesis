@@ -1,30 +1,21 @@
 package com.lebogang.kxgenesis.Utils;
 
-import android.util.ArraySet;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.lebogang.audiofilemanager.Models.Audio;
 
 public class AudioIndicator {
-    private static MutableLiveData<AudioMediaItem> currentItem = new MutableLiveData<>();
+    private static MutableLiveData<Audio> currentItem = new MutableLiveData<>();
 
-    public static void setCurrentItem(AudioMediaItem item) {
+    public static void setCurrentItem(Audio item) {
         currentItem.setValue(item);
     }
 
-    public static MutableLiveData<AudioMediaItem> getCurrentItem() {
+    public static MutableLiveData<Audio> getCurrentItem() {
         return currentItem;
     }
 
-    public static AudioMediaItem getCurrentAudio(){
+    public static Audio getCurrentAudio(){
         return currentItem.getValue();
     }
 

@@ -1,6 +1,7 @@
 package com.lebogang.kxgenesis;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -36,7 +37,7 @@ import com.lebogang.kxgenesis.databinding.ActivityMainLayoutBinding;
 
 import jp.wasabeef.blurry.Blurry;
 
-public class ActivityMain extends ThemeSet {
+public class ActivityMain extends AppCompatActivity {
     private ActivityMainLayoutBinding binding;
     private NavController navController;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -102,10 +103,10 @@ public class ActivityMain extends ThemeSet {
         AudioIndicator.getCurrentItem().observe(this, mediaItem -> {
             binding.mainLayout.mainPlayer.firstTitle.setText(mediaItem.getTitle());
             binding.mainLayout.mainPlayer.secondTitle.setText(mediaItem.getTitle());
-            binding.mainLayout.mainPlayer.firstSubtitle.setText(mediaItem.getSubTitle());
-            binding.mainLayout.mainPlayer.secondSubTitle.setText(mediaItem.getSubTitle());
-            binding.mainLayout.mainPlayer.endDuration.setText(TimeUnitConvert.toMinutes(mediaItem.getDuration()));
-            binding.mainLayout.mainPlayer.wavSeekBar.setMax((int) mediaItem.getDuration());
+            binding.mainLayout.mainPlayer.firstSubtitle.setText(mediaItem.getArtistTitle());
+            binding.mainLayout.mainPlayer.secondSubTitle.setText(mediaItem.getAlbumTitle());
+            binding.mainLayout.mainPlayer.endDuration.setText(TimeUnitConvert.toMinutes(mediaItem.getAudioDuration()));
+            binding.mainLayout.mainPlayer.wavSeekBar.setMax((int) mediaItem.getAudioDuration());
             Glide.with(this).load(mediaItem.getAlbumArtUri())
                     .error(R.drawable.ic_music_light)
                     .into(binding.mainLayout.mainPlayer.firstImageView)

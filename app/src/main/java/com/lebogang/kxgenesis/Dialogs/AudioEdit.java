@@ -1,6 +1,9 @@
 package com.lebogang.kxgenesis.Dialogs;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -9,34 +12,36 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.lebogang.audiofilemanager.AudioManagement.AudioFileManger;
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
+import com.lebogang.audiofilemanager.AudioManagement.AudioManager;
+import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.LayoutEditAudioBinding;
 
 public class AudioEdit {
-    private AudioFileManger audioFileManger;
+    private AudioManager audioFileManger;
     private LayoutEditAudioBinding binding;
-    private AudioFileManger.ValueBuilder valueBuilder;
     private AlertDialog dialog;
+    private Context context;
     private String title,artist, album, composer, year, track;
 
-    public AudioEdit(AudioFileManger audioFileManger) {
-        this.audioFileManger = audioFileManger;
+    public AudioEdit(Context context) {
+        this.context = context;
+        this.audioFileManger = new AudioManager(context);
     }
 
-    public void createDialog(Context context, AudioMediaItem audioItem){
+    public void createDialog(Audio audioItem){
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         binding = LayoutEditAudioBinding.inflate(inflater);
         builder.setView(binding.getRoot());
-        valueBuilder = new AudioFileManger.ValueBuilder(audioItem);
-        setupViews(context, audioItem);
+        builder.setPositiveButton("Save", getOnClickListener(audioItem));
+        builder.setNegativeButton("Cancel", null);
+        setupViews(audioItem);
         dialog = builder.create();
         dialog.show();
     }
 
-    private void setupViews(Context context, AudioMediaItem audioItem){
+    private void setupViews(Audio audioItem){
         Glide.with(context).load(audioItem.getAlbumArtUri())
                 .error(R.drawable.ic_music_light)
                 .into(binding.imageView);
@@ -94,19 +99,21 @@ public class AudioEdit {
                 composer = s.toString();
             }
         });
-        binding.floatingActionButton.setOnClickListener(v->{
-            AudioFileManger.ValueBuilder builder = new AudioFileManger.ValueBuilder(audioItem);
-            builder.setAlbum(album);
-            builder.setArtist(artist);
-            builder.setCompilation(track);
-            builder.setTitle(title);
-            builder.setComposer(composer);
-            builder.setYear(year);
-            int r = audioFileManger.updateItem(audioItem,builder.build());
-            if (r > 0){
+    }
+
+    private DialogInterface.OnClickListener getOnClickListener(Audio audio){
+        return (dialog, which) -> {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Audio.Media.TITLE, title);
+            values.put(MediaStore.Audio.Media.ALBUM, album);
+            values.put(MediaStore.Audio.Media.ARTIST, artist);
+            values.put(MediaStore.Audio.Media.COMPOSER, composer);
+            values.put(MediaStore.Audio.Media.TRACK, track);
+            values.put(MediaStore.Audio.Media.YEAR, year);
+            boolean results = audioFileManger.updateAudio(audio.getId(), values);
+            if (results)
                 dialog.dismiss();
-            }
-        });
+        };
     }
 
     public abstract static class Watcher implements TextWatcher {

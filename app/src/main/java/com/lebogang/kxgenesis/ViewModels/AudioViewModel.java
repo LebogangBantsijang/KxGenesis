@@ -6,35 +6,33 @@ import android.content.Context;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
-
-import com.lebogang.audiofilemanager.AudioManagement.AudioFileManger;
-import com.lebogang.audiofilemanager.Callbacks.AudioCallBacks;
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
+import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
+import com.lebogang.audiofilemanager.AudioManagement.AudioManager;
 
 public class AudioViewModel extends ViewModel {
-    private AudioFileManger audioFileManger;
+    private AudioManager audioFileManger;
 
-    public void initialize(Context context, LifecycleOwner owner){
-        audioFileManger = new AudioFileManger(context, owner);
+    public void init(Context context){
+        audioFileManger = new AudioManager(context);
     }
 
-    public void getObserveItems(AudioCallBacks audioCallBacks){
-        audioFileManger.registerCallbacks(audioCallBacks);
+    public void registerCallback(AudioCallbacks audioCallbacks, LifecycleOwner owner){
+        audioFileManger.registerCallbacks(audioCallbacks, owner);
     }
 
-    public void getObserveItems(AudioCallBacks audioCallBacks, String mediaTitle, long mediaId, int type){
-        audioFileManger.registerCallbacks(audioCallBacks,mediaTitle,mediaId, type);
+    public void registerCallbacksForAlbumAudio(AudioCallbacks callbacks, LifecycleOwner owner, String albumName){
+        audioFileManger.registerCallbacksForAlbumAudio(callbacks,owner,albumName);
     }
 
-    public void updateItem(AudioMediaItem mediaItem, ContentValues values){
-        audioFileManger.updateItem(mediaItem, values);
+    public void registerCallbacksForArtistAudio(AudioCallbacks callbacks, LifecycleOwner owner, String artistName){
+        audioFileManger.registerCallbacksForArtistAudio(callbacks,owner,artistName);
     }
 
-    public void removeItem(AudioMediaItem mediaItem){
-        audioFileManger.removeItem(mediaItem);
+    public void registerCallbacksForAudioIds(AudioCallbacks callbacks, LifecycleOwner owner, String[] audioIds){
+        audioFileManger.registerCallbacksForAudioIds(callbacks, owner, audioIds);
     }
 
-    public AudioFileManger getAudioFileManger() {
+    public AudioManager getAudioManager() {
         return audioFileManger;
     }
 }

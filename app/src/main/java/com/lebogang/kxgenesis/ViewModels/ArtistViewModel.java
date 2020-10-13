@@ -5,19 +5,19 @@ import android.content.Context;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
-import com.lebogang.audiofilemanager.ArtistManagement.ArtistFileManager;
-import com.lebogang.audiofilemanager.Callbacks.ArtistCallBacks;
+import com.lebogang.audiofilemanager.ArtistManagement.ArtistCallbacks;
+import com.lebogang.audiofilemanager.ArtistManagement.ArtistManager;
 
 
 public class ArtistViewModel extends ViewModel {
-    private ArtistFileManager artistFileManager;
+    private ArtistManager artistManager;
 
-    public void initialize(Context context, LifecycleOwner owner){
-        artistFileManager = new ArtistFileManager(context, owner);
+    public void init(Context context){
+        artistManager = new ArtistManager(context);
     }
 
-    public void getObserveItems(ArtistCallBacks artistCallBacks){
-        artistFileManager.registerCallbacks(artistCallBacks);
+    public void registerCallbacks(ArtistCallbacks artistCallBacks, LifecycleOwner owner){
+        artistManager.registerCallbacks(owner, artistCallBacks);
     }
 
 }

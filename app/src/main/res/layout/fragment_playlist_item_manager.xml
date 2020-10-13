@@ -20,32 +20,38 @@
             android:layout_weight="1"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="Name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:text="Name"/>
 
         <ImageView
             android:layout_width="76dp"
             android:layout_height="76dp"
             android:layout_marginStart="8dp"
             android:padding="6dp"
-            app:srcCompat="@drawable/ic_playlist_light" />
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_edit_node_filled" />
     </LinearLayout>
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center_horizontal"
-        android:padding="6dp"
-        android:text="Remove Items from playlist"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="12sp" />
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?colorButtonNormal" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:tint="@color/colorWhite"
+            app:backgroundTint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_baseline_delete_24" />
+    </FrameLayout>
+
 
 </LinearLayout>

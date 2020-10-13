@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="Playlist name"/>
 
             <EditText
@@ -45,8 +45,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/shaper_rectangle_round_corners_14dp"
                 android:backgroundTint="?attr/colorButtonNormal"
                 android:drawableLeft="@drawable/ic_playlist_24dp"
@@ -59,23 +60,4 @@
                 />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:elevation="8dp"
-        android:minHeight="52dp"
-        android:text="Save"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/colorWhite"
-        app:cornerRadius="18dp"
-        app:icon="@drawable/ic_ok"
-        app:iconSize="24dp"
-        app:iconTint="#FFFFFF"
-        android:layout_gravity="end"/>
 </LinearLayout>

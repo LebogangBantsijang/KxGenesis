@@ -5,53 +5,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorButtonNormal">#EDEDED</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
-        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">?colorPrimary</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
         <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
-        <item name="rippleColor">?attr/colorSurface</item>
     </style>
 
     <style name="LightTextColor" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">?android:textColorSecondaryInverseNoDisable</item>
     </style>
     <style name="textColor" parent="TextAppearance.AppCompat.Small">
-    </style>
-
-    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
-        <item name="colorSurface">#001C32</item>
-        <item name="colorButtonNormal">#162432</item>
-        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">?colorPrimary</item>
-        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
-        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
-        <item name="android:shadowColor">?attr/colorPrimary</item>
-        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
-        <item name="rippleColor">?attr/colorSurface</item>
-    </style>
-
-    <style name="AppTheme.DayNight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">?colorPrimary</item>
-        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">?colorPrimary</item>
-        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
-        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
-        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
-        <item name="android:shadowColor">?attr/colorPrimary</item>
-        <item name="rippleColor">?attr/colorSurface</item>
     </style>
 
 </resources>

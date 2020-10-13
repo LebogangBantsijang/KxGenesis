@@ -10,83 +10,87 @@ import androidx.navigation.NavController;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.lebogang.audiofilemanager.AlbumManagement.AlbumFileManager;
-import com.lebogang.audiofilemanager.ArtistManagement.ArtistFileManager;
-import com.lebogang.audiofilemanager.AudioManagement.AudioFileManger;
-import com.lebogang.audiofilemanager.Models.AlbumMediaItem;
-import com.lebogang.audiofilemanager.Models.ArtistMediaItem;
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
+import com.lebogang.audiofilemanager.AlbumManagement.AlbumManager;
+import com.lebogang.audiofilemanager.ArtistManagement.ArtistManager;
+import com.lebogang.audiofilemanager.AudioManagement.AudioManager;
+import com.lebogang.audiofilemanager.Models.Album;
+import com.lebogang.audiofilemanager.Models.Artist;
+import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.LayoutSongOptionsBinding;
 
 public class AudioOptions {
-    private AudioFileManger audioFileManger;
-    private AlbumFileManager albumFileManager;
-    private ArtistFileManager artistFileManager;
+    private AudioManager audioFileManger;
+    private AlbumManager albumFileManager;
+    private ArtistManager artistFileManager;
     private LayoutSongOptionsBinding binding;
     private AlertDialog dialog;
     private NavController navController;
+    private final Context context;
 
-    public AudioOptions(AudioFileManger audioFileManger, NavController navController) {
-        this.audioFileManger = audioFileManger;
+    public AudioOptions(Context context, NavController navController) {
+        this.context = context;
+        this.audioFileManger = new AudioManager(context);
         this.navController = navController;
-        albumFileManager = new AlbumFileManager();
-        artistFileManager = new ArtistFileManager();
+        albumFileManager = new AlbumManager(context);
+        artistFileManager = new ArtistManager(context);
     }
 
-    public void createDialog(Context context, AudioMediaItem audioItem){
+    public void createDialog(Audio audioItem){
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         binding = LayoutSongOptionsBinding.inflate(inflater);
         builder.setView(binding.getRoot());
+        builder.setNegativeButton("Cancel", null);
         setupView(context,audioItem);
         dialog = builder.create();
         dialog.show();
     }
 
-    private void setupView(Context context,AudioMediaItem audioItem){
+    private void setupView(Context context,Audio audioItem){
         Glide.with(context).load(audioItem.getAlbumArtUri())
                 .error(R.drawable.ic_music_light)
                 .into(binding.imageView);
         binding.titleTextView.setText(audioItem.getTitle());
-        binding.subtitleTextView.setText(audioItem.getSubTitle());
-        String dur = TimeUnitConvert.toMinutes(audioItem.getDuration());
+        binding.subtitleTextView.setText(audioItem.getArtistTitle() + " - " + audioItem.getAlbumTitle());
+        String dur = TimeUnitConvert.toMinutes(audioItem.getAudioDuration());
         binding.durationTextView.setText(dur);
-        binding.floatingActionButton.setOnClickListener(v->{
-            dialog.dismiss();
-        });
+        initOptions(audioItem);
+    }
+
+    private void initOptions(Audio audioItem){
         binding.goToAlbum.setOnClickListener(v->{
-            AlbumMediaItem item = albumFileManager.getItem(context, audioItem.getAlbumId());
+            Album item = albumFileManager.getAlbumItemWithName(audioItem.getAlbumTitle());
             Bundle bundle = new Bundle();
-            bundle.putParcelable("Item", item);
+            bundle.putParcelable("Album", item);
             dialog.dismiss();
-            navController.navigate(R.id.album_artist_view_fragment, bundle);
+            navController.navigate(R.id.album_view_fragment, bundle);
         });
         binding.goToArtist.setOnClickListener(v->{
-            ArtistMediaItem item = artistFileManager.getItem(context, audioItem.getArtistId());
+            Artist item = artistFileManager.getArtistItemWithName(audioItem.getArtistTitle());
             Bundle bundle = new Bundle();
-            bundle.putParcelable("Item", item);
+            bundle.putParcelable("Artist", item);
             dialog.dismiss();
-            navController.navigate(R.id.album_artist_view_fragment, bundle);
+            navController.navigate(R.id.artist_view_fragment, bundle);
         });
         binding.share.setOnClickListener(v->{
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.setType("audio/*");
-            intent.putExtra(Intent.EXTRA_STREAM, audioItem.getContentUri());
+            intent.putExtra(Intent.EXTRA_STREAM, audioItem.getUri());
             context.startActivity(Intent.createChooser(intent,"Share Song"));
         });
         binding.delete.setOnClickListener(v->{
-            int r = audioFileManger.removeItem(audioItem);
-            if (r > 0)
+            boolean result = audioFileManger.deleteAudio(audioItem.getId());
+            if (result)
                 dialog.dismiss();
         });
         binding.editTags.setOnClickListener(v->{
-            new AudioEdit(audioFileManger).createDialog(context, audioItem);
+            new AudioEdit(context).createDialog(audioItem);
         });
         binding.addToPlaylist.setOnClickListener(v->{
-            new AudioToPlaylistDialog().createDiaLog(context,audioItem);
+            new AudioToPlaylistDialog(context).createDiaLog(audioItem);
         });
         binding.info.setOnClickListener(v->{
             Bundle bundle = new Bundle();

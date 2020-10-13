@@ -11,16 +11,16 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             app:cardCornerRadius="8dp">
 
             <ImageView
@@ -45,8 +45,7 @@
                 android:elevation="4dp"
                 android:text="TextView"
                 android:maxLines="2"
-                android:ellipsize="end"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                android:ellipsize="end" />
 
             <TextView
                 android:id="@+id/subtitleTextView"
@@ -58,29 +57,31 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="?android:textColorSecondaryInverseNoDisable" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/durationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="?android:textColorSecondaryInverseNoDisable"/>
 
-        <TextView
-            android:id="@+id/durationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="?android:textColorSecondaryInverseNoDisable"/>
+        </LinearLayout>
 
     </LinearLayout>
 
     <View
         android:id="@+id/divider2"
-        android:layout_width="match_parent"
+        android:layout_width="128dp"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
         android:background="?android:attr/listDivider" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:scrollbars="vertical"
         android:scrollbarSize="2dp"
         android:verticalScrollbarPosition="defaultPosition"
@@ -193,24 +194,4 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:elevation="8dp"
-        android:minHeight="52dp"
-        android:shadowRadius="8"
-        android:text="Close"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/colorWhite"
-        app:cornerRadius="18dp"
-        app:elevation="8dp"
-        app:icon="@drawable/ic_return"
-        app:iconSize="24dp"
-        app:iconTint="#FFFFFF"/>
 </LinearLayout>

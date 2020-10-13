@@ -10,9 +10,9 @@ import android.widget.ArrayAdapter;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
-import com.lebogang.audiofilemanager.Models.PlaylistMediaItem;
-import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistFileManager;
+import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.audiofilemanager.Models.Playlist;
+import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistManager;
 import com.lebogang.kxgenesis.databinding.LayoutSeletectPlaylistBinding;
 
 import java.util.ArrayList;
@@ -23,42 +23,42 @@ public class AudioToPlaylistDialog {
 
     private LayoutSeletectPlaylistBinding binding;
     private AlertDialog dialog;
-    private List<PlaylistMediaItem> playlistItems;
-    private PlaylistFileManager playlistFileManager;
+    private List<Playlist> playlistItems;
+    private PlaylistManager playlistFileManager;
+    private Context context;
 
-    public AudioToPlaylistDialog() {
-        playlistFileManager = new PlaylistFileManager();
+    public AudioToPlaylistDialog(Context context) {
+        this.context = context;
+        playlistFileManager = new PlaylistManager(context);
     }
 
-    public void createDiaLog(Context context, AudioMediaItem audioItem){
+    public void createDiaLog(Audio audioItem){
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         binding = LayoutSeletectPlaylistBinding.inflate(inflater);
         builder.setView(binding.getRoot());
-        setupViews(context, audioItem);
+        builder.setNegativeButton("Cancel", null);
+        setupViews(audioItem);
         dialog = builder.create();
         dialog.show();
     }
 
-    private void setupViews(Context context, AudioMediaItem audioItem){
-        ArrayAdapter adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, getData(context));
-        binding.floatingActionButton.setOnClickListener(v->{
-            dialog.dismiss();
-        });
+    private void setupViews(Audio audioItem){
+        ArrayAdapter adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, getData());
         binding.listView.setAdapter(adapter);
         binding.listView.setOnItemClickListener((parent, view, position, id) -> {
-            PlaylistMediaItem item = playlistItems.get(position);
-            Uri r =playlistFileManager.addAudioToItem(context,item,audioItem);
-            if (r != null)
+            Playlist item = playlistItems.get(position);
+            boolean result =playlistFileManager.addSingleItemsToPlaylist(item.getId(),Long.toString(audioItem.getId()));
+            if (result)
                 dialog.dismiss();
         });
     }
 
-    private List<String> getData(Context context){
+    private List<String> getData(){
         List<String> strings = new ArrayList<>();
-        playlistItems = playlistFileManager.getItems(context);
-        for (PlaylistMediaItem item:playlistItems){
-            strings.add(item.getTitle() + " (" + TimeUnit.MILLISECONDS.toMinutes(item.getDuration()) + "min)");
+        playlistItems = playlistFileManager.getPlaylists();
+        for (Playlist item:playlistItems){
+            strings.add(item.getTitle() + " - " + item.getAudioIds().length + " songs");
         }
         return strings;
     }

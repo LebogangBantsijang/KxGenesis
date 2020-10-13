@@ -13,56 +13,34 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.lebogang.audiofilemanager.Models.AudioMediaItem;
-import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
+import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
+import com.lebogang.kxgenesis.databinding.ItemSong3Binding;
 import com.lebogang.kxgenesis.databinding.ItemSongBinding;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioSearchAdapter extends RecyclerView.Adapter<AudioSearchAdapter.Holder> implements Filterable {
-    private GeneralItemClick clickInterface;
-    private List<AudioMediaItem> items = new ArrayList<>();
-    private List<AudioMediaItem> searchItems = new ArrayList<>();
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> implements Filterable {
+    private OnClickInterface clickInterface;
+    private List<Audio> list = new ArrayList<>();
     private Context context;
     private long currentItemId = -1;
     private int color = -1;
+    private List<Audio> searchItems = new ArrayList<>();
 
-    public AudioSearchAdapter(GeneralItemClick clickInterface) {
+    public SearchAdapter(OnClickInterface clickInterface) {
         this.clickInterface = clickInterface;
     }
 
-    public AudioSearchAdapter() {
+    public void setList(List<Audio> list){
+        this.list = list;
     }
 
-    public void setItems(List<AudioMediaItem> items){
-        this.items = items;
-    }
-
-    public void update(AudioMediaItem mediaItem){
-        int pos = 0;
-        for (AudioMediaItem item: items){
-            if (item.getMediaId() == mediaItem.getMediaId()){
-                pos = items.indexOf(item);
-                break;
-            }
-        }
-        items.remove(pos);
-        items.add(pos, mediaItem);
-        notifyItemChanged(pos);
-    }
-
-    public void remove(AudioMediaItem mediaItem){
-        int pos = 0;
-        for (AudioMediaItem item: items){
-            if (item.getMediaId() == mediaItem.getMediaId()){
-                pos = items.indexOf(item);
-                break;
-            }
-        }
-        items.remove(pos);
-        notifyDataSetChanged();
+    public ArrayList<Audio> getList(){
+        return new ArrayList<>(list);
     }
 
     public void setCurrentID(long id, int color){
@@ -76,24 +54,24 @@ public class AudioSearchAdapter extends RecyclerView.Adapter<AudioSearchAdapter.
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        ItemSongBinding binding = ItemSongBinding.inflate(inflater,parent, false);
-        return new AudioSearchAdapter.Holder(binding.getRoot(),binding);
+        ItemSong3Binding binding = ItemSong3Binding.inflate(inflater,parent, false);
+        return new SearchAdapter.Holder(binding.getRoot(),binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        AudioMediaItem audioItem = searchItems.get(position);
+        Audio audioItem = searchItems.get(position);
         holder.binding.titleTextView.setText(audioItem.getTitle());
-        holder.binding.subtitleTextView.setText(audioItem.getSubTitle());
-        holder.binding.durationTextView.setText(TimeUnitConvert.toMinutes(audioItem.getDuration()));
+        holder.binding.subtitleTextView.setText(audioItem.getArtistTitle() + " - " + audioItem.getAlbumTitle());
+        holder.binding.durationTextView.setText(TimeUnitConvert.toMinutes(audioItem.getAudioDuration()));
         Glide.with(context).load(audioItem.getAlbumArtUri())
                 .error(R.drawable.ic_music_light)
-                .into(holder.binding.imageView);
+                .into(holder.binding.imageView).waitForLayout();
         highlight(holder, audioItem,context);
     }
 
-    protected void highlight(AudioSearchAdapter.Holder holder, AudioMediaItem audioItem, Context context){
-        if (audioItem.getMediaId() == currentItemId){
+    protected void highlight(SearchAdapter.Holder holder, Audio audioItem, Context context){
+        if (audioItem.getId() == currentItemId){
             holder.binding.lottieAnimationView.setVisibility(View.VISIBLE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 Drawable drawable = context.getDrawable(R.drawable.shaper_rectangle_round_corners_4dp_with_cp);
@@ -127,7 +105,7 @@ public class AudioSearchAdapter extends RecyclerView.Adapter<AudioSearchAdapter.
                     return filterResults;
                 }
                 searchItems.clear();
-                for (AudioMediaItem item:items){
+                for (Audio item:list){
                     if (item.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())
                             || item.getAlbumTitle().toLowerCase().contains(constraint.toString().toLowerCase())
                             || item.getArtistTitle().toLowerCase().contains(constraint.toString().toLowerCase())){
@@ -145,12 +123,11 @@ public class AudioSearchAdapter extends RecyclerView.Adapter<AudioSearchAdapter.
     }
 
     public class Holder extends RecyclerView.ViewHolder{
-        public ItemSongBinding binding;
+        public ItemSong3Binding binding;
 
-        public Holder(@NonNull View itemView, ItemSongBinding binding) {
+        public Holder(@NonNull View itemView, ItemSong3Binding binding) {
             super(itemView);
             this.binding = binding;
-            binding.imageButton.setImageResource(R.drawable.ic_forward);
             binding.getRoot().setOnClickListener(v->{
                 clickInterface.onClick(searchItems.get(getAdapterPosition()));
             });
