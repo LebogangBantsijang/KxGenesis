@@ -6,17 +6,14 @@ import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
-import android.app.DownloadManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.Menu;
@@ -26,14 +23,20 @@ import android.widget.SeekBar;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.audiofilemanager.Models.Media;
+import com.lebogang.kxgenesis.Adapters.OnClickInterface;
+import com.lebogang.kxgenesis.Adapters.PlayerPagerAdapter;
 import com.lebogang.kxgenesis.CallBacksAndAnimations.BottomSheetChangeCallback;
-import com.lebogang.kxgenesis.CallBacksAndAnimations.ControlsAnim;
 import com.lebogang.kxgenesis.CallBacksAndAnimations.DrawerChangeCallback;
+import com.lebogang.kxgenesis.CallBacksAndAnimations.PagerTransformer;
 import com.lebogang.kxgenesis.MusicService.MusicConnection;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
 import com.lebogang.kxgenesis.Utils.ExtractColor;
 import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
 import com.lebogang.kxgenesis.databinding.ActivityMainLayoutBinding;
+
+import java.util.List;
 
 import jp.wasabeef.blurry.Blurry;
 
@@ -42,10 +45,15 @@ public class ActivityMain extends AppCompatActivity {
     private NavController navController;
     private BottomSheetBehavior bottomSheetBehavior;
     private ThreadHandler threadHandler;
+    private PlayerPagerAdapter pagerAdapter = new PlayerPagerAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSharedPreferences("Preferences", Context.MODE_PRIVATE).getBoolean("LightTheme", true))
+            setTheme(R.style.AppTheme);
+        else
+            setTheme(R.style.AppTheme_Dark);
         binding = ActivityMainLayoutBinding.inflate(getLayoutInflater());
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED)
@@ -70,8 +78,9 @@ public class ActivityMain extends AppCompatActivity {
         setupNavComponent();
         setupDrawer();
         setupBottomSheets();
-        onMediaItemChanged();
         setupPlayerControls();
+        setupPager();
+        onMediaItemChanged();
         new MusicConnection(this);
         threadHandler = new ThreadHandler(this, binding,this);
     }
@@ -94,10 +103,25 @@ public class ActivityMain extends AppCompatActivity {
         bottomSheetBehavior.addBottomSheetCallback(callback);
         binding.mainLayout.mainPlayer.collapseImageButtonBack.setOnClickListener(v->
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED));
-        binding.mainLayout.mainPlayer.collapseImageButton.setOnClickListener(v ->
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED));
     }
 
+    private void setupPager(){
+        pagerAdapter.setClickInterface(media -> {
+            Audio audio = (Audio) media;
+            MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(this);
+            if (mediaControllerCompat != null){
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Item", audio);
+                mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
+            }
+        });
+        binding.mainLayout.mainPlayer.pager.setAdapter(pagerAdapter);
+        binding.mainLayout.mainPlayer.pager.setPageTransformer(new PagerTransformer(this));
+    }
+
+    public void setPagerData(List<Audio> list){
+        pagerAdapter.setList(list);
+    }
 
     private void onMediaItemChanged(){
         AudioIndicator.getCurrentItem().observe(this, mediaItem -> {
@@ -107,22 +131,12 @@ public class ActivityMain extends AppCompatActivity {
             binding.mainLayout.mainPlayer.secondSubTitle.setText(mediaItem.getAlbumTitle());
             binding.mainLayout.mainPlayer.endDuration.setText(TimeUnitConvert.toMinutes(mediaItem.getAudioDuration()));
             binding.mainLayout.mainPlayer.wavSeekBar.setMax((int) mediaItem.getAudioDuration());
-            Glide.with(this).load(mediaItem.getAlbumArtUri())
-                    .error(R.drawable.ic_music_light)
-                    .into(binding.mainLayout.mainPlayer.firstImageView)
-                    .waitForLayout();
-            Bitmap bitmap = ExtractColor.getBitmap(this, mediaItem.getAlbumArtUri());
-            Blurry.with(this).radius(10).animate().from(bitmap).into(binding.mainLayout.mainPlayer.backgroundImageView);
-            Glide.with(this).load(mediaItem.getAlbumArtUri())
-                    .error(R.drawable.ic_music_light)
-                    .into(binding.mainLayout.mainPlayer.coverImageView)
-                    .waitForLayout();
+            pagerAdapter.setCurrentPlayingId(mediaItem.getId());
+            binding.mainLayout.mainPlayer.pager.setCurrentItem(pagerAdapter.getIndex(mediaItem.getId()));
         });
     }
 
     private void setupPlayerControls(){
-        new ControlsAnim(binding.mainLayout.mainPlayer.collapseImageButton
-                ,binding.mainLayout.mainPlayer.viewImageButton,binding.mainLayout.mainPlayer.controlsLinearLayout);
         binding.mainLayout.mainPlayer.playImageButton.setOnClickListener(v->{
             MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(this);
             if (mediaControllerCompat != null)
@@ -191,10 +205,10 @@ public class ActivityMain extends AppCompatActivity {
 
     public void onPlaybackChanged(int state){
         if (state == PlaybackStateCompat.STATE_PLAYING){
-            binding.mainLayout.mainPlayer.playImageButton.setImageResource(R.drawable.ic_circled_pause_32dp);
+            binding.mainLayout.mainPlayer.playImageButton.setImageResource(R.drawable.ic_pause);
             binding.mainLayout.mainPlayer.playImageButton2.setImageResource(R.drawable.ic_circled_pause);
         }else {
-            binding.mainLayout.mainPlayer.playImageButton.setImageResource(R.drawable.ic_circled_play_32dp);
+            binding.mainLayout.mainPlayer.playImageButton.setImageResource(R.drawable.ic_play_56dp);
             binding.mainLayout.mainPlayer.playImageButton2.setImageResource(R.drawable.ic_circled_play);
         }
         threadHandler.onPlaybackStateChanged(state);

@@ -18,10 +18,10 @@ import com.lebogang.kxgenesis.Fragments.SongsFragments;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuPagerAdapter extends FragmentStateAdapter {
+public class HomePagerAdapter extends FragmentStateAdapter {
     private List<Fragment> fragmentList = new ArrayList<>();
 
-    public MenuPagerAdapter(@NonNull FragmentManager fm, Lifecycle lifecycle) {
+    public HomePagerAdapter(@NonNull FragmentManager fm, Lifecycle lifecycle) {
         super(fm, lifecycle);
         for (int x = 0; x < 5; x++){
             if (x==0)

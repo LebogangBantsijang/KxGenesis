@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -17,6 +18,7 @@ import androidx.media.app.NotificationCompat.MediaStyle;
 
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.Utils.AudioIndicator;
 import com.lebogang.kxgenesis.Utils.ExtractColor;
 
 public class NotificationHandler {
@@ -54,7 +56,7 @@ public class NotificationHandler {
             builder.addAction(R.drawable.ic_round_pause_24,"Pause", playPausePendingIntent);
             builder.setSubText("Playing");
         }else {
-            builder.addAction(R.drawable.ic_round_play_arrow_24,"Play", playPausePendingIntent);
+            builder.addAction(R.drawable.ic_round_play_arrow_32,"Play", playPausePendingIntent);
             builder.setSubText("Paused");
         }
         builder.addAction(R.drawable.ic_round_navigate_next_24,"Next", nextPendingIntent);
@@ -73,6 +75,7 @@ public class NotificationHandler {
         builder.setContentTitle(mediaItem.getArtistTitle() + " - " + mediaItem.getAlbumTitle());
         Bitmap bitmap = ExtractColor.getBitmap(context, mediaItem.getAlbumArtUri());
         builder.setLargeIcon(bitmap);
+        builder.setSilent(true);
         return builder.build();
     }
 

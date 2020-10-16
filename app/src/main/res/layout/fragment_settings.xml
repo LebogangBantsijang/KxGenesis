@@ -77,7 +77,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minEms="10"
-                    android:text="multi column" />
+                    android:text="multi column"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_round_check_24"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/singleLineChip"
@@ -85,7 +87,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minEms="10"
-                    android:text="single column" />
+                    android:text="single column"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_round_check_24"/>
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
@@ -93,11 +97,50 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:gravity="center"
+                android:layout_marginBottom="8dp"
                 android:text="The Single-Column option has better performance when compared to Multi-Column."
                 android:layout_gravity="center_horizontal"
+                android:textStyle="italic"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:text="Theme"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <com.google.android.material.chip.ChipGroup
+                style="@style/Widget.MaterialComponents.ChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:checkedChip="@id/lightThemeChip"
+                app:singleLine="true"
+                app:singleSelection="true"
+                android:id="@+id/themeChipGroup"
+                android:layout_gravity="center_horizontal">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/lightThemeChip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minEms="10"
+                    android:text="Light Theme"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_round_check_24"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/darkThemeChip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minEms="10"
+                    android:text="Dark Theme"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_round_check_24"/>
+            </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

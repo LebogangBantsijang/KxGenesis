@@ -21,6 +21,7 @@ public class SettingsFragment extends Fragment {
     private SharedPreferences preferences;
     private boolean saveRepeatMode;
     private boolean displaySetting = true;
+    private boolean lightTheme = true;
 
     public SettingsFragment() {
     }
@@ -44,6 +45,7 @@ public class SettingsFragment extends Fragment {
         preferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         saveRepeatMode = preferences.getBoolean("saveRepeatMode", false);
         displaySetting = preferences.getBoolean("GridLayout", true);
+        lightTheme = preferences.getBoolean("LightTheme", true);
     }
 
     private void setupView(){
@@ -62,6 +64,17 @@ public class SettingsFragment extends Fragment {
             else
                 displaySetting = false;
         });
+        if (lightTheme)
+            binding.themeChipGroup.check(R.id.lightThemeChip);
+        else
+            binding.themeChipGroup.check(R.id.darkThemeChip);
+        binding.themeChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.lightThemeChip)
+                lightTheme = true;
+            else
+                lightTheme = false;
+            getActivity().recreate();
+        });
     }
 
     @Override
@@ -70,6 +83,7 @@ public class SettingsFragment extends Fragment {
         preferences.edit()
                 .putBoolean("saveRepeatMode", saveRepeatMode)
                 .putBoolean("GridLayout", displaySetting)
+                .putBoolean("LightTheme", lightTheme)
                 .apply();
     }
 }

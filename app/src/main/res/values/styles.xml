@@ -22,4 +22,18 @@
     <style name="textColor" parent="TextAppearance.AppCompat.Small">
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">?colorSurface</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
 </resources>

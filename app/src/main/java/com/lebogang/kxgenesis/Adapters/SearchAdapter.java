@@ -17,9 +17,7 @@ import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
 import com.lebogang.kxgenesis.databinding.ItemSong3Binding;
-import com.lebogang.kxgenesis.databinding.ItemSongBinding;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
     }
 
     public ArrayList<Audio> getList(){
-        return new ArrayList<>(list);
+        return new ArrayList<>(searchItems);
     }
 
     public void setCurrentID(long id, int color){

@@ -11,4 +11,5 @@
     <color name="textColor">?editTextColor</color>
     <color name="colorBackground">#ff303030</color>
     <color name="colorRed">#8BE11C1C</color>
+    <color name="colorDrawableTint">#5A5A5A</color>
 </resources>

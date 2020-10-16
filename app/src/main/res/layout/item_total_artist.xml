@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="112dp"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    app:cardCornerRadius="12dp"
+    android:layout_marginStart="6dp"
+    tools:viewBindingIgnore="true">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="#81000000"
+        app:srcCompat="@drawable/ic_music_record" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Title"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:padding="8dp"
+        android:ellipsize="end"
+        android:gravity="center"/>
+</com.google.android.material.card.MaterialCardView>

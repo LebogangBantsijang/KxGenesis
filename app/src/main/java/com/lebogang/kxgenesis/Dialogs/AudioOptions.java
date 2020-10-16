@@ -87,7 +87,10 @@ public class AudioOptions {
                 dialog.dismiss();
         });
         binding.editTags.setOnClickListener(v->{
-            new AudioEdit(context).createDialog(audioItem);
+            AudioEdit audioEdit = new AudioEdit(context);
+            audioEdit.setAudioFileManger(audioFileManger);
+            audioEdit.createDialog(audioItem);
+
         });
         binding.addToPlaylist.setOnClickListener(v->{
             new AudioToPlaylistDialog(context).createDiaLog(audioItem);

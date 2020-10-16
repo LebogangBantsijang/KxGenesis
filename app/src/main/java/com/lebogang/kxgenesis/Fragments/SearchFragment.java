@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,8 +49,8 @@ public class SearchFragment extends Fragment implements OnClickInterface, AudioC
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupEditText();
         setupRecyclerView();
+        setupEditText();
     }
 
     private void setupEditText(){
@@ -74,7 +75,7 @@ public class SearchFragment extends Fragment implements OnClickInterface, AudioC
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = ExtractColor.getColor(getContext(), mediaItem.getAlbumArtUri());
+            int color = AudioIndicator.Colors.getDefaultColor();
             adapter.setCurrentID(mediaItem.getId(), color);
         });
     }

@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.lebogang.kxgenesis.Adapters.MenuPagerAdapter;
+import com.lebogang.kxgenesis.Adapters.HomePagerAdapter;
 import com.lebogang.kxgenesis.CallBacksAndAnimations.PagerTransformer;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.FragmentHomeBinding;
@@ -18,7 +18,7 @@ import com.lebogang.kxgenesis.databinding.FragmentHomeBinding;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private MenuPagerAdapter menuPagerAdapter;
+    private HomePagerAdapter homePagerAdapter;
 
     public HomeFragment() {
     }
@@ -38,16 +38,26 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupViewPager(){
-        menuPagerAdapter = new MenuPagerAdapter(getChildFragmentManager(), getLifecycle());
-        binding.viewpager.setAdapter(menuPagerAdapter);
+        homePagerAdapter = new HomePagerAdapter(getChildFragmentManager(), getLifecycle());
+        binding.viewpager.setAdapter(homePagerAdapter);
         new TabLayoutMediator(binding.tabLayout, binding.viewpager,
                 (tab, position) -> {
                     switch (position){
-                        case 0: tab.setIcon(R.drawable.ic_musical_notes); break;
-                        case 1: tab.setIcon(R.drawable.ic_music_record); break;
-                        case 2: tab.setIcon(R.drawable.ic_microphone); break;
-                        case 3: tab.setIcon(R.drawable.ic_playlist); break;
-                        case 4: tab.setIcon(R.drawable.ic_guitar); break;
+                        case 0: tab.setIcon(R.drawable.ic_musical_notes);
+                            tab.setText("Songs");
+                        break;
+                        case 1: tab.setIcon(R.drawable.ic_music_record);
+                            tab.setText("Albums");
+                        break;
+                        case 2: tab.setIcon(R.drawable.ic_microphone);
+                            tab.setText("Artists");
+                        break;
+                        case 3: tab.setIcon(R.drawable.ic_playlist);
+                            tab.setText("Playlists");
+                        break;
+                        case 4: tab.setIcon(R.drawable.ic_guitar);
+                            tab.setText("Genres");
+                        break;
                     }
                 }).attach();
         binding.viewpager.setPageTransformer(new PagerTransformer(getContext()));

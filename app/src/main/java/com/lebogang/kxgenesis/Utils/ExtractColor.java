@@ -13,9 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class ExtractColor {
+
     public static int getColor(Context context, Uri uri){
         Bitmap bitmap;
-        //Convert the uri to bitmap
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
             bitmap = BitmapFactory.decodeStream(inputStream);
@@ -23,14 +23,18 @@ public class ExtractColor {
             e.printStackTrace();
             bitmap = null;
         }
-        //If the conversion fail then return the window color
-        //if not then get the dominant color from the image
-        //if the dominant color is light and the theme is dark then return window color, the same applies with light theme
         if (bitmap != null){
-            int colorDominantColor = Palette.from(bitmap).generate().getMutedColor(context.getResources().getColor(R.color.colorPrimary));
-            return colorDominantColor;
+            Palette.Swatch swatch = Palette.from(bitmap).generate().getMutedSwatch();
+            if (swatch != null)
+                return swatch.getRgb();
+            swatch = Palette.from(bitmap).generate().getDominantSwatch();
+            if (swatch != null)
+                return swatch.getRgb();
+            swatch = Palette.from(bitmap).generate().getVibrantSwatch();
+            if (swatch != null)
+                return swatch.getRgb();
         }
-        return context.getResources().getColor(R.color.colorPrimary);
+        return context.getResources().getColor(R.color.colorTranslucent);
     }
 
     public static Bitmap getBitmap(Context context, Uri uri){

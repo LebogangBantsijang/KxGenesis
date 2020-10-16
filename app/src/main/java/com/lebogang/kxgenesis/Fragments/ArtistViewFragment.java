@@ -14,10 +14,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.lebogang.audiofilemanager.AlbumManagement.AlbumManager;
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
+import com.lebogang.audiofilemanager.Models.Album;
 import com.lebogang.audiofilemanager.Models.Artist;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.audiofilemanager.Models.Media;
+import com.lebogang.kxgenesis.ActivityMain;
 import com.lebogang.kxgenesis.Adapters.AudioAdapter;
 import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.Adapters.OnClickOptionsInterface;
@@ -70,7 +73,7 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = ExtractColor.getColor(getContext(), mediaItem.getAlbumArtUri());
+            int color = AudioIndicator.Colors.getDefaultColor();
             adapter.setCurrentID(mediaItem.getId(), color);
             int position = adapter.getItemPosition(mediaItem);
             binding.recyclerView.scrollToPosition(position);
@@ -90,6 +93,16 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
         binding.durationTextView.setText("duration: " + TimeUnit.MILLISECONDS.toMinutes(duration) + "min");
         totalArtistAlbumsAdapter.setList(audioList);
         binding.recyclerViewArtists.setAdapter(totalArtistAlbumsAdapter);
+
+        totalArtistAlbumsAdapter.setClickInterface( media -> {
+            Audio audio = (Audio) media;
+            AlbumManager albumManager = new AlbumManager(getContext());
+            Album album = albumManager.getAlbumItemWithName(audio.getAlbumTitle());
+            NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("Album", album);
+            navController.navigate(R.id.album_view_fragment, bundle);
+        });
     }
 
     @Override
@@ -102,6 +115,7 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
             mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
             bundle.putParcelableArrayList("Items",adapter.getList());
             mediaControllerCompat.getTransportControls().sendCustomAction("Act", bundle);
+            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
         }
     }
 

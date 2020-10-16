@@ -20,6 +20,7 @@ import com.lebogang.audiofilemanager.Models.Album;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.audiofilemanager.Models.Genre;
 import com.lebogang.audiofilemanager.Models.Media;
+import com.lebogang.kxgenesis.ActivityMain;
 import com.lebogang.kxgenesis.Adapters.AudioAdapter;
 import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.Adapters.OnClickOptionsInterface;
@@ -71,7 +72,7 @@ public class GenreViewFragment extends Fragment implements OnClickInterface, OnC
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = ExtractColor.getColor(getContext(), mediaItem.getAlbumArtUri());
+            int color = AudioIndicator.Colors.getDefaultColor();
             adapter.setCurrentID(mediaItem.getId(), color);
             int position = adapter.getItemPosition(mediaItem);
             binding.recyclerView.scrollToPosition(position);
@@ -99,6 +100,7 @@ public class GenreViewFragment extends Fragment implements OnClickInterface, OnC
             mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
             bundle.putParcelableArrayList("Items",adapter.getList());
             mediaControllerCompat.getTransportControls().sendCustomAction("Act", bundle);
+            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
         }
     }
 

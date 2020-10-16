@@ -1,6 +1,7 @@
 package com.lebogang.kxgenesis.Adapters;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.Utils.AudioIndicator;
+import com.lebogang.kxgenesis.Utils.ExtractColor;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class TotalArtistAlbumsAdapter extends RecyclerView.Adapter<TotalArtistAlbumsAdapter.Holder>{
-    private LinkedHashMap<String, Audio> hashMap = new LinkedHashMap<>();
-    private List<Audio> list = new ArrayList<>();
+public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.Holder>{
     private Context context;
+    private List<Audio> list = new ArrayList<>();
     private OnClickInterface clickInterface;
+    private long currentPlayingId = -1;
 
     public void setList(List<Audio> list) {
-        for (Audio audio: list){
-            if (!hashMap.containsKey(audio.getAlbumTitle()))
-                hashMap.put(audio.getAlbumTitle(), audio);
-        }
-        this.list = new ArrayList<>(hashMap.values());
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -39,22 +35,39 @@ public class TotalArtistAlbumsAdapter extends RecyclerView.Adapter<TotalArtistAl
         this.clickInterface = clickInterface;
     }
 
+    public void setCurrentPlayingId(long currentPlayingId) {
+        this.currentPlayingId = currentPlayingId;
+        notifyDataSetChanged();
+    }
+
+    public int getIndex(long id){
+        for (Audio audio:list){
+            if (audio.getId() == id)
+                return list.indexOf(audio);
+        }
+        return 0;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_total_artist,parent
-                , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_audio, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Audio audio = list.get(position);
-        holder.title.setText(audio.getAlbumTitle());
         Glide.with(context).load(audio.getAlbumArtUri())
-                .error(R.drawable.ic_music_record)
+                .error(R.drawable.ic_music_light)
                 .into(holder.imageView).waitForLayout();
+        String string = "" + (1+position) + " of " + list.size();
+        holder.countTextView.setText(string);
+        if (audio.getId() == currentPlayingId)
+            holder.titleTextView.setText("");
+        else
+            holder.titleTextView.setText(audio.getTitle());
     }
 
     @Override
@@ -63,14 +76,17 @@ public class TotalArtistAlbumsAdapter extends RecyclerView.Adapter<TotalArtistAl
     }
 
     public class Holder extends RecyclerView.ViewHolder{
-        private TextView title;
         private ImageView imageView;
+        private TextView countTextView, titleTextView;
         public Holder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.titleTextView);
             imageView = itemView.findViewById(R.id.imageView);
-            itemView.setOnClickListener(v->{
-                clickInterface.onClick(list.get(getAdapterPosition()));
+            countTextView = itemView.findViewById(R.id.counterTextView);
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            imageView.setOnClickListener(v->{
+                Audio audio = list.get(getAdapterPosition());
+                if (audio.getId() != currentPlayingId)
+                    clickInterface.onClick(audio);
             });
         }
     }

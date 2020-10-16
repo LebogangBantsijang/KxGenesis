@@ -26,7 +26,10 @@ public class AudioEdit {
 
     public AudioEdit(Context context) {
         this.context = context;
-        this.audioFileManger = new AudioManager(context);
+    }
+
+    public void setAudioFileManger(AudioManager audioFileManger) {
+        this.audioFileManger = audioFileManger;
     }
 
     public void createDialog(Audio audioItem){

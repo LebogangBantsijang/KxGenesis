@@ -91,7 +91,7 @@ public class MusicService extends MediaBrowserServiceCompat {
             mediaSessionCompat.setPlaybackState(playbackStateBuilder.build());
             startForeground(1021,notificationHandler.getNotification(mediaItem
                     , mediaSessionCompat.getController().getPlaybackState().getState()));
-            AudioIndicator.setCurrentItem(mediaItem);
+            AudioIndicator.setCurrentItem(getApplicationContext(),mediaItem);
         }
 
         @Override
@@ -102,7 +102,7 @@ public class MusicService extends MediaBrowserServiceCompat {
             mediaSessionCompat.setPlaybackState(playbackStateBuilder.build());
             startForeground(1021,notificationHandler.getNotification(mediaItem
                     , mediaSessionCompat.getController().getPlaybackState().getState()));
-            AudioIndicator.setCurrentItem(mediaItem);
+            AudioIndicator.setCurrentItem(getApplicationContext(),mediaItem);
         }
 
         @Override

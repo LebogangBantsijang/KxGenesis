@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:clipToPadding="false"
+    android:background="?colorSurface"
     android:fitsSystemWindows="true"
     app:behavior_hideable="false"
     app:behavior_peekHeight="?actionBarSize"
@@ -13,87 +12,54 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_music_light" />
-
-        <ImageView
-            android:id="@+id/backgroundImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:foreground="#8D000000"
-            />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/coverImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="8dp"
-            />
-
-        <ImageButton
-            android:id="@+id/collapseImageButtonBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_gravity="end"
-            android:background="@null"
-            android:padding="12dp"
-            android:tint="?colorPrimary"
-            app:srcCompat="@drawable/ic_expand_arrow_16dp" />
-
-
-        <ImageButton
-            android:id="@+id/collapseImageButton"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:tag="false"
-            android:background="@drawable/shape_rectangle_round_corner_bottom"
-            android:backgroundTint="?colorSurface"
-            android:tint="?colorPrimary"
-            android:src="@drawable/ic_expand_arrow_16dp" />
+            android:layout_weight="1">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ImageButton
+                android:id="@+id/collapseImageButtonBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="end"
+                android:background="@null"
+                android:padding="12dp"
+                app:srcCompat="@drawable/ic_expand_arrow_16dp" />
+        </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/controlsLinearLayout"
+            android:id="@+id/controlsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="bottom"
-            android:background="@drawable/shape_rectangle_round_corner_top"
-            android:backgroundTint="?colorSurface">
-
-            <ImageButton
-                android:id="@+id/viewImageButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:tag="false"
-                android:background="@null"
-                android:tint="?colorPrimary"
-                android:src="@drawable/ic_expand_arrow_16dp" />
+            android:background="?colorSurface">
 
             <TextView
                 android:id="@+id/secondTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="6dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:shadowRadius="2"
-                android:text=""
-                android:layout_marginEnd="32dp"
                 android:layout_marginStart="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:layout_marginEnd="32dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="-1"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/secondSubTitle"
@@ -105,7 +71,7 @@
                 android:layout_marginStart="32dp"
                 android:maxLines="1"
                 android:text=""
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="?android:textColorSecondary" />
 
@@ -123,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:padding="8dp"
+                    android:padding="6dp"
                     app:srcCompat="@drawable/ic_repeat_off" />
 
                 <SeekBar
@@ -141,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:padding="8dp"
+                    android:padding="6dp"
                     app:srcCompat="@drawable/ic_shuffle_off" />
 
             </LinearLayout>
@@ -180,11 +146,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:background="@null"
+                    android:padding="8dp"
                     android:scaleType="centerCrop"
                     android:tint="?colorPrimary"
                     android:outlineAmbientShadowColor="?colorPrimary"
                     android:outlineSpotShadowColor="?colorPrimary"
-                    app:srcCompat="@drawable/ic_circled_play_32dp" />
+                    app:srcCompat="@drawable/ic_play_56dp" />
 
                 <ImageButton
                     android:id="@+id/nextImageButton"
@@ -211,24 +178,13 @@
                 android:layout_height="wrap_content"
                 android:text="kx:Genesis"
                 android:alpha="0.35"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:layout_gravity="center_horizontal"/>
 
-            <com.scwang.wave.MultiWaveHeader
-                android:id="@+id/MultiWave"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:rotation="180"
-                app:mwhGradientAngle="0"
-                app:mwhIsRunning="true"
-                app:mwhVelocity="3"
-                app:mwhWaveHeight="32dp"
-                app:mwhCloseColor="?colorPrimary"/>
-
         </LinearLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/peekView"
@@ -244,24 +200,10 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            app:cardBackgroundColor="?attr/colorButtonNormal"
-            app:cardElevation="0dp">
-
-            <ImageView
-                android:id="@+id/firstImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </com.google.android.material.card.MaterialCardView>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -308,7 +250,7 @@
             android:id="@+id/nextImageButton2"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="16dp"
             android:background="@null"
             android:padding="12dp"
             android:scaleType="fitXY"
