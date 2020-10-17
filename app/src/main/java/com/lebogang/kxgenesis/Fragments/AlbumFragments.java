@@ -54,6 +54,7 @@ public class AlbumFragments extends Fragment implements OnClickInterface, AlbumC
     }
 
     private void initRecyclerView(){
+        adapter.setContext(getContext());
         boolean type = getActivity().getSharedPreferences("Preferences", Context.MODE_PRIVATE).getBoolean("GridLayout", true);
         adapter.setLayoutGrid(type);
         if (type)
@@ -66,7 +67,6 @@ public class AlbumFragments extends Fragment implements OnClickInterface, AlbumC
     @Override
     public void onQueryComplete(List<Album> albumList) {
         adapter.setList(AlbumManager.groupByName(albumList));
-        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

@@ -73,10 +73,10 @@
                 android:background="@null"
                 android:padding="8dp"
                 android:scaleType="centerCrop"
-                android:tint="?colorPrimary"
                 android:outlineAmbientShadowColor="?colorPrimary"
                 android:outlineSpotShadowColor="?colorPrimary"
-                app:srcCompat="@drawable/ic_play_56dp" />
+                app:srcCompat="@drawable/ic_play_56dp"
+                app:tint="?colorPrimary" />
 
             <ImageButton
                 android:id="@+id/nextImageButton"

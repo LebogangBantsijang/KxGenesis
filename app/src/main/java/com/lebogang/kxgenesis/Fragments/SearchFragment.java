@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.audiofilemanager.Models.Media;
+import com.lebogang.kxgenesis.ActivityMain;
 import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.Adapters.SearchAdapter;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
@@ -72,6 +73,7 @@ public class SearchFragment extends Fragment implements OnClickInterface, AudioC
     }
 
     private void setupRecyclerView(){
+        adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
@@ -93,6 +95,7 @@ public class SearchFragment extends Fragment implements OnClickInterface, AudioC
             Bundle bundle = new Bundle();
             bundle.putParcelable("Item", audio);
             mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
+            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
         }
     }
 }

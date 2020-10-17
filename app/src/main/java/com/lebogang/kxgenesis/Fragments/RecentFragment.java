@@ -54,6 +54,7 @@ public class RecentFragment extends Fragment implements OnClickInterface, OnClic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
@@ -67,13 +68,11 @@ public class RecentFragment extends Fragment implements OnClickInterface, OnClic
     @Override
     public void onQueryComplete(List<Audio> audioList) {
         adapter.setList(audioList);
-        binding.progressBar.setVisibility(View.GONE);
         MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(getActivity());
         if (mediaControllerCompat != null){
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList("Items",adapter.getList());
             mediaControllerCompat.getTransportControls().sendCustomAction("Act", bundle);
-            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
         }
     }
 
@@ -87,6 +86,7 @@ public class RecentFragment extends Fragment implements OnClickInterface, OnClic
             mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
             bundle.putParcelableArrayList("Items",adapter.getList());
             mediaControllerCompat.getTransportControls().sendCustomAction("Act", bundle);
+            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
         }
     }
 

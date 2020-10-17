@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
 import com.lebogang.kxgenesis.R;
@@ -30,6 +31,10 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Holder>{
     public AudioAdapter(OnClickInterface clickInterface, OnClickOptionsInterface clickOptionsInterface) {
         this.clickInterface = clickInterface;
         this.clickOptionsInterface = clickOptionsInterface;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public void setList(List<Audio> list){
@@ -63,8 +68,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Holder>{
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ItemSongBinding binding = ItemSongBinding.inflate(inflater,parent, false);
         return new AudioAdapter.Holder(binding.getRoot(),binding);
     }
@@ -77,7 +81,12 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Holder>{
         holder.binding.durationTextView.setText(TimeUnitConvert.toMinutes(audioItem.getAudioDuration()));
         Glide.with(context).load(audioItem.getAlbumArtUri())
                 .error(R.drawable.ic_music_light)
-                .into(holder.binding.imageView).waitForLayout();
+                .downsample(DownsampleStrategy.AT_MOST)
+                .dontAnimate()
+                .skipMemoryCache(true)
+                .into(holder.binding.imageView)
+                .clearOnDetach()
+                .waitForLayout();
         highlight(holder, audioItem,context);
     }
 

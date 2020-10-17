@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
@@ -48,11 +49,14 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
         return 0;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_audio, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_audio, parent, false);
         return new Holder(view);
     }
 
@@ -61,7 +65,12 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
         Audio audio = list.get(position);
         Glide.with(context).load(audio.getAlbumArtUri())
                 .error(R.drawable.ic_music_light)
-                .into(holder.imageView).waitForLayout();
+                .downsample(DownsampleStrategy.AT_MOST)
+                .dontAnimate()
+                .skipMemoryCache(true)
+                .into(holder.imageView)
+                .clearOnDetach()
+                .waitForLayout();
         String string = "" + (1+position) + " of " + list.size();
         holder.countTextView.setText(string);
         if (audio.getId() == currentPlayingId)

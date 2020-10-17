@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Album;
 import com.lebogang.kxgenesis.R;
 
@@ -36,12 +37,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
         notifyDataSetChanged();
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
         if (isLayoutGrid){
-            View view = LayoutInflater.from(context).inflate(R.layout.item_album_multiple_column,parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_multiple_column,parent, false);
             return new Holder(view);
         }
         View view = LayoutInflater.from(context).inflate(R.layout.item_album_single_column,parent, false);
@@ -55,7 +59,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
         holder.subtitle.setText(album.getArtist());
         Glide.with(context).load(album.getAlbumArtUri())
                 .error(R.drawable.ic_music_record_light)
-                .into(holder.imageView).waitForLayout();
+                .downsample(DownsampleStrategy.AT_MOST)
+                .dontAnimate()
+                .skipMemoryCache(true)
+                .into(holder.imageView)
+                .clearOnDetach()
+                .waitForLayout();
     }
 
     @Override

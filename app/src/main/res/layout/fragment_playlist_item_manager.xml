@@ -27,8 +27,8 @@
             android:layout_height="76dp"
             android:layout_marginStart="8dp"
             android:padding="6dp"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_edit_node_filled" />
+            app:srcCompat="@drawable/ic_edit_node_filled"
+            app:tint="@color/colorPrimary" />
     </LinearLayout>
 
     <FrameLayout
@@ -48,7 +48,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
             android:clickable="true"
-            android:tint="@color/colorWhite"
+            android:tint="?colorPrimary"
+            android:theme="@style/AppTheme.Dark"
             app:backgroundTint="@color/colorAccent"
             app:srcCompat="@drawable/ic_baseline_delete_24" />
     </FrameLayout>

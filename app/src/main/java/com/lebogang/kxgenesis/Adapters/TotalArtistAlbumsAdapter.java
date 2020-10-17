@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
 
@@ -39,11 +40,14 @@ public class TotalArtistAlbumsAdapter extends RecyclerView.Adapter<TotalArtistAl
         this.clickInterface = clickInterface;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_total_artist,parent
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_total_artist,parent
                 , false);
         return new Holder(view);
     }
@@ -54,7 +58,12 @@ public class TotalArtistAlbumsAdapter extends RecyclerView.Adapter<TotalArtistAl
         holder.title.setText(audio.getAlbumTitle());
         Glide.with(context).load(audio.getAlbumArtUri())
                 .error(R.drawable.ic_music_record)
-                .into(holder.imageView).waitForLayout();
+                .downsample(DownsampleStrategy.AT_MOST)
+                .dontAnimate()
+                .skipMemoryCache(true)
+                .into(holder.imageView)
+                .clearOnDetach()
+                .waitForLayout();
     }
 
     @Override

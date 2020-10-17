@@ -51,6 +51,7 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
     }
 
     private void setupRecyclerView(){
+        adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         binding.saveButton.setOnClickListener(v->{

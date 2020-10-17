@@ -28,6 +28,8 @@
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
         <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>

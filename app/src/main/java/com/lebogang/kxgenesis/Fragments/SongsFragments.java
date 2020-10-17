@@ -58,6 +58,7 @@ public class SongsFragments extends Fragment implements OnClickInterface, OnClic
     }
 
     private void initRecyclerView(){
+        adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
     }
@@ -94,7 +95,6 @@ public class SongsFragments extends Fragment implements OnClickInterface, OnClic
     @Override
     public void onQueryComplete(List<Audio> audioList) {
         adapter.setList(audioList);
-        binding.progressBar.setVisibility(View.GONE);
         //Sync music service playlist data
         MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(getActivity());
         if (mediaControllerCompat != null){

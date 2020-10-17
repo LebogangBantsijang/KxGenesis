@@ -75,7 +75,6 @@ public class PlaylistFragments extends Fragment implements OnClickInterface, OnC
     @Override
     public void onQueryComplete(List<Playlist> playlists) {
         adapter.setList(playlists);
-        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

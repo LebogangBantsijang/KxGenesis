@@ -9,15 +9,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="@android:style/Widget.Material.ProgressBar"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:indeterminateBehavior="cycle"
-        android:indeterminateOnly="true"
-        android:indeterminateTint="?colorPrimary" />
-
 </FrameLayout>

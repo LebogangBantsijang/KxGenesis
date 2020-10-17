@@ -65,7 +65,6 @@ public class ArtistFragments extends Fragment implements OnClickInterface, Artis
     @Override
     public void onQueryComplete(List<Artist> artistList) {
         adapter.setList(ArtistManager.groupByName(artistList));
-        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

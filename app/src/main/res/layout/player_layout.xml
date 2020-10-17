@@ -99,8 +99,8 @@
                     android:layout_weight="1"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:progressTint="?attr/colorPrimary"
-                    android:thumbTint="?attr/colorPrimary" />
+                    android:progressTint="?colorPrimary"
+                    android:thumbTint="?colorPrimary" />
 
                 <ImageButton
                     android:id="@+id/shuffleImageButton"
@@ -137,6 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:elevation="4dp"
                     android:padding="12dp"
                     app:srcCompat="@drawable/ic_prev_32dp" />
 
@@ -146,18 +147,20 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:background="@null"
-                    android:padding="8dp"
-                    android:scaleType="centerCrop"
-                    android:tint="?colorPrimary"
+                    android:elevation="4dp"
                     android:outlineAmbientShadowColor="?colorPrimary"
                     android:outlineSpotShadowColor="?colorPrimary"
-                    app:srcCompat="@drawable/ic_play_56dp" />
+                    android:padding="8dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_play_56dp"
+                    app:tint="?colorPrimary" />
 
                 <ImageButton
                     android:id="@+id/nextImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:elevation="4dp"
                     android:padding="12dp"
                     app:srcCompat="@drawable/ic_next_32dp" />
 
@@ -243,8 +246,8 @@
             android:layout_marginEnd="4dp"
             android:background="@null"
             android:padding="8dp"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_circled_play" />
+            app:srcCompat="@drawable/ic_circled_play"
+            app:tint="?colorPrimary" />
 
         <ImageButton
             android:id="@+id/nextImageButton2"

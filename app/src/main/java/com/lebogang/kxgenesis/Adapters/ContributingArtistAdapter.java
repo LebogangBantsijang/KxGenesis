@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
 
@@ -35,6 +36,10 @@ public class ContributingArtistAdapter extends RecyclerView.Adapter<Contributing
         notifyDataSetChanged();
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     public void setClickInterface(OnClickInterface clickInterface) {
         this.clickInterface = clickInterface;
     }
@@ -42,8 +47,7 @@ public class ContributingArtistAdapter extends RecyclerView.Adapter<Contributing
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_contributing_artist,parent
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contributing_artist,parent
                 , false);
         return new Holder(view);
     }
@@ -54,7 +58,12 @@ public class ContributingArtistAdapter extends RecyclerView.Adapter<Contributing
         holder.title.setText(audio.getArtistTitle());
         Glide.with(context).load(audio.getAlbumArtUri())
                 .error(R.drawable.ic_microphone)
-                .into(holder.imageView).waitForLayout();
+                .downsample(DownsampleStrategy.AT_MOST)
+                .dontAnimate()
+                .skipMemoryCache(true)
+                .into(holder.imageView)
+                .clearOnDetach()
+                .waitForLayout();
     }
 
     @Override

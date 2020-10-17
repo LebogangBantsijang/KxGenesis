@@ -39,10 +39,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:background="@color/colorDrawableTint"
+            android:background="@drawable/shaper_rectangle_round_corners_4dp_with_bg"
+            android:backgroundTint="@color/colorDrawableTint"
             android:textColor="#FFFFFF"
             android:alpha="0.6"
-            android:text="TTasasa"/>
+            android:text=""/>
 
     </com.google.android.material.card.MaterialCardView>
 

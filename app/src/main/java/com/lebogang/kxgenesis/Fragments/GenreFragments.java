@@ -72,6 +72,5 @@ public class GenreFragments extends Fragment implements OnClickInterface, GenreC
     @Override
     public void onQueryComplete(List<Genre> genreList) {
         adapter.setList(genreList);
-        binding.progressBar.setVisibility(View.GONE);
     }
 }

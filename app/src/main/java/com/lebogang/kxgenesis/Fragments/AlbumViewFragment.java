@@ -74,6 +74,8 @@ public class AlbumViewFragment extends Fragment implements OnClickInterface, OnC
     }
 
     private void setupRecyclerView(){
+        adapter.setContext(getContext());
+        contributingArtistAdapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
