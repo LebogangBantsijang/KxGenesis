@@ -1,37 +1,52 @@
-## Welcome to GitHub Pages
+# KxGenesis
+![API](https://img.shields.io/badge/Android-21+-brightgreen.svg) ![](https://img.shields.io/badge/Download-1.0.2-blue.svg)
 
-You can use the [editor on GitHub](https://github.com/LebogangBantsijang/KxGenesis/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+![Logo](https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Andoid Music Player
 
-### Markdown
+Stylish android music player without ads.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Screenshots
 
-```markdown
-Syntax highlighted code block
+| Interface | | | |
+| :---  | :---  | :---  | :---  |
+| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140157_com.lebogang.kxgenesis.jpg"  height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140307_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140212_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140358_com.lebogang.kxgenesis.jpg" height="400"> |
 
-# Header 1
-## Header 2
-### Header 3
+| Themes | | | |
+| :---  | :--- |:---  | :--- |
+| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140034_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_141353_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140049_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_145445_com.lebogang.kxgenesis.jpg" height="400"> |
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+## Features
+* Volume Control
+* View Pager Menu
+* Bottom Sheets
+* Navigation View
+* Navigation Component
+* ViewBinding
+* ViewModel
+* Material Design
+* Glide
+* Now playing high lighting
+* Search
+* Adjustable Item display
+* Dark/Light Theme
+* Now Playing Notification
+* And the list goes on.
 
-**Bold** and _Italic_ and `Code` text
+I am trying my best to bring you the best user experience. The app is regularly being updated for bug fixes and new features.
 
-[Link](url) and ![Image](src)
-```
+### Upcoming updates
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+The next update will include a lot more animations and/or any bug fixes (no bugs have been identified or reported yet).
 
-### Jekyll Themes
+## Contributors
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/LebogangBantsijang/KxGenesis/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+This application was made and is maintained by [Lebogang Bantsijang](https://github.com/LebogangBantsijang)
 
-### Support or Contact
+## License
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Apache 2.0. See the LICENSE file for details.
+
+> Please note: KxGenesis Music Player is an offline music player app. It doesn't support music downloading or online music streaming.
