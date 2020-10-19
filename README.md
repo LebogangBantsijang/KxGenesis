@@ -5,5 +5,6 @@
 
 ![Logo](https://raw.githubusercontent.com/LebogangBantsijang/Audio-File-Manager/master/profile-image.png)
 
-## Introduction
-Android music player
+## Stylish Music Player
+#### Screenshots
+
