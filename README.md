@@ -6,5 +6,16 @@
 ![Logo](https://raw.githubusercontent.com/LebogangBantsijang/Audio-File-Manager/master/profile-image.png)
 
 ## Stylish Music Player
-#### Screenshots
+### Screenshots
 
+| Player |
+| :---  |
+| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_141353_com.lebogang.kxgenesis.jpg" height="570"> |
+
+| Interface | | | |
+| :---  | :---  | :---  | :---  |
+| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140157_com.lebogang.kxgenesis.jpg"  height="480"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140307_com.lebogang.kxgenesis.jpg" height="480"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140212_com.lebogang.kxgenesis.jpg" height="480"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140358_com.lebogang.kxgenesis.jpg" height="480"> |
+
+| Themes | |
+| :---  | :--- |
+| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140034_com.lebogang.kxgenesis.jpg" height="520"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140049_com.lebogang.kxgenesis.jpg"  height="520"> |
