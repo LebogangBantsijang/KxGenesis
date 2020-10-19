@@ -9,7 +9,7 @@
 
 Stylish android music player without ads.
 
-### Screenshots
+## Screenshots
 
 | Interface | | | |
 | :---  | :---  | :---  | :---  |
@@ -37,7 +37,17 @@ Stylish android music player without ads.
 * Now Playing Notification
 * And the list goes on.
 
-### License
+I am trying my best to bring you the best user experience. The app is regularly being updated for bug fixes and new features.
+
+### Upcoming updates
+
+The next update will include a lot more animations and/or any bug fixes (no bugs have been identified or reported yet).
+
+## Contributors
+
+This application was made and is maintained by [Lebogang Bantsijang](https://github.com/LebogangBantsijang)
+
+## License
 
 Apache 2.0. See the LICENSE file for details.
 
