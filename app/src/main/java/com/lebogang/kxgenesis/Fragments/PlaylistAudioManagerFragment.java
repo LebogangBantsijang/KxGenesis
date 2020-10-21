@@ -48,12 +48,17 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
+        initDeleteBTN();
     }
 
     private void setupRecyclerView(){
+        binding.titleTextView.setText(playlist.getTitle());
         adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void initDeleteBTN(){
         binding.saveButton.setOnClickListener(v->{
             String[] audioIds = new String[adapter.getCheckedItems().size()];
             for (int x = 0; x < adapter.getCheckedItems().size(); x++){

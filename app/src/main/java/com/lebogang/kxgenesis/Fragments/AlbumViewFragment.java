@@ -75,7 +75,6 @@ public class AlbumViewFragment extends Fragment implements OnClickInterface, OnC
 
     private void setupRecyclerView(){
         adapter.setContext(getContext());
-        contributingArtistAdapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
@@ -86,7 +85,7 @@ public class AlbumViewFragment extends Fragment implements OnClickInterface, OnC
         });
         binding.recyclerViewArtists.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL
                 ,false));
-
+        contributingArtistAdapter.setContext(getContext());
         contributingArtistAdapter.setClickInterface(media -> {
             Audio audio = (Audio) media;
             NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
@@ -101,6 +100,10 @@ public class AlbumViewFragment extends Fragment implements OnClickInterface, OnC
     @Override
     public void onQueryComplete(List<Audio> audioList) {
         adapter.setList(audioList);
+        initAlbumDetails(audioList);
+    }
+
+    private void initAlbumDetails(List<Audio> audioList){
         binding.numSongsTextView.setText("song count: " + audioList.size());
         int duration = 0;
         for (Audio audio:audioList){

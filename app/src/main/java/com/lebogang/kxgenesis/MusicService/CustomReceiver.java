@@ -44,7 +44,6 @@ public class CustomReceiver extends BroadcastReceiver {
         intent.addAction(ACTION_PLAY_PAUSE);
         intent.addAction(ACTION_NEXT);
         intent.addAction(ACTION_PREVIOUS);
-        intent.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         return intent;
     }
 }

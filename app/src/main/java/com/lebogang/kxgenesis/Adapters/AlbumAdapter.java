@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Album;
 import com.lebogang.kxgenesis.R;
@@ -58,6 +59,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
         holder.title.setText(album.getTitle());
         holder.subtitle.setText(album.getArtist());
         Glide.with(context).load(album.getAlbumArtUri())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.ic_music_record_light)
                 .downsample(DownsampleStrategy.AT_MOST)
                 .dontAnimate()

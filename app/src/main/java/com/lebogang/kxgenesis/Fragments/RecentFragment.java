@@ -54,9 +54,17 @@ public class RecentFragment extends Fragment implements OnClickInterface, OnClic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initRecyclerView();
+        observer();
+    }
+
+    private void initRecyclerView(){
         adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void observer(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             int color = AudioIndicator.Colors.getDefaultColor();
             adapter.setCurrentID(mediaItem.getId(), color);

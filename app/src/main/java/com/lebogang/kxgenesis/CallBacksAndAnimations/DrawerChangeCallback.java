@@ -17,4 +17,14 @@ public class DrawerChangeCallback extends DrawerLayout.SimpleDrawerListener {
         float x = slideOffset * drawerView.getWidth();
         containerView.setX(x);
     }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        super.onDrawerClosed(drawerView);
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        super.onDrawerOpened(drawerView);
+    }
 }

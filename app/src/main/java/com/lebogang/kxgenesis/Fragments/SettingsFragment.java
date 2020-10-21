@@ -1,27 +1,22 @@
 package com.lebogang.kxgenesis.Fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.chip.ChipGroup;
+import com.lebogang.kxgenesis.Preferences;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
-    private SharedPreferences preferences;
-    private boolean saveRepeatMode;
-    private boolean displaySetting = true;
-    private boolean lightTheme = true;
+    //private SharedPreferences preferences;
+    private Preferences preferences;
 
     public SettingsFragment() {
     }
@@ -29,6 +24,7 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        preferences = new Preferences(getContext());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -36,43 +32,39 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
-        setupView();
-        setupChips();
+        initRepeatSwitch();
+        initDisplayChips();
+        initThemeChips();
     }
 
-    private void init(){
-        preferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        saveRepeatMode = preferences.getBoolean("saveRepeatMode", false);
-        displaySetting = preferences.getBoolean("GridLayout", true);
-        lightTheme = preferences.getBoolean("LightTheme", true);
+    private void initRepeatSwitch(){
+        binding.repeatSwitch.setChecked(preferences.isSaveRepeatEnabled());
+        binding.repeatSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> preferences.setSaveRepeatEnabled(isChecked));
     }
 
-    private void setupView(){
-        binding.switch2.setChecked(saveRepeatMode);
-        binding.switch2.setOnCheckedChangeListener((buttonView, isChecked) -> saveRepeatMode = isChecked);
-    }
-
-    private void setupChips(){
-        if (displaySetting)
+    private void initDisplayChips(){
+        if (preferences.isDisplayGrid())
             binding.chipGroup.check(R.id.multiLineChip);
         else
             binding.chipGroup.check(R.id.singleLineChip);
         binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.multiLineChip)
-                displaySetting = true;
+                preferences.setDisplayGrid(true);
             else
-                displaySetting = false;
+                preferences.setDisplayGrid(false);
         });
-        if (lightTheme)
+    }
+
+    private void initThemeChips(){
+        if (preferences.isThemeLight())
             binding.themeChipGroup.check(R.id.lightThemeChip);
         else
             binding.themeChipGroup.check(R.id.darkThemeChip);
         binding.themeChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.lightThemeChip)
-                lightTheme = true;
+                preferences.setThemeLight(true);
             else
-                lightTheme = false;
+                preferences.setThemeLight(false);
             getActivity().recreate();
         });
     }
@@ -80,10 +72,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        preferences.edit()
-                .putBoolean("saveRepeatMode", saveRepeatMode)
-                .putBoolean("GridLayout", displaySetting)
-                .putBoolean("LightTheme", lightTheme)
-                .apply();
+        preferences.savePreferences();
     }
 }

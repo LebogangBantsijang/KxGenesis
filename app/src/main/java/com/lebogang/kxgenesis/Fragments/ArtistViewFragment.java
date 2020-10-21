@@ -62,6 +62,7 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
         super.onViewCreated(view, savedInstanceState);
         setupMediaItemDetails();
         setupRecyclerView();
+        observer();
     }
 
     private void setupMediaItemDetails(){
@@ -71,31 +72,11 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
 
     private void setupRecyclerView(){
         adapter.setContext(getContext());
-        totalArtistAlbumsAdapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
-        AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = AudioIndicator.Colors.getDefaultColor();
-            adapter.setCurrentID(mediaItem.getId(), color);
-            int position = adapter.getItemPosition(mediaItem);
-            binding.recyclerView.scrollToPosition(position);
-        });
         binding.recyclerViewArtists.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL
                 ,false));
-    }
-
-    @Override
-    public void onQueryComplete(List<Audio> audioList) {
-        adapter.setList(audioList);
-        binding.numSongsTextView.setText("song count: " + audioList.size());
-        int duration = 0;
-        for (Audio audio:audioList){
-            duration += audio.getAudioDuration();
-        }
-        binding.durationTextView.setText("duration: " + TimeUnit.MILLISECONDS.toMinutes(duration) + "min");
-        totalArtistAlbumsAdapter.setList(audioList);
-        binding.recyclerViewArtists.setAdapter(totalArtistAlbumsAdapter);
-
+        totalArtistAlbumsAdapter.setContext(getContext());
         totalArtistAlbumsAdapter.setClickInterface( media -> {
             Audio audio = (Audio) media;
             AlbumManager albumManager = new AlbumManager(getContext());
@@ -105,6 +86,32 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
             bundle.putParcelable("Album", album);
             navController.navigate(R.id.album_view_fragment, bundle);
         });
+    }
+
+    private void observer(){
+        AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
+            int color = AudioIndicator.Colors.getDefaultColor();
+            adapter.setCurrentID(mediaItem.getId(), color);
+            int position = adapter.getItemPosition(mediaItem);
+            binding.recyclerView.scrollToPosition(position);
+        });
+    }
+
+    @Override
+    public void onQueryComplete(List<Audio> audioList) {
+        adapter.setList(audioList);
+        initArtistDetails(audioList);
+    }
+
+    private void initArtistDetails(List<Audio> audioList){
+        binding.numSongsTextView.setText("song count: " + audioList.size());
+        int duration = 0;
+        for (Audio audio:audioList){
+            duration += audio.getAudioDuration();
+        }
+        binding.durationTextView.setText("duration: " + TimeUnit.MILLISECONDS.toMinutes(duration) + "min");
+        totalArtistAlbumsAdapter.setList(audioList);
+        binding.recyclerViewArtists.setAdapter(totalArtistAlbumsAdapter);
     }
 
     @Override

@@ -14,7 +14,9 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:appCategory="audio"
+        android:resizeableActivity="false">
 
         <activity android:name=".ActivityMain">
             <intent-filter>
@@ -24,7 +26,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".MusicService.MusicService">
+        <service
+            android:name=".MusicService.MusicService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>

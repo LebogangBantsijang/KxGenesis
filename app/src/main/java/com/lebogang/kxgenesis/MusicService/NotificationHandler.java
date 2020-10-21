@@ -60,7 +60,7 @@ public class NotificationHandler {
             builder.setSubText("Paused");
         }
         builder.addAction(R.drawable.ic_round_navigate_next_24,"Next", nextPendingIntent);
-        builder.setPriority(NotificationCompat.PRIORITY_LOW);
+        builder.setPriority(NotificationCompat.PRIORITY_MIN);
         builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         builder.setAutoCancel(true);
         builder.setSmallIcon(R.drawable.ic_round_play_circle_outline_24);

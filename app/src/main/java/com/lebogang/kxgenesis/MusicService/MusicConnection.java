@@ -10,17 +10,18 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.lebogang.kxgenesis.ActivityMain;
+import com.lebogang.kxgenesis.Preferences;
 
 import java.lang.reflect.Array;
 
 public class MusicConnection extends MediaBrowserCompat.ConnectionCallback  {
     private MediaBrowserCompat mediaBrowser;
     private ActivityMain activityMain;
-    private boolean saveLastRepeatMode;
-    private SharedPreferences sharedPreferences;
+    private Preferences preferences;
 
     public MusicConnection(ActivityMain activityMain) {
         this.activityMain = activityMain;
+        preferences = new Preferences(activityMain);
         mediaBrowser = new MediaBrowserCompat(activityMain,
                 new ComponentName(activityMain, MusicService.class),this,null);
         if(!mediaBrowser.isConnected()){
@@ -34,13 +35,9 @@ public class MusicConnection extends MediaBrowserCompat.ConnectionCallback  {
         MediaControllerCompat mediaController = new MediaControllerCompat(activityMain, mediaBrowser.getSessionToken());
         mediaController.registerCallback(controllerCallback());
         MediaControllerCompat.setMediaController(activityMain, mediaController);
-        sharedPreferences = activityMain.getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        saveLastRepeatMode = sharedPreferences.getBoolean("saveRepeatMode", false);
-        if (saveLastRepeatMode){
-            int repeatMode = sharedPreferences.getInt("RepeatMode", PlaybackStateCompat.REPEAT_MODE_NONE);
-            int shuffleMode = sharedPreferences.getInt("ShuffleMode", PlaybackStateCompat.SHUFFLE_MODE_NONE);
-            mediaController.getTransportControls().setRepeatMode(repeatMode);
-            mediaController.getTransportControls().setShuffleMode(shuffleMode);
+        if (preferences.isSaveRepeatEnabled()){
+            mediaController.getTransportControls().setRepeatMode(preferences.getLastKnownRepeatMode());
+            mediaController.getTransportControls().setShuffleMode(preferences.getLastKnownShuffleMode());
         }
     }
 

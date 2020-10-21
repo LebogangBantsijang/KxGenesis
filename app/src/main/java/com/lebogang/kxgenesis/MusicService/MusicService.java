@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
 import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.kxgenesis.Preferences;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
 
 import java.util.ArrayList;
@@ -26,11 +27,12 @@ public class MusicService extends MediaBrowserServiceCompat {
     private MediaSessionCompat mediaSessionCompat;
     private PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
     private NotificationHandler notificationHandler;
-    private SharedPreferences sharedPreferences;
+    private Preferences preferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        preferences = new Preferences(this);
         mediaSessionCompat = new MediaSessionCompat(this, "MusicService");
         setSessionToken(mediaSessionCompat.getSessionToken());
         //For notifications
@@ -39,8 +41,6 @@ public class MusicService extends MediaBrowserServiceCompat {
                 , 0, 1).build());
         mediaSessionCompat.setActive(true);
         notificationHandler = new NotificationHandler(this, mediaSessionCompat.getSessionToken());
-
-        sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         mediaSessionCompat.setCallback(new MusicCallBacks(this));
     }
 
@@ -48,14 +48,6 @@ public class MusicService extends MediaBrowserServiceCompat {
     public void onDestroy() {
         mediaSessionCompat.getController().getTransportControls().stop();
         super.onDestroy();
-    }
-
-    private void saveData(){
-        saveLastRepeatMode = sharedPreferences.getBoolean("saveRepeatMode", false);
-        if (saveLastRepeatMode)
-            sharedPreferences.edit().putInt("RepeatMode",mediaSessionCompat.getController().getRepeatMode())
-                    .putInt("ShuffleMode",mediaSessionCompat.getController().getShuffleMode())
-                    .apply();
     }
 
     @Nullable
@@ -119,7 +111,6 @@ public class MusicService extends MediaBrowserServiceCompat {
         @Override
         public void onPause() {
             if (mediaItem != null){
-                saveData();
                 super.onPause();
                 playbackStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED, 0,1f);
                 mediaSessionCompat.setPlaybackState(playbackStateBuilder.build());
@@ -128,11 +119,11 @@ public class MusicService extends MediaBrowserServiceCompat {
             }
         }
 
-        //Call Stop to stop when shutting down the app lol
+        //Call Stop to stop when shutting down the app
         @Override
         public void onStop() {
             super.onStop();
-            saveData();
+            preferences.savePreferences();
             stopForeground(true);
             stopSelf();
         }
@@ -193,12 +184,14 @@ public class MusicService extends MediaBrowserServiceCompat {
         public void onSetRepeatMode(int repeatMode) {
             super.onSetRepeatMode(repeatMode);
             mediaSessionCompat.setRepeatMode(repeatMode);
+            preferences.setLastKnownRepeatMode(repeatMode);
         }
 
         @Override
         public void onSetShuffleMode(int shuffleMode) {
             super.onSetShuffleMode(shuffleMode);
             mediaSessionCompat.setShuffleMode(shuffleMode);
+            preferences.setLastKnownShuffleMode(shuffleMode);
         }
 
         @Override

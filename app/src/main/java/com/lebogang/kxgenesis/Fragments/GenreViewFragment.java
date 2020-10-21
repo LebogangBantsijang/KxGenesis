@@ -62,6 +62,7 @@ public class GenreViewFragment extends Fragment implements OnClickInterface, OnC
         super.onViewCreated(view, savedInstanceState);
         setupMediaItemDetails();
         setupRecyclerView();
+        observer();
     }
 
     private void setupMediaItemDetails(){
@@ -72,6 +73,9 @@ public class GenreViewFragment extends Fragment implements OnClickInterface, OnC
         adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void observer(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             int color = AudioIndicator.Colors.getDefaultColor();
             adapter.setCurrentID(mediaItem.getId(), color);

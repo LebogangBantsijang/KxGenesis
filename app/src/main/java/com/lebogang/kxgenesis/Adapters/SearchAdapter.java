@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
@@ -36,6 +37,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
 
     public void setList(List<Audio> list){
         this.list = list;
+        notifyDataSetChanged();
     }
 
     public ArrayList<Audio> getList(){
@@ -67,6 +69,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
         holder.binding.subtitleTextView.setText(audioItem.getArtistTitle() + " - " + audioItem.getAlbumTitle());
         holder.binding.durationTextView.setText(TimeUnitConvert.toMinutes(audioItem.getAudioDuration()));
         Glide.with(context).load(audioItem.getAlbumArtUri())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.ic_music_light)
                 .downsample(DownsampleStrategy.AT_MOST)
                 .dontAnimate()

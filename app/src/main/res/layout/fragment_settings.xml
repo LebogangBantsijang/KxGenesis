@@ -34,7 +34,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch2"
+                android:id="@+id/repeatSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

@@ -60,6 +60,7 @@ public class PlaylistViewFragment extends Fragment implements OnClickInterface, 
         super.onViewCreated(view, savedInstanceState);
         setupMediaItemDetails();
         setupRecyclerView();
+        observer();
     }
 
     private void setupMediaItemDetails(){
@@ -67,8 +68,12 @@ public class PlaylistViewFragment extends Fragment implements OnClickInterface, 
     }
 
     private void setupRecyclerView(){
+        adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void observer(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             int color = AudioIndicator.Colors.getDefaultColor();
             adapter.setCurrentID(mediaItem.getId(), color);

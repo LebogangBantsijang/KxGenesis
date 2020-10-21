@@ -6,12 +6,9 @@ import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
@@ -20,25 +17,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SeekBar;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lebogang.audiofilemanager.Models.Audio;
-import com.lebogang.audiofilemanager.Models.Media;
-import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.Adapters.PlayerPagerAdapter;
 import com.lebogang.kxgenesis.CallBacksAndAnimations.BottomSheetChangeCallback;
 import com.lebogang.kxgenesis.CallBacksAndAnimations.DrawerChangeCallback;
 import com.lebogang.kxgenesis.CallBacksAndAnimations.PagerTransformer;
 import com.lebogang.kxgenesis.MusicService.MusicConnection;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
-import com.lebogang.kxgenesis.Utils.ExtractColor;
 import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
 import com.lebogang.kxgenesis.databinding.ActivityMainLayoutBinding;
 
 import java.util.List;
-
-import jp.wasabeef.blurry.Blurry;
 
 public class ActivityMain extends AppCompatActivity {
     private ActivityMainLayoutBinding binding;
@@ -46,21 +37,24 @@ public class ActivityMain extends AppCompatActivity {
     private BottomSheetBehavior bottomSheetBehavior;
     private ThreadHandler threadHandler;
     private PlayerPagerAdapter pagerAdapter = new PlayerPagerAdapter();
+    private Preferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSharedPreferences("Preferences", Context.MODE_PRIVATE).getBoolean("LightTheme", true))
-            setTheme(R.style.AppTheme);
-        else
-            setTheme(R.style.AppTheme_Dark);
+        preferences = new Preferences(this);
+        setTheme(preferences.getThemeResource());
         binding = ActivityMainLayoutBinding.inflate(getLayoutInflater());
+        checkPermissions();
+    }
+
+    private void checkPermissions(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED)
-            init();
+            initAllViews();
         else
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 21);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 21);
     }
 
     @Override
@@ -68,11 +62,11 @@ public class ActivityMain extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         int res = grantResults[0];
         if (res == PackageManager.PERMISSION_GRANTED)
-            init();
+            initAllViews();
         else finish();
     }
 
-    private void init(){
+    private void initAllViews(){
         setContentView(binding.getRoot());
         setSupportActionBar(binding.mainLayout.mainContent.toolbar);
         setupNavComponent();
@@ -106,6 +100,7 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     private void setupPager(){
+        pagerAdapter.setContext(this);
         pagerAdapter.setClickInterface(media -> {
             Audio audio = (Audio) media;
             MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(this);
@@ -132,7 +127,7 @@ public class ActivityMain extends AppCompatActivity {
             binding.mainLayout.mainPlayer.endDuration.setText(TimeUnitConvert.toMinutes(mediaItem.getAudioDuration()));
             binding.mainLayout.mainPlayer.wavSeekBar.setMax((int) mediaItem.getAudioDuration());
             pagerAdapter.setCurrentPlayingId(mediaItem.getId());
-            binding.mainLayout.mainPlayer.pager.setCurrentItem(pagerAdapter.getIndex(mediaItem.getId()));
+            binding.mainLayout.mainPlayer.pager.setCurrentItem(pagerAdapter.getIndex(mediaItem.getId()), true);
         });
     }
 
@@ -234,7 +229,7 @@ public class ActivityMain extends AppCompatActivity {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setTitle("Error");
         builder.setIcon(R.drawable.ic_info);
-        builder.setMessage("The Music service failed to start. The behaviour of the app is unknown at the point." +
+        builder.setMessage("The Music service failed to start. The behaviour of the app is unknown at this point." +
                 " It might crash or not respond, we don't know.\n\nBest solution is to restart the application");
         builder.create().show();
     }
