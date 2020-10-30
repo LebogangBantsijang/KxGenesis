@@ -123,7 +123,6 @@ public class MusicService extends MediaBrowserServiceCompat {
         @Override
         public void onStop() {
             super.onStop();
-            preferences.savePreferences();
             stopForeground(true);
             stopSelf();
         }
@@ -176,7 +175,9 @@ public class MusicService extends MediaBrowserServiceCompat {
                     }
                 return index;
             }else {
-                return (int) (Math.random() * (mediaItemList.size() -1));
+                if(mediaItemList != null)
+                    return (int) (Math.random() * (mediaItemList.size() -1));
+                return  -1;
             }
         }
 

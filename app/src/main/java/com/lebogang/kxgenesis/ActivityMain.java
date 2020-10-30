@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SeekBar;
@@ -38,14 +39,22 @@ public class ActivityMain extends AppCompatActivity {
     private ThreadHandler threadHandler;
     private PlayerPagerAdapter pagerAdapter = new PlayerPagerAdapter();
     private Preferences preferences;
+    public static int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = new Preferences(this);
         setTheme(preferences.getThemeResource());
+        color = getPrimaryColor();
         binding = ActivityMainLayoutBinding.inflate(getLayoutInflater());
         checkPermissions();
+    }
+
+    private int getPrimaryColor(){
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(android.R.attr.colorAccent, typedValue, true);
+        return typedValue.data;
     }
 
     private void checkPermissions(){
@@ -128,6 +137,15 @@ public class ActivityMain extends AppCompatActivity {
             binding.mainLayout.mainPlayer.wavSeekBar.setMax((int) mediaItem.getAudioDuration());
             pagerAdapter.setCurrentPlayingId(mediaItem.getId());
             binding.mainLayout.mainPlayer.pager.setCurrentItem(pagerAdapter.getIndex(mediaItem.getId()), true);
+            if(!binding.mainLayout.mainPlayer.wavSeekBar.isEnabled()){
+                binding.mainLayout.mainPlayer.wavSeekBar.setEnabled(true);
+                binding.mainLayout.mainPlayer.playImageButton.setEnabled(true);
+                binding.mainLayout.mainPlayer.playImageButton2.setEnabled(true);
+                binding.mainLayout.mainPlayer.prevImageButton.setEnabled(true);
+                binding.mainLayout.mainPlayer.playImageButton2.setEnabled(true);
+                binding.mainLayout.mainPlayer.nextImageButton.setEnabled(true);
+                binding.mainLayout.mainPlayer.nextImageButton2.setEnabled(true);
+            }
         });
     }
 
@@ -188,7 +206,8 @@ public class ActivityMain extends AppCompatActivity {
                 if (fromUser){
                     MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(ActivityMain.this);
                     if (mediaControllerCompat != null)
-                    mediaControllerCompat.getTransportControls().seekTo(progress);
+                        if (seekBar.getMax() > 0)
+                            mediaControllerCompat.getTransportControls().seekTo(progress);
                 }
             }
             @Override
@@ -264,6 +283,12 @@ public class ActivityMain extends AppCompatActivity {
                 break;
             case R.id.menu_volume:
                 navController.navigate(R.id.volume_fragment);
+                break;
+            case R.id.menu_recent:
+                navController.navigate(R.id.recent_fragment);
+                break;
+            case R.id.menu_about:
+                navController.navigate(R.id.about_fragment);
                 break;
         }
         return true;

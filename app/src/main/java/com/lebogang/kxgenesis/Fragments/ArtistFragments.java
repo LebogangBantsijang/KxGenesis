@@ -21,6 +21,7 @@ import com.lebogang.audiofilemanager.Models.Artist;
 import com.lebogang.audiofilemanager.Models.Media;
 import com.lebogang.kxgenesis.Adapters.ArtistAdapter;
 import com.lebogang.kxgenesis.Adapters.OnClickInterface;
+import com.lebogang.kxgenesis.Preferences;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.ViewModels.ArtistViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
@@ -31,6 +32,7 @@ public class ArtistFragments extends Fragment implements OnClickInterface, Artis
     private FragmentLayoutBinding binding;
     private ArtistAdapter adapter = new ArtistAdapter(this);
     private ArtistViewModel viewModel;
+    private Preferences preferences;
 
     public ArtistFragments() {
     }
@@ -39,6 +41,7 @@ public class ArtistFragments extends Fragment implements OnClickInterface, Artis
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentLayoutBinding.inflate(inflater);
+        preferences = new Preferences(getContext());
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(ArtistViewModel.class);
         viewModel.init(getContext());
@@ -53,9 +56,8 @@ public class ArtistFragments extends Fragment implements OnClickInterface, Artis
     }
 
     private void initRecyclerView(){
-        boolean type = getActivity().getSharedPreferences("Preferences", Context.MODE_PRIVATE).getBoolean("GridLayout", true);
-        adapter.setLayoutGrid(type);
-        if (type)
+        adapter.setLayoutGrid(preferences.isDisplayGrid());
+        if (preferences.isDisplayGrid())
             binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         else
             binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));

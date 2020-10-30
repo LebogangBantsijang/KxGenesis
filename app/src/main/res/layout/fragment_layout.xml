@@ -10,14 +10,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarAlwaysDrawVerticalTrack="true" />
-
-    <!--<com.futuremind.recyclerviewfastscroll.FastScroller
-        android:id="@+id/fastscrollView"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_marginEnd="8dp"/>-->
+        android:scrollbars="vertical"
+        android:scrollbarSize="8dp"
+        android:fadeScrollbars="true"
+        android:scrollbarStyle="insideOverlay"/>
 
 </FrameLayout>

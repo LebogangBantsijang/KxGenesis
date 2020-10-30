@@ -43,10 +43,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initDisplayChips(){
-        if (preferences.isDisplayGrid())
-            binding.chipGroup.check(R.id.multiLineChip);
-        else
-            binding.chipGroup.check(R.id.singleLineChip);
+        binding.chipGroup.check(preferences.isDisplayGrid()? R.id.multiLineChip: R.id.singleLineChip);
         binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.multiLineChip)
                 preferences.setDisplayGrid(true);
@@ -56,22 +53,46 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initThemeChips(){
-        if (preferences.isThemeLight())
-            binding.themeChipGroup.check(R.id.lightThemeChip);
-        else
-            binding.themeChipGroup.check(R.id.darkThemeChip);
-        binding.themeChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.lightThemeChip)
-                preferences.setThemeLight(true);
-            else
-                preferences.setThemeLight(false);
-            getActivity().recreate();
-        });
+        binding.themeSwitch.setChecked(preferences.isThemeLight());
+        binding.themeSwitch.setOnCheckedChangeListener((buttonView, isChecked)-> preferences.setThemeLight(isChecked));
+
+        switch (preferences.getThemeIndex()){
+            case 0 :
+                binding.themeColorChipGroup.check(R.id.colorOneChip);
+                break;
+            case 1 :
+                binding.themeColorChipGroup.check(R.id.colorTwoChip);
+                break;
+            case 2 :
+                binding.themeColorChipGroup.check(R.id.colorThreeChip);
+                break;
+            case 3 :
+                binding.themeColorChipGroup.check(R.id.colorFourChip);
+                break;
+            case 4:
+                binding.themeColorChipGroup.check(R.id.colorFiveChip);
+                break;
+        }
+
+        binding.themeColorChipGroup.setOnCheckedChangeListener(((group, checkedId) -> {
+            switch (checkedId){
+                case R.id.colorOneChip :
+                    preferences.setThemeIndex(0);
+                    break;
+                case R.id.colorTwoChip :
+                    preferences.setThemeIndex(1);
+                    break;
+                case R.id.colorThreeChip :
+                    preferences.setThemeIndex(2);
+                    break;
+                case R.id.colorFourChip :
+                    preferences.setThemeIndex(3);
+                    break;
+                case R.id.colorFiveChip :
+                    preferences.setThemeIndex(4);
+                    break;
+            }
+        }));
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        preferences.savePreferences();
-    }
 }

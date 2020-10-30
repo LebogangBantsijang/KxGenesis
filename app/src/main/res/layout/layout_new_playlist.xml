@@ -15,6 +15,8 @@
         android:gravity="center"
         android:minHeight="?actionBarSize"
         android:text="New Playlist"
+        android:textStyle="bold"
+        android:textColor="?colorPrimary"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         />
 
@@ -50,7 +52,8 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/shaper_rectangle_round_corners_14dp"
                 android:backgroundTint="?attr/colorButtonNormal"
-                android:drawableLeft="@drawable/ic_playlist_24dp"
+                android:drawableLeft="@drawable/ic_add_list"
+                android:drawableTint="?colorPrimary"
                 android:drawablePadding="8dp"
                 android:hint="new playlist"
                 android:minHeight="40dp"

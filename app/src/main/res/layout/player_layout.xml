@@ -73,7 +73,7 @@
                 android:text=""
                 android:layout_marginBottom="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="?android:textColorSecondary" />
+                android:textColor="?colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="6dp"
+                    app:tint="?colorPrimary"
                     app:srcCompat="@drawable/ic_repeat_off" />
 
                 <SeekBar
@@ -99,6 +100,8 @@
                     android:layout_weight="1"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
+                    android:enabled="false"
+                    android:max="0"
                     android:progressTint="?colorPrimary"
                     android:thumbTint="?colorPrimary" />
 
@@ -108,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="6dp"
+                    app:tint="?colorPrimary"
                     app:srcCompat="@drawable/ic_shuffle_off" />
 
             </LinearLayout>
@@ -139,6 +143,7 @@
                     android:background="@null"
                     android:elevation="4dp"
                     android:padding="12dp"
+                    android:enabled="false"
                     app:srcCompat="@drawable/ic_prev_32dp" />
 
                 <ImageButton
@@ -151,6 +156,7 @@
                     android:outlineAmbientShadowColor="?colorPrimary"
                     android:outlineSpotShadowColor="?colorPrimary"
                     android:padding="8dp"
+                    android:enabled="false"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/ic_play_56dp"
                     app:tint="?colorPrimary" />
@@ -162,6 +168,7 @@
                     android:background="@null"
                     android:elevation="4dp"
                     android:padding="12dp"
+                    android:enabled="false"
                     app:srcCompat="@drawable/ic_next_32dp" />
 
                 <TextView
@@ -226,7 +233,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="?android:textColorSecondaryInverseNoDisable" />
+                android:textColor="?colorPrimary" />
         </LinearLayout>
 
         <ImageButton
@@ -236,6 +243,7 @@
             android:layout_marginEnd="4dp"
             android:background="@null"
             android:padding="12dp"
+            android:enabled="false"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_prev" />
 
@@ -246,6 +254,7 @@
             android:layout_marginEnd="4dp"
             android:background="@null"
             android:padding="8dp"
+            android:enabled="false"
             app:srcCompat="@drawable/ic_circled_play"
             app:tint="?colorPrimary" />
 
@@ -256,6 +265,7 @@
             android:layout_marginEnd="16dp"
             android:background="@null"
             android:padding="12dp"
+            android:enabled="false"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_next" />
     </LinearLayout>

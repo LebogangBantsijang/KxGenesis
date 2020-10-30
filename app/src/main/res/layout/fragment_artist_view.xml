@@ -71,7 +71,7 @@
                         android:maxLines="2"
                         android:text="Artist"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="?colorPrimary" />
 
                     <TextView
                         android:id="@+id/numSongsTextView"
@@ -114,13 +114,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?colorPrimary"
                     android:text="Albums From Artist"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="112dp"
                     android:layout_marginTop="4dp"
+                    android:scrollbars="horizontal"
+                    android:scrollbarSize="8dp"
+                    android:fadeScrollbars="true"
                     android:id="@+id/recyclerViewArtists"/>
 
             </LinearLayout>

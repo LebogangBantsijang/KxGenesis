@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="Playlist"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="?colorPrimary" />
         </LinearLayout>
 
     </LinearLayout>
@@ -86,7 +86,7 @@
                 android:focusable="auto"
                 android:padding="16dp"
                 android:text="Edit playlist"
-                app:drawableTint="?attr/colorPrimary" />
+                app:drawableTint="?colorPrimary" />
 
             <TextView
                 android:id="@+id/removeItems"

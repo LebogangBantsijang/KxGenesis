@@ -28,6 +28,10 @@ public class AlbumViewModel extends ViewModel implements AlbumCallbacks{
         albumManager.registerCallbacks(owner,this);
     }
 
+    public AlbumManager getAlbumManager() {
+        return albumManager;
+    }
+
     @Override
     public void onQueryComplete(List<Album> albumList) {
         if (list.size() != albumList.size()) {

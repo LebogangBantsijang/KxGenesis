@@ -72,7 +72,8 @@ public class NotificationHandler {
         builder.setCategory(NotificationCompat.CATEGORY_TRANSPORT);
         builder.setShowWhen(false);
         builder.setContentText(mediaItem.getTitle());
-        builder.setContentTitle(mediaItem.getArtistTitle() + " - " + mediaItem.getAlbumTitle());
+        builder.setContentTitle(mediaItem.getArtistTitle() != null? mediaItem.getArtistTitle():"unknown" + " - "
+                + mediaItem.getAlbumTitle()!= null? mediaItem.getAlbumTitle(): "unknown");
         Bitmap bitmap = ExtractColor.getBitmap(context, mediaItem.getAlbumArtUri());
         builder.setLargeIcon(bitmap);
         builder.setSilent(true);

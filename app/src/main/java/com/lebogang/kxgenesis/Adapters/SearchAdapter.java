@@ -116,11 +116,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
                 }
                 searchItems.clear();
                 for (Audio item:list){
-                    if (item.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())
-                            || item.getAlbumTitle().toLowerCase().contains(constraint.toString().toLowerCase())
-                            || item.getArtistTitle().toLowerCase().contains(constraint.toString().toLowerCase())){
-                        searchItems.add(item);
-                    }
+                    if (item.getTitle() != null && item.getAlbumTitle() != null && item.getArtistTitle() != null)
+                        if (item.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())
+                                || item.getAlbumTitle().toLowerCase().contains(constraint.toString().toLowerCase())
+                                || item.getArtistTitle().toLowerCase().contains(constraint.toString().toLowerCase())){
+                            searchItems.add(item);
+                        }
                 }
                 return filterResults;
             }

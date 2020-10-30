@@ -9,9 +9,9 @@
         />
 
     <item
-        android:id="@+id/settings_fragment"
-        android:icon="@drawable/ic_settings_3"
-        android:title="Settings" />
+        android:id="@+id/recent_fragment"
+        android:icon="@drawable/ic_time"
+        android:title="Recently Added"/>
 
     <item
         android:id="@+id/volume_fragment"
@@ -19,9 +19,9 @@
         android:title="Volume Control" />
 
     <item
-        android:id="@+id/recent_fragment"
-        android:icon="@drawable/ic_time"
-        android:title="Recent Items"/>
+        android:id="@+id/settings_fragment"
+        android:icon="@drawable/ic_settings_3"
+        android:title="Settings" />
 
     <item
         android:id="@+id/about_fragment"

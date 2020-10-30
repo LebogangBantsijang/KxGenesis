@@ -1,6 +1,7 @@
 package com.lebogang.kxgenesis.Fragments;
 
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.Models.Audio;
@@ -25,19 +25,18 @@ import com.lebogang.kxgenesis.Adapters.OnClickOptionsInterface;
 import com.lebogang.kxgenesis.Dialogs.AudioOptions;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
-import com.lebogang.kxgenesis.Utils.ExtractColor;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
 
 import java.util.List;
 
-public class SongsFragments extends Fragment implements OnClickInterface, OnClickOptionsInterface, AudioCallbacks {
+public class RecentSongsFragments extends Fragment implements OnClickInterface, OnClickOptionsInterface, AudioCallbacks {
 
     private FragmentLayoutBinding binding;
     private AudioAdapter adapter = new AudioAdapter(this, this);
     private AudioViewModel viewModel;
 
-    public SongsFragments() {
+    public RecentSongsFragments() {
     }
 
     @Nullable
@@ -47,6 +46,7 @@ public class SongsFragments extends Fragment implements OnClickInterface, OnClic
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(AudioViewModel.class);
         viewModel.init(getContext());
+        viewModel.getAudioManager().setSortOrder(MediaStore.Audio.Media.DATE_ADDED + " DESC");
         viewModel.registerCallback(this,this);
         return binding.getRoot();
     }

@@ -43,5 +43,6 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:padding="12dp"
+        app:tint="?colorControlNormal"
         app:srcCompat="@drawable/ic_menu" />
 </LinearLayout>

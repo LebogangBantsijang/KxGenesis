@@ -29,6 +29,10 @@ public class ArtistViewModel extends ViewModel implements ArtistCallbacks{
         artistManager.registerCallbacks(owner, this);
     }
 
+    public ArtistManager getArtistManager() {
+        return artistManager;
+    }
+
     @Override
     public void onQueryComplete(List<Artist> artistList) {
         if (list.size() != artistList.size()){

@@ -9,9 +9,12 @@
         </shape>
     </item>
 
-    <item android:width="156dp" android:height="156dp" android:gravity="center">
+    <item android:width="156dp"
+        android:height="156dp"
+        android:gravity="center">
         <inset
-            android:drawable="@drawable/ic_circled_play_logo"/>
+            android:drawable="@drawable/ic_circled_play_logo"
+            />
     </item>
 
 </layer-list>

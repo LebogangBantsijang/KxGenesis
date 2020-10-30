@@ -52,7 +52,7 @@
                         android:maxLines="2"
                         android:text="Playlist"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="?colorPrimary" />
 
                     <TextView
                         android:id="@+id/numSongsTextView"
@@ -87,6 +87,7 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:padding="16dp"
+                        android:tint="?colorPrimary"
                         app:srcCompat="@drawable/ic_playlist_light" />
                 </com.google.android.material.card.MaterialCardView>
 

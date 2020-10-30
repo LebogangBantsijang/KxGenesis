@@ -55,7 +55,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="?android:textColorSecondaryInverseNoDisable" />
+                android:textColor="?colorPrimary" />
 
             <TextView
                 android:id="@+id/durationTextView"

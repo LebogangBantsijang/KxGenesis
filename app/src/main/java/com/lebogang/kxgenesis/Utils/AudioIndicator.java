@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.TypedValue;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.palette.graphics.Palette;
 
 import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.kxgenesis.ActivityMain;
 import com.lebogang.kxgenesis.R;
 
 import java.io.FileNotFoundException;
@@ -34,7 +36,7 @@ public class AudioIndicator {
         private static Palette.Swatch swatch;
 
         protected static void setContext(Context context, Uri uri){
-            defaultColor = context.getResources().getColor(R.color.colorPrimary);
+            defaultColor = ActivityMain.color;
             windowColor = context.getResources().getColor(R.color.colorTranslucent);
             drawableTint = context.getResources().getColor(R.color.colorDrawableTint);
             Bitmap bitmap = getBitmap(context, uri);

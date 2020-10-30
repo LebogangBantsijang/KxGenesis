@@ -15,6 +15,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.audiofilemanager.Models.Media;
@@ -22,19 +24,21 @@ import com.lebogang.kxgenesis.ActivityMain;
 import com.lebogang.kxgenesis.Adapters.AudioAdapter;
 import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.Adapters.OnClickOptionsInterface;
+import com.lebogang.kxgenesis.Adapters.RecentPagerAdapter;
+import com.lebogang.kxgenesis.CallBacksAndAnimations.PagerTransformer;
 import com.lebogang.kxgenesis.Dialogs.AudioOptions;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
 import com.lebogang.kxgenesis.Utils.ExtractColor;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
+import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
 import com.lebogang.kxgenesis.databinding.FragmentRecentBinding;
 
 import java.util.List;
 
-public class RecentFragment extends Fragment implements OnClickInterface, OnClickOptionsInterface, AudioCallbacks {
+public class RecentFragment extends Fragment {
     private FragmentRecentBinding binding;
-    private AudioAdapter adapter = new AudioAdapter(this, this);
-    private AudioViewModel viewModel;
+    private RecentPagerAdapter pagerAdapter;
 
     public RecentFragment() {
     }
@@ -43,64 +47,30 @@ public class RecentFragment extends Fragment implements OnClickInterface, OnClic
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRecentBinding.inflate(inflater,container, false);
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(AudioViewModel.class);
-        viewModel.init(getContext());
-        viewModel.getAudioManager().setSortOrder(MediaStore.Audio.Media.DATE_ADDED + " DESC");
-        viewModel.registerCallback(this,this);
+        pagerAdapter = new RecentPagerAdapter(getChildFragmentManager(), getLifecycle());
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRecyclerView();
-        observer();
+        setupPager();
     }
 
-    private void initRecyclerView(){
-        adapter.setContext(getContext());
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerView.setAdapter(adapter);
+    private void setupPager(){
+        binding.pager.setAdapter(pagerAdapter);
+        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
+            switch (position){
+                case 0:
+                    tab.setText("Recent Songs");
+                    break;
+                case 1:
+                    tab.setText("Recent Albums");
+                    break;
+            }
+        }).attach();
+        binding.pager.setPageTransformer(new PagerTransformer(getContext()));
+        binding.pager.setOffscreenPageLimit(2);
     }
 
-    private void observer(){
-        AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = AudioIndicator.Colors.getDefaultColor();
-            adapter.setCurrentID(mediaItem.getId(), color);
-            int position = adapter.getItemPosition(mediaItem);
-            binding.recyclerView.scrollToPosition(position);
-        });
-    }
-
-    @Override
-    public void onQueryComplete(List<Audio> audioList) {
-        adapter.setList(audioList);
-        MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(getActivity());
-        if (mediaControllerCompat != null){
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("Items",adapter.getList());
-            mediaControllerCompat.getTransportControls().sendCustomAction("Act", bundle);
-        }
-    }
-
-    @Override
-    public void onClick(Media media) {
-        Audio audio = (Audio) media;
-        MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(getActivity());
-        if (mediaControllerCompat != null){
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("Item", audio);
-            mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
-            bundle.putParcelableArrayList("Items",adapter.getList());
-            mediaControllerCompat.getTransportControls().sendCustomAction("Act", bundle);
-            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
-        }
-    }
-
-    @Override
-    public void onOptionsClick(Media media) {
-        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
-        new AudioOptions(getContext(), navController).createDialog((Audio) media);
-    }
 }

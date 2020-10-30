@@ -1,10 +1,74 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="ThemeOne.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeTwo.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeTwo</item>
+        <item name="colorPrimaryDark">@color/themeTwo</item>
+        <item name="colorAccent">@color/themeTwo</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeThree.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeThree</item>
+        <item name="colorPrimaryDark">@color/themeThree</item>
+        <item name="colorAccent">@color/themeThree</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeFour.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeFour</item>
+        <item name="colorPrimaryDark">@color/themeFour</item>
+        <item name="colorAccent">@color/themeFour</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeFive.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeFive</item>
+        <item name="colorPrimaryDark">@color/themeFive</item>
+        <item name="colorAccent">@color/themeFive</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">#FFFFFF</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
@@ -22,11 +86,75 @@
     <style name="textColor" parent="TextAppearance.AppCompat.Small">
     </style>
 
-    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="ThemeOne.Dark" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+        <item name="android:statusBarColor">?colorSurface</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeTwo.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeTwo</item>
+        <item name="colorPrimaryDark">@color/themeTwo</item>
+        <item name="colorAccent">@color/themeTwo</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+        <item name="android:statusBarColor">?colorSurface</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeThree.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeThree</item>
+        <item name="colorPrimaryDark">@color/themeThree</item>
+        <item name="colorAccent">@color/themeThree</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+        <item name="android:statusBarColor">?colorSurface</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeFour.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeFour</item>
+        <item name="colorPrimaryDark">@color/themeFour</item>
+        <item name="colorAccent">@color/themeFour</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+        <item name="android:statusBarColor">?colorSurface</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:shadowColor">?attr/colorPrimary</item>
+        <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
+    </style>
+
+    <style name="ThemeFive.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/themeFive</item>
+        <item name="colorPrimaryDark">@color/themeFive</item>
+        <item name="colorAccent">@color/themeFive</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>

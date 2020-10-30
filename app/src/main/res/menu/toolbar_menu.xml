@@ -13,4 +13,11 @@
 
     <item android:title="Volume Control"
         android:id="@+id/menu_volume"/>
+
+    <item android:title="Recently Added"
+        android:id="@+id/menu_recent"/>
+
+    <item android:title="About"
+        android:id="@+id/menu_about"/>
+
 </menu>

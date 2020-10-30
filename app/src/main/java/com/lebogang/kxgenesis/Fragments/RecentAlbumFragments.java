@@ -1,7 +1,7 @@
 package com.lebogang.kxgenesis.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,25 +14,27 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.lebogang.audiofilemanager.GenreManagement.GenreCallbacks;
-import com.lebogang.audiofilemanager.Models.Genre;
+import com.lebogang.audiofilemanager.AlbumManagement.AlbumCallbacks;
+import com.lebogang.audiofilemanager.AlbumManagement.AlbumManager;
+import com.lebogang.audiofilemanager.Models.Album;
 import com.lebogang.audiofilemanager.Models.Media;
-import com.lebogang.kxgenesis.Adapters.GenreAdapter;
+import com.lebogang.kxgenesis.Adapters.AlbumAdapter;
 import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.Preferences;
 import com.lebogang.kxgenesis.R;
-import com.lebogang.kxgenesis.ViewModels.GenreViewModel;
+import com.lebogang.kxgenesis.ViewModels.AlbumViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
 
 import java.util.List;
 
-public class GenreFragments extends Fragment implements OnClickInterface, GenreCallbacks {
+public class RecentAlbumFragments extends Fragment implements OnClickInterface, AlbumCallbacks {
+
     private FragmentLayoutBinding binding;
-    private GenreAdapter adapter = new GenreAdapter(this);
-    private GenreViewModel viewModel;
+    private AlbumAdapter adapter = new AlbumAdapter(this);
+    private AlbumViewModel viewModel;
     private Preferences preferences;
 
-    public GenreFragments() {
+    public RecentAlbumFragments() {
     }
 
     @Nullable
@@ -41,9 +43,10 @@ public class GenreFragments extends Fragment implements OnClickInterface, GenreC
         binding = FragmentLayoutBinding.inflate(inflater);
         preferences = new Preferences(getContext());
         ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(GenreViewModel.class);
+        viewModel = provider.get(AlbumViewModel.class);
         viewModel.init(getContext());
-        viewModel.registerCallbacks(this,this);
+        viewModel.getAlbumManager().setSortOrder(MediaStore.Audio.Albums.LAST_YEAR + " DESC");
+        viewModel.registerCallbacks(this, getViewLifecycleOwner());
         return binding.getRoot();
     }
 
@@ -54,25 +57,26 @@ public class GenreFragments extends Fragment implements OnClickInterface, GenreC
     }
 
     private void initRecyclerView(){
+        adapter.setContext(getContext());
         adapter.setLayoutGrid(preferences.isDisplayGrid());
         if (preferences.isDisplayGrid())
-            binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+            binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
         else
             binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
         binding.recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void onClick(Media media) {
-        Genre genre = (Genre) media;
-        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("Genre", genre);
-        navController.navigate(R.id.genre_view_fragment, bundle);
+    public void onQueryComplete(List<Album> albumList) {
+        adapter.setList(AlbumManager.groupByName(albumList));
     }
 
     @Override
-    public void onQueryComplete(List<Genre> genreList) {
-        adapter.setList(genreList);
+    public void onClick(Media media) {
+        Album album = (Album) media;
+        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("Album", album);
+        navController.navigate(R.id.album_view_fragment, bundle);
     }
 }

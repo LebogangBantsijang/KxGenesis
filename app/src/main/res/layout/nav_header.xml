@@ -8,5 +8,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/splash"/>
+        app:tint="?colorPrimary"
+        app:srcCompat="@drawable/ic_circled_play_logo"/>
 </FrameLayout>

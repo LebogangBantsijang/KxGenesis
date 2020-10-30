@@ -17,7 +17,7 @@
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:layout_marginStart="12dp"
-        app:cardElevation="0dp">
+        app:cardElevation="1dp">
 
         <ImageView
             android:id="@+id/imageView"

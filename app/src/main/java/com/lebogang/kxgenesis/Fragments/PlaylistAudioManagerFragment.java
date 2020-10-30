@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,8 +66,11 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
                 long id = adapter.getCheckedItems().get(x).getId();
                 audioIds[x] = Long.toString(id);
             }
-            if(audioIds.length > 0 )
+            if(audioIds.length > 0 ){
                 playlistFileManager.deleteAudioFromPlaylist(playlist.getId(), audioIds);
+                Toast.makeText(getContext(), "Items Removed", Toast.LENGTH_SHORT).show();
+            }else
+                Toast.makeText(getContext(), "Operation Failed", Toast.LENGTH_SHORT).show();
         });
     }
 

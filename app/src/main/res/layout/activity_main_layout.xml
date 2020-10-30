@@ -20,6 +20,6 @@
         android:backgroundTint="?colorSurface"
         app:elevation="0dp"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/colorPrimary"
+        app:itemIconTint="?colorPrimary"
         app:menu="@menu/main_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>
