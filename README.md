@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/profile-image.png" height="56">
 
 # KxGenesis
-![API](https://img.shields.io/badge/Android-21+-brightgreen.svg) ![](https://img.shields.io/badge/Download-1.0.2-blue.svg)
+![API](https://img.shields.io/badge/Android-24+-brightgreen.svg) ![](https://img.shields.io/badge/Download-1.0.2-blue.svg)
 
 ![Logo](https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png)
 
@@ -13,11 +13,11 @@ Stylish android music player without ads.
 
 | Interface | | | |
 | :---  | :---  | :---  | :---  |
-| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140157_com.lebogang.kxgenesis.jpg"  height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140307_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140212_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140358_com.lebogang.kxgenesis.jpg" height="400"> |
+| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011550_com.lebogang.kxgenesis.jpg"  height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011647_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011722_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011759_com.lebogang.kxgenesis.jpg" height="400"> |
 
 | Themes | | | |
 | :---  | :--- |:---  | :--- |
-| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140034_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_141353_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_140049_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201019_145445_com.lebogang.kxgenesis.jpg" height="400"> |
+| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011951_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011832_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_012017_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011852_com.lebogang.kxgenesis.jpg" height="400"> |
 
 
 ## Features
@@ -30,14 +30,14 @@ Stylish android music player without ads.
 * ViewModel
 * Material Design
 * Glide
-* Now playing high lighting
+* Now playing highlighting
 * Search
 * Adjustable Item display
 * Dark/Light Theme
 * Now Playing Notification
 * And the list goes on.
 
-I am trying my best to bring you the best user experience. The app is regularly being updated for bug fixes and new features.
+I aim to bring you the best user experience. The app will be regularly being updated for bug fixes and new features.
 
 ### Upcoming updates
 
