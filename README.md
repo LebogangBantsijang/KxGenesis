@@ -7,7 +7,7 @@
 
 ## Andoid Music Player
 
-Stylish android music player without ads.
+Stylish android music player without ads. Keep in mind that this is the first android app I have ever made.
 
 ## Screenshots
 
