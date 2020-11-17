@@ -1,18 +1,30 @@
+/*
+ * Copyright (c) 2020. Lebogang Bantsijang
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lebogang.kxgenesis.Fragments;
 
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.CompoundButton;
 
 import com.lebogang.kxgenesis.Equalizer.EffectsManager;
 import com.lebogang.kxgenesis.R;
@@ -39,11 +51,20 @@ public class VolumeControlFragment extends Fragment implements AudioEffect.OnCon
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         effectsManager = new EffectsManager();
-        effectsManager.setControlStatusListener(this);
-        setupView();
+        try {
+            effectsManager.setControlStatusListener(this);
+            setupView();
+        } catch (Exception e) {
+            endThisShit();
+        }
     }
 
-    private void setupView(){
+    private void endThisShit(){
+        Toast.makeText(requireActivity(),"Failed to start effect engine", Toast.LENGTH_LONG).show();
+        requireActivity().onBackPressed();
+    }
+
+    private void setupView() throws Exception {
         binding.switchEff.setChecked(effectsManager.isEnabled());
         binding.switchEff.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -64,13 +85,17 @@ public class VolumeControlFragment extends Fragment implements AudioEffect.OnCon
         binding.volumeCroller.setOnCrollerChangeListener(new OnCrollerChangeListener() {
             @Override
             public void onProgressChanged(Croller croller, int progress) {
-                if (effectsManager.isEnabled()){
-                    effectsManager.setLoudness(progress);
-                    if (progress >= 500){
-                        binding.view.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                try {
+                    if (effectsManager.isEnabled()){
+                        effectsManager.setLoudness(progress);
+                        if (progress >= 500){
+                            binding.view.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                        }
+                        else
+                            binding.view.setBackgroundColor(getResources().getColor(R.color.colorTranslucent));
                     }
-                    else
-                        binding.view.setBackgroundColor(getResources().getColor(R.color.colorTranslucent));
+                } catch (Exception e) {
+                    endThisShit();
                 }
             }
             @Override
@@ -78,8 +103,12 @@ public class VolumeControlFragment extends Fragment implements AudioEffect.OnCon
             }
             @Override
             public void onStopTrackingTouch(Croller croller) {
-                if (!effectsManager.isEnabled())
-                    croller.setProgress(0);
+                try {
+                    if (!effectsManager.isEnabled())
+                        croller.setProgress(0);
+                } catch (Exception e) {
+                    endThisShit();
+                }
             }
         });
     }

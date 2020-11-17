@@ -1,7 +1,23 @@
+/*
+ * Copyright (c) 2020. Lebogang Bantsijang
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lebogang.kxgenesis.Adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,17 +99,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
     protected void highlight(SearchAdapter.Holder holder, Audio audioItem, Context context){
         if (audioItem.getId() == currentItemId){
             holder.binding.lottieAnimationView.setVisibility(View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Drawable drawable = context.getDrawable(R.drawable.shaper_rectangle_round_corners_4dp_with_cp);
-                drawable.setTint(color);
-                holder.binding.getRoot().setBackground(drawable);
-                holder.binding.titleTextView.setTextAppearance(R.style.LightTextColor);
-            }
+            GradientDrawable gradientDrawable = (GradientDrawable)
+                    context.getDrawable(R.drawable.shaper_rectangle_round_corners_4dp_with_cp);
+            gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+            gradientDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+            gradientDrawable.setColors(new int[]{color, context.getResources().getColor(R.color.colorTranslucent, context.getTheme())});
+            holder.binding.getRoot().setBackground(gradientDrawable);
+            holder.binding.titleTextView.setTextAppearance(R.style.LightTextColor);
         }else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                holder.binding.getRoot().setBackgroundResource(R.drawable.shaper_rectangle_round_corners_4dp_with_bg);
-                holder.binding.titleTextView.setTextAppearance(R.style.textColor);
-            }
+            holder.binding.getRoot().setBackgroundResource(R.drawable.shaper_rectangle_round_corners_4dp_with_bg);
+            holder.binding.titleTextView.setTextAppearance(R.style.textColor);
             holder.binding.lottieAnimationView.setVisibility(View.GONE);
         }
     }

@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2020. Lebogang Bantsijang
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lebogang.kxgenesis.Fragments;
 
 import android.os.Bundle;
@@ -21,14 +36,13 @@ import com.lebogang.audiofilemanager.Models.Artist;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.audiofilemanager.Models.Media;
 import com.lebogang.kxgenesis.ActivityMain;
+import com.lebogang.kxgenesis.Adapters.ArtistAlbumsAdapter;
 import com.lebogang.kxgenesis.Adapters.AudioAdapter;
 import com.lebogang.kxgenesis.Adapters.OnClickInterface;
 import com.lebogang.kxgenesis.Adapters.OnClickOptionsInterface;
-import com.lebogang.kxgenesis.Adapters.TotalArtistAlbumsAdapter;
 import com.lebogang.kxgenesis.Dialogs.AudioOptions;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
-import com.lebogang.kxgenesis.Utils.ExtractColor;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentArtistViewBinding;
 
@@ -38,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 public class ArtistViewFragment extends Fragment implements OnClickInterface, OnClickOptionsInterface, AudioCallbacks {
     private FragmentArtistViewBinding binding;
     private AudioAdapter adapter = new AudioAdapter(this, this);
-    private TotalArtistAlbumsAdapter totalArtistAlbumsAdapter = new TotalArtistAlbumsAdapter();
+    private ArtistAlbumsAdapter artistAlbumsAdapter = new ArtistAlbumsAdapter();
     private Artist artist;
     private AudioViewModel viewModel;
 
@@ -76,8 +90,8 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerViewArtists.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL
                 ,false));
-        totalArtistAlbumsAdapter.setContext(getContext());
-        totalArtistAlbumsAdapter.setClickInterface( media -> {
+        artistAlbumsAdapter.setContext(getContext());
+        artistAlbumsAdapter.setClickInterface(media -> {
             Audio audio = (Audio) media;
             AlbumManager albumManager = new AlbumManager(getContext());
             Album album = albumManager.getAlbumItemWithName(audio.getAlbumTitle());
@@ -110,8 +124,8 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
             duration += audio.getAudioDuration();
         }
         binding.durationTextView.setText("duration: " + TimeUnit.MILLISECONDS.toMinutes(duration) + "min");
-        totalArtistAlbumsAdapter.setList(audioList);
-        binding.recyclerViewArtists.setAdapter(totalArtistAlbumsAdapter);
+        artistAlbumsAdapter.setList(audioList);
+        binding.recyclerViewArtists.setAdapter(artistAlbumsAdapter);
     }
 
     @Override

@@ -1,10 +1,24 @@
+/*
+ * Copyright (c) 2020. Lebogang Bantsijang
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lebogang.kxgenesis.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +34,13 @@ import com.lebogang.kxgenesis.Adapters.PlaylistAudioManagerAdapter;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistItemManagerBinding;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PlaylistAudioManagerFragment extends Fragment implements AudioCallbacks {
     private FragmentPlaylistItemManagerBinding binding;
     private Playlist playlist;
     private PlaylistAudioManagerAdapter adapter = new PlaylistAudioManagerAdapter();
-    private PlaylistManager playlistFileManager;
     private AudioViewModel viewModel;
 
     public PlaylistAudioManagerFragment() {
@@ -36,7 +50,6 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlaylistItemManagerBinding.inflate(inflater, container, false);
-        playlistFileManager = new PlaylistManager(getContext());
         playlist = getArguments().getParcelable("Playlist");
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(AudioViewModel.class);
@@ -49,7 +62,7 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
-        initDeleteBTN();
+        setupDeleteBtn();
     }
 
     private void setupRecyclerView(){
@@ -59,18 +72,15 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void initDeleteBTN(){
+    private void setupDeleteBtn(){
         binding.saveButton.setOnClickListener(v->{
-            String[] audioIds = new String[adapter.getCheckedItems().size()];
-            for (int x = 0; x < adapter.getCheckedItems().size(); x++){
-                long id = adapter.getCheckedItems().get(x).getId();
-                audioIds[x] = Long.toString(id);
-            }
-            if(audioIds.length > 0 ){
-                playlistFileManager.deleteAudioFromPlaylist(playlist.getId(), audioIds);
-                Toast.makeText(getContext(), "Items Removed", Toast.LENGTH_SHORT).show();
-            }else
-                Toast.makeText(getContext(), "Operation Failed", Toast.LENGTH_SHORT).show();
+            HashMap<Long, Audio> map = adapter.getCheckedItems();
+            PlaylistManager playlistManager = new PlaylistManager(getContext());
+            map.forEach((aLong, audio) -> {
+                boolean b = playlistManager.deleteAudioFromPlaylist(playlist.getId(), audio.getId());
+                if (b)
+                    adapter.removeItem(audio);
+            });
         });
     }
 

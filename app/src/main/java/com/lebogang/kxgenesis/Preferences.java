@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2020. Lebogang Bantsijang
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lebogang.kxgenesis;
 
 import android.content.Context;
@@ -5,12 +20,9 @@ import android.content.SharedPreferences;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 public class Preferences {
-
-    private Context context;
     private SharedPreferences sharedPreferences;
 
     public Preferences(Context context) {
-        this.context = context;
         sharedPreferences = context.getSharedPreferences("Preferences", Context.MODE_PRIVATE);
     }
 
@@ -19,19 +31,19 @@ public class Preferences {
         boolean isThemeLight = isThemeLight();
         if (isThemeLight){
             switch (themeIndex){
-                case 1: return R.style.ThemeTwo_Light;
+                case 0: return R.style.ThemeOne_Light;
                 case 2: return R.style.ThemeThree_Light;
                 case 3: return R.style.ThemeFour_Light;
                 case 4: return R.style.ThemeFive_Light;
-                default: return R.style.ThemeOne_Light;
+                default: return R.style.ThemeTwo_Light;
             }
         } else {
             switch (themeIndex){
-                case 1: return R.style.ThemeTwo_Dark;
+                case 0: return R.style.ThemeOne_Dark;
                 case 2: return R.style.ThemeThree_Dark;
                 case 3: return R.style.ThemeFour_Dark;
                 case 4: return R.style.ThemeFive_Dark;
-                default: return R.style.ThemeOne_Dark;
+                default: return R.style.ThemeTwo_Dark;
             }
         }
     }
@@ -55,7 +67,7 @@ public class Preferences {
     }
 
     public int getThemeIndex() {
-        return sharedPreferences.getInt("ThemeIndex", 0);
+        return sharedPreferences.getInt("ThemeIndex", 1);
     }
 
     public void setThemeIndex(int themeIndex) {

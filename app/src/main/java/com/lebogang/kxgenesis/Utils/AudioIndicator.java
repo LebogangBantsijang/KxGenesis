@@ -1,10 +1,24 @@
+/*
+ * Copyright (c) 2020. Lebogang Bantsijang
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lebogang.kxgenesis.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.TypedValue;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.palette.graphics.Palette;
@@ -21,7 +35,7 @@ public class AudioIndicator {
     private static Palette.Swatch swatch;
 
     public static void setCurrentItem(Context context, Audio item) {
-        Colors.setContext(context, item.getAlbumArtUri());
+        Colors.setContext(context.getApplicationContext(), item.getAlbumArtUri());
         currentItem.setValue(item);
     }
 
@@ -37,15 +51,15 @@ public class AudioIndicator {
 
         protected static void setContext(Context context, Uri uri){
             defaultColor = ActivityMain.color;
-            windowColor = context.getResources().getColor(R.color.colorTranslucent);
-            drawableTint = context.getResources().getColor(R.color.colorDrawableTint);
-            Bitmap bitmap = getBitmap(context, uri);
+            windowColor = context.getApplicationContext().getResources().getColor(R.color.colorTranslucent);
+            drawableTint = context.getApplicationContext().getResources().getColor(R.color.colorDrawableTint);
+            Bitmap bitmap = getBitmap(context.getApplicationContext(), uri);
             if (bitmap != null){
-                swatch = Palette.from(bitmap).generate().getMutedSwatch();
+                swatch = Palette.from(bitmap).generate().getDarkVibrantSwatch();
                 if (swatch == null)
-                    swatch = Palette.from(bitmap).generate().getDominantSwatch();
+                    swatch = Palette.from(bitmap).generate().getLightVibrantSwatch();
                 if (swatch == null)
-                    swatch = Palette.from(bitmap).generate().getVibrantSwatch();
+                    swatch = Palette.from(bitmap).generate().getMutedSwatch();
             } else
                 swatch = null;
         }

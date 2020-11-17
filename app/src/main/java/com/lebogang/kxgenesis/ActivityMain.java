@@ -1,11 +1,19 @@
-package com.lebogang.kxgenesis;
+/*
+ * Copyright (c) 2020. Lebogang Bantsijang
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
+package com.lebogang.kxgenesis;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -18,13 +26,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SeekBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.Adapters.PlayerPagerAdapter;
-import com.lebogang.kxgenesis.CallBacksAndAnimations.BottomSheetChangeCallback;
-import com.lebogang.kxgenesis.CallBacksAndAnimations.DrawerChangeCallback;
-import com.lebogang.kxgenesis.CallBacksAndAnimations.PagerTransformer;
+import com.lebogang.kxgenesis.Animations.BottomSheetAnimation;
+import com.lebogang.kxgenesis.Animations.DrawerAnimation;
+import com.lebogang.kxgenesis.Animations.PagerTransformer;
 import com.lebogang.kxgenesis.MusicService.MusicConnection;
 import com.lebogang.kxgenesis.Utils.AudioIndicator;
 import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
@@ -95,13 +110,13 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     private void setupDrawer(){
-        DrawerChangeCallback drawerChangeCallback = new DrawerChangeCallback(binding.mainLayout.getRoot());
-        binding.drawerLayout.addDrawerListener(drawerChangeCallback);
+        DrawerAnimation drawerAnimation = new DrawerAnimation(binding.mainLayout.getRoot());
+        binding.drawerLayout.addDrawerListener(drawerAnimation);
     }
 
     private void setupBottomSheets(){
         bottomSheetBehavior = BottomSheetBehavior.from(binding.mainLayout.mainPlayer.getRoot());
-        BottomSheetChangeCallback callback = new BottomSheetChangeCallback(binding.mainLayout.mainContent.getRoot()
+        BottomSheetAnimation callback = new BottomSheetAnimation(binding.mainLayout.mainContent.getRoot()
                 ,binding.mainLayout.mainPlayer.peekView, bottomSheetBehavior);
         bottomSheetBehavior.addBottomSheetCallback(callback);
         binding.mainLayout.mainPlayer.collapseImageButtonBack.setOnClickListener(v->
@@ -134,6 +149,7 @@ public class ActivityMain extends AppCompatActivity {
             binding.mainLayout.mainPlayer.firstSubtitle.setText(mediaItem.getArtistTitle());
             binding.mainLayout.mainPlayer.secondSubTitle.setText(mediaItem.getAlbumTitle());
             binding.mainLayout.mainPlayer.endDuration.setText(TimeUnitConvert.toMinutes(mediaItem.getAudioDuration()));
+            binding.mainLayout.mainPlayer.progressBar.setMax((int) mediaItem.getAudioDuration());
             binding.mainLayout.mainPlayer.wavSeekBar.setMax((int) mediaItem.getAudioDuration());
             pagerAdapter.setCurrentPlayingId(mediaItem.getId());
             binding.mainLayout.mainPlayer.pager.setCurrentItem(pagerAdapter.getIndex(mediaItem.getId()), true);
