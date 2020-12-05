@@ -30,7 +30,7 @@ Stylish android music player without ads. Keep in mind that this is the first an
 * Now Playing Notification
 * And the list goes on.
 
-I aim to bring you the best user experience. The app will be regularly being updated for bug fixes and new features.
+The app will be regularly being updated for bug fixes and new features.
 
 ### Upcoming updates
 
