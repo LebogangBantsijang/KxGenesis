@@ -31,6 +31,7 @@ Stylish android music player without ads. Keep in mind that this is the first an
 * And the list goes on.
 
 The app will be regularly being updated for bug fixes and new features.
+[Video Preview](https://www.youtube.com/embed/QWdGqH-Y-s0)
 
 ### Upcoming updates
 
