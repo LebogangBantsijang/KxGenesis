@@ -11,14 +11,7 @@ Stylish android music player without ads. Keep in mind that this is the first an
 
 ## Screenshots
 
-| Interface | | | |
-| :---  | :---  | :---  | :---  |
-| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011550_com.lebogang.kxgenesis.jpg"  height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011647_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011722_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011759_com.lebogang.kxgenesis.jpg" height="400"> |
-
-| Themes | | | |
-| :---  | :--- |:---  | :--- |
-| <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011951_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011832_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_012017_com.lebogang.kxgenesis.jpg" height="400"> | <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011852_com.lebogang.kxgenesis.jpg" height="400"> |
-
+<img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201205_091952_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011647_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011951_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011759_com.lebogang.kxgenesis.jpg" height="480">
 
 ## Features
 * Volume Control
