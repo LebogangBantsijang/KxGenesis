@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.R;
 
 import java.util.ArrayList;
@@ -36,26 +37,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ContributingArtistAdapter extends RecyclerView.Adapter<ContributingArtistAdapter.Holder>{
-    private LinkedHashMap<String, Audio> hashMap = new LinkedHashMap<>();
+    private final LinkedHashMap<Long, Audio> linkedHashMap = new LinkedHashMap<>();
     private List<Audio> list = new ArrayList<>();
-    private Context context;
-    private OnClickInterface clickInterface;
+    private SongClickListener songClickListener;
 
     public void setList(List<Audio> list) {
         for (Audio audio: list){
-            if (!hashMap.containsKey(audio.getArtistTitle()))
-                this.hashMap.put(audio.getArtistTitle(), audio);
+            linkedHashMap.put(audio.getArtistId(), audio);
         }
-        this.list = new ArrayList<>(hashMap.values());
+        this.list = new ArrayList<>(linkedHashMap.values());
         notifyDataSetChanged();
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public void setClickInterface(OnClickInterface clickInterface) {
-        this.clickInterface = clickInterface;
+    public void setSongClickListener(SongClickListener songClickListener) {
+        this.songClickListener = songClickListener;
     }
 
     @NonNull
@@ -70,14 +65,10 @@ public class ContributingArtistAdapter extends RecyclerView.Adapter<Contributing
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Audio audio = list.get(position);
         holder.title.setText(audio.getArtistTitle());
-        Glide.with(context).load(audio.getAlbumArtUri())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+        Glide.with(holder.imageView).load(audio.getAlbumArtUri())
                 .error(R.drawable.ic_microphone)
                 .downsample(DownsampleStrategy.AT_MOST)
-                .dontAnimate()
-                .skipMemoryCache(true)
                 .into(holder.imageView)
-                .clearOnDetach()
                 .waitForLayout();
     }
 
@@ -94,7 +85,7 @@ public class ContributingArtistAdapter extends RecyclerView.Adapter<Contributing
             title = itemView.findViewById(R.id.titleTextView);
             imageView = itemView.findViewById(R.id.imageView);
             itemView.setOnClickListener(v->{
-                clickInterface.onClick(list.get(getAdapterPosition()));
+                songClickListener.onClick(list.get(getAdapterPosition()));
             });
         }
     }

@@ -18,21 +18,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_search"
-        android:title="Search"
-        app:showAsAction="always" />
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_sorting_options"
+        android:title="Settings" />
 
-    <item android:title="Settings"
-        android:id="@+id/menu_settings"/>
+    <item
+        android:id="@+id/menu_volume"
+        android:icon="@drawable/ic_round_volume_up_24"
+        android:title="Volume Control" />
 
-    <item android:title="Volume Control"
-        android:id="@+id/menu_volume"/>
-
-    <item android:title="Recently Added"
-        android:id="@+id/menu_recent"/>
-
-    <item android:title="About"
-        android:id="@+id/menu_about"/>
+    <item
+        android:id="@+id/menu_about"
+        android:icon="@drawable/ic_round_info_24"
+        android:title="About" />
 
 </menu>

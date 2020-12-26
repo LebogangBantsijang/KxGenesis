@@ -25,20 +25,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lebogang.audiofilemanager.Models.Playlist;
+import com.lebogang.kxgenesis.AppUtils.PlaylistClickListener;
 import com.lebogang.kxgenesis.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Holder>{
-    private Context context;
-    private OnClickInterface clickInterface;
-    private OnClickOptionsInterface clickOptionsInterface;
     private List<Playlist> list = new ArrayList<>();
+    private PlaylistClickListener playlistClickListener;
 
-    public PlaylistAdapter(OnClickInterface clickInterface, OnClickOptionsInterface clickOptionsInterface) {
-        this.clickInterface = clickInterface;
-        this.clickOptionsInterface = clickOptionsInterface;
+    public void setPlaylistClickListener(PlaylistClickListener playlistClickListener) {
+        this.playlistClickListener = playlistClickListener;
     }
 
     public void setList(List<Playlist> list) {
@@ -49,8 +47,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Holder
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_playlist_single_line, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_playlist_single_line, parent, false);
         return new Holder(view);
     }
 
@@ -71,10 +68,10 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Holder
             super(itemView);
             title = itemView.findViewById(R.id.titleTextView);
             itemView.setOnClickListener(v->{
-                clickInterface.onClick(list.get(getAdapterPosition()));
+                playlistClickListener.onClick(list.get(getAdapterPosition()));
             });
             itemView.findViewById(R.id.imageButton).setOnClickListener(v->{
-                clickOptionsInterface.onOptionsClick(list.get(getAdapterPosition()));
+                playlistClickListener.onClickOptions(list.get(getAdapterPosition()));
             });
         }
     }

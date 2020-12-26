@@ -29,30 +29,31 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.lebogang.audiofilemanager.AlbumManagement.AlbumManager;
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.Models.Album;
 import com.lebogang.audiofilemanager.Models.Artist;
 import com.lebogang.audiofilemanager.Models.Audio;
-import com.lebogang.audiofilemanager.Models.Media;
-import com.lebogang.kxgenesis.ActivityMain;
-import com.lebogang.kxgenesis.Adapters.ArtistAlbumsAdapter;
-import com.lebogang.kxgenesis.Adapters.AudioAdapter;
-import com.lebogang.kxgenesis.Adapters.OnClickInterface;
-import com.lebogang.kxgenesis.Adapters.OnClickOptionsInterface;
-import com.lebogang.kxgenesis.Dialogs.AudioOptions;
+import com.lebogang.kxgenesis.Adapters.ContributingAlbumsAdapter;
+import com.lebogang.kxgenesis.Adapters.SongsAdapter;
+import com.lebogang.kxgenesis.AppUtils.SongClickListener;
+import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
+import com.lebogang.kxgenesis.Dialogs.SongsDialog;
+import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
-import com.lebogang.kxgenesis.Utils.AudioIndicator;
+import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentArtistViewBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class ArtistViewFragment extends Fragment implements OnClickInterface, OnClickOptionsInterface, AudioCallbacks {
+public class ArtistViewFragment extends Fragment implements SongClickListener, SongDeleteListener, AudioCallbacks {
     private FragmentArtistViewBinding binding;
-    private AudioAdapter adapter = new AudioAdapter(this, this);
-    private ArtistAlbumsAdapter artistAlbumsAdapter = new ArtistAlbumsAdapter();
+    private final SongsAdapter songsAdapter = new SongsAdapter();
+    private final ContributingAlbumsAdapter contributingAlbumsAdapter = new ContributingAlbumsAdapter();
     private Artist artist;
     private AudioViewModel viewModel;
 
@@ -75,45 +76,74 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupMediaItemDetails();
-        setupRecyclerView();
+        initRecyclerView();
+        initBottomRecyclerView();
+        initOtherViews();
         observer();
+    }
+
+    private void initOtherViews(){
+        binding.backButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigateUp();
+        });
+        binding.expandView.setOnClickListener(v->{
+            ((MainActivity)requireActivity()).expandBottomSheets();
+        });
     }
 
     private void setupMediaItemDetails(){
         binding.titleTextView.setText(artist.getTitle());
-        //binding.subtitleTextView.setText(artist.getArtist());
     }
 
-    private void setupRecyclerView(){
-        adapter.setContext(getContext());
+    private void initRecyclerView(){
+        songsAdapter.setSongClickListener(this);
+        songsAdapter.setHideOptionsButton(true);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(songsAdapter);
+    }
+
+    private void initBottomRecyclerView(){
         binding.recyclerViewArtists.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL
                 ,false));
-        artistAlbumsAdapter.setContext(getContext());
-        artistAlbumsAdapter.setClickInterface(media -> {
-            Audio audio = (Audio) media;
-            AlbumManager albumManager = new AlbumManager(getContext());
-            Album album = albumManager.getAlbumItemWithName(audio.getAlbumTitle());
-            NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("Album", album);
-            navController.navigate(R.id.album_view_fragment, bundle);
+        binding.recyclerViewArtists.setAdapter(contributingAlbumsAdapter);
+        contributingAlbumsAdapter.setSongClickListener(new SongClickListener() {
+            @Override
+            public void onClick(Audio audio) {
+                AlbumManager albumManager = new AlbumManager(getContext());
+                Album album = albumManager.getAlbumItemWithName(audio.getAlbumTitle());
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Album", album);
+                navController.navigate(R.id.album_view_fragment, bundle);
+            }
+            @Override
+            public void onClickOptions(Audio audio) {
+            }
         });
     }
 
     private void observer(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             int color = AudioIndicator.Colors.getDefaultColor();
-            adapter.setCurrentID(mediaItem.getId(), color);
-            int position = adapter.getItemPosition(mediaItem);
+            songsAdapter.setAudioIdHighlightingColor(mediaItem.getId(), color);
+            int position = songsAdapter.getAudioPosition(mediaItem);
             binding.recyclerView.scrollToPosition(position);
+            binding.expandView.setVisibility(View.VISIBLE);
+            binding.titleTextTextSheet.setText(mediaItem.getTitle());
+            binding.subTitleTextViewSheet.setText(mediaItem.getAlbumTitle());
+            Glide.with(this)
+                    .load(mediaItem.getAlbumArtUri())
+                    .error(R.drawable.ic_music_light)
+                    .dontAnimate()
+                    .into(binding.coverImageView)
+                    .waitForLayout();
         });
     }
 
     @Override
     public void onQueryComplete(List<Audio> audioList) {
-        adapter.setList(audioList);
+        songsAdapter.setList(new ArrayList<>(audioList));
         initArtistDetails(audioList);
     }
 
@@ -124,27 +154,30 @@ public class ArtistViewFragment extends Fragment implements OnClickInterface, On
             duration += audio.getAudioDuration();
         }
         binding.durationTextView.setText("duration: " + TimeUnit.MILLISECONDS.toMinutes(duration) + "min");
-        artistAlbumsAdapter.setList(audioList);
-        binding.recyclerViewArtists.setAdapter(artistAlbumsAdapter);
+        contributingAlbumsAdapter.setList(audioList);
     }
 
     @Override
-    public void onClick(Media media) {
-        Audio audio = (Audio) media;
+    public void onClick(Audio audio) {
         MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(getActivity());
         if (mediaControllerCompat != null){
             Bundle bundle = new Bundle();
             bundle.putParcelable("Item", audio);
+            bundle.putParcelableArrayList("List",songsAdapter.getList());
             mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
-            bundle.putParcelableArrayList("Items",adapter.getList());
-            mediaControllerCompat.getTransportControls().sendCustomAction("Act", bundle);
-            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
+            ((MainActivity)getActivity()).setPagerData(songsAdapter.getList());
         }
     }
 
     @Override
-    public void onOptionsClick(Media media) {
-        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
-        new AudioOptions(getContext(), navController).createDialog((Audio) media);
+    public void onClickOptions(Audio audio) {
+        SongsDialog songsDialog = new SongsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
+        songsDialog.setSongDeleteListener(this);
+        songsDialog.createDialog(audio);
+    }
+
+    @Override
+    public void onDelete(Audio audio) {
+        songsAdapter.deleteAudio(audio);
     }
 }

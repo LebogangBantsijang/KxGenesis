@@ -27,23 +27,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.Models.Audio;
-import com.lebogang.audiofilemanager.Models.Media;
-import com.lebogang.kxgenesis.ActivityMain;
-import com.lebogang.kxgenesis.Adapters.OnClickInterface;
-import com.lebogang.kxgenesis.Adapters.SearchAdapter;
-import com.lebogang.kxgenesis.Utils.AudioIndicator;
+import com.lebogang.kxgenesis.Adapters.SongsAdapter;
+import com.lebogang.kxgenesis.AppUtils.SongClickListener;
+import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
+import com.lebogang.kxgenesis.Dialogs.SongsDialog;
+import com.lebogang.kxgenesis.MainActivity;
+import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentSearchBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements OnClickInterface, AudioCallbacks {
+public class SearchFragment extends Fragment implements SongClickListener, AudioCallbacks, SongDeleteListener {
     private FragmentSearchBinding binding;
-    private SearchAdapter adapter = new SearchAdapter(this);
+    private final SongsAdapter songsAdapter = new SongsAdapter();
     private AudioViewModel viewModel;
 
     public SearchFragment() {
@@ -65,6 +71,7 @@ public class SearchFragment extends Fragment implements OnClickInterface, AudioC
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
         setupEditText();
+        initViews();
     }
 
     private void setupEditText(){
@@ -72,43 +79,74 @@ public class SearchFragment extends Fragment implements OnClickInterface, AudioC
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                songsAdapter.getFilter().filter(s);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
 
     private void setupRecyclerView(){
-        adapter.setContext(getContext());
+        songsAdapter.setSongClickListener(this);
+        songsAdapter.setUserSearching(true);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(songsAdapter);
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             int color = AudioIndicator.Colors.getDefaultColor();
-            adapter.setCurrentID(mediaItem.getId(), color);
+            songsAdapter.setAudioIdHighlightingColor(mediaItem.getId(), color);
+            int position = songsAdapter.getAudioPosition(mediaItem);
+            binding.recyclerView.scrollToPosition(position);
+            binding.expandView.setVisibility(View.VISIBLE);
+            binding.titleTextTextSheet.setText(mediaItem.getTitle());
+            binding.subTitleTextViewSheet.setText(mediaItem.getAlbumTitle());
+            Glide.with(this)
+                    .load(mediaItem.getAlbumArtUri())
+                    .error(R.drawable.ic_music_light)
+                    .dontAnimate()
+                    .into(binding.coverImageView)
+                    .waitForLayout();
+        });
+    }
+
+    private void initViews(){
+        binding.expandView.setOnClickListener(v->{
+            ((MainActivity) requireActivity()).expandBottomSheets();
+        });
+        binding.backButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigateUp();
         });
     }
 
     @Override
     public void onQueryComplete(List<Audio> audioList) {
-        adapter.setList(audioList);
+        songsAdapter.setList(new ArrayList<>(audioList));
     }
 
     @Override
-    public void onClick(Media media) {
-        Audio audio = (Audio) media;
+    public void onClick(Audio audio) {
         MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(getActivity());
         if (mediaControllerCompat != null){
             Bundle bundle = new Bundle();
             bundle.putParcelable("Item", audio);
+            bundle.putParcelableArrayList("List", songsAdapter.getSearchList());
             mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
-            ((ActivityMain)getActivity()).setPagerData(adapter.getList());
+            ((MainActivity)getActivity()).setPagerData(songsAdapter.getList());
         }
+    }
+
+    @Override
+    public void onClickOptions(Audio audio) {
+        SongsDialog songsDialog = new SongsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
+        songsDialog.setSongDeleteListener(this);
+        songsDialog.createDialog(audio);
+    }
+
+    @Override
+    public void onDelete(Audio audio) {
+        songsAdapter.deleteAudio(audio);
     }
 }

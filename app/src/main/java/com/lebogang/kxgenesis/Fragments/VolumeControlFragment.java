@@ -25,6 +25,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.lebogang.kxgenesis.Equalizer.EffectsManager;
 import com.lebogang.kxgenesis.R;
@@ -50,6 +52,7 @@ public class VolumeControlFragment extends Fragment implements AudioEffect.OnCon
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initOtherViews();
         effectsManager = new EffectsManager();
         try {
             effectsManager.setControlStatusListener(this);
@@ -57,6 +60,13 @@ public class VolumeControlFragment extends Fragment implements AudioEffect.OnCon
         } catch (Exception e) {
             endThisShit();
         }
+    }
+
+    private void initOtherViews(){
+        binding.backButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigateUp();
+        });
     }
 
     private void endThisShit(){

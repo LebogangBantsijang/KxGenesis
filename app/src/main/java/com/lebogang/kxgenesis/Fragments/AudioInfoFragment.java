@@ -24,11 +24,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.R;
-import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
+import com.lebogang.kxgenesis.AppUtils.TimeUnitConvert;
 import com.lebogang.kxgenesis.databinding.FragmentAudioInfoBinding;
 
 public class AudioInfoFragment extends Fragment {
@@ -51,6 +53,14 @@ public class AudioInfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         audioMediaItem = getArguments().getParcelable("Item");
         setupAllViews();
+        initOtherViews();
+    }
+
+    private void initOtherViews(){
+        binding.backButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigateUp();
+        });
     }
 
     private void setupAllViews(){

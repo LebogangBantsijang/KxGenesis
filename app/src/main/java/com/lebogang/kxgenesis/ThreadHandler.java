@@ -18,34 +18,44 @@ package com.lebogang.kxgenesis;
 import android.os.Handler;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.lebogang.kxgenesis.MusicService.MusicPlayer;
-import com.lebogang.kxgenesis.Utils.TimeUnitConvert;
-import com.lebogang.kxgenesis.databinding.ActivityMainLayoutBinding;
+import com.lebogang.kxgenesis.Service.MusicPlayer;
+import com.lebogang.kxgenesis.AppUtils.TimeUnitConvert;
 
 public class ThreadHandler implements Runnable{
 
-    private ActivityMainLayoutBinding binding;
-    private ActivityMain activityMain;
+    private AppCompatActivity activity;
     private Handler handler;
     private boolean isRunning = false;
+    private TextView startDurationTextView;
+    private SeekBar seekBar;
 
-    public ThreadHandler(LifecycleOwner lifecycleOwner, ActivityMainLayoutBinding binding, ActivityMain activityMain) {
-        this.binding = binding;
-        this.activityMain = activityMain;
+    public ThreadHandler(LifecycleOwner lifecycleOwner, AppCompatActivity activity) {
+        this.activity = activity;
         this.handler = new Handler();
         lifecycleOwner.getLifecycle().addObserver(getDefaultLifecycleObserver());
+    }
+
+    public void setStartDurationTextView(TextView startDurationTextView) {
+        this.startDurationTextView = startDurationTextView;
+    }
+
+    public void setSeekBar(SeekBar seekBar) {
+        this.seekBar = seekBar;
     }
 
     private DefaultLifecycleObserver getDefaultLifecycleObserver(){
         return new DefaultLifecycleObserver() {
             @Override
             public void onResume(@NonNull LifecycleOwner owner) {
-                MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(activityMain);
+                MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(activity);
                 if (mediaControllerCompat != null){
                     if (mediaControllerCompat.getPlaybackState().getState() == PlaybackStateCompat.STATE_PLAYING){
                         if (!isRunning)
@@ -65,9 +75,8 @@ public class ThreadHandler implements Runnable{
     @Override
     public void run() {
         isRunning = true;
-        binding.mainLayout.mainPlayer.wavSeekBar.setProgress(MusicPlayer.getPosition());
-        binding.mainLayout.mainPlayer.progressBar.setProgress(MusicPlayer.getPosition());
-        binding.mainLayout.mainPlayer.startDuration.setText(TimeUnitConvert.toMinutes(MusicPlayer.getPosition()));
+        seekBar.setProgress(MusicPlayer.getPosition());
+        startDurationTextView.setText(TimeUnitConvert.toMinutes(MusicPlayer.getPosition()));
         handler.postDelayed(this, 1000);
     }
 

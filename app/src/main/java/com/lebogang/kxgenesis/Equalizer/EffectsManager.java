@@ -18,7 +18,7 @@ package com.lebogang.kxgenesis.Equalizer;
 import android.media.audiofx.AudioEffect;
 import android.media.audiofx.LoudnessEnhancer;
 
-import com.lebogang.kxgenesis.MusicService.MusicPlayer;
+import com.lebogang.kxgenesis.Service.MusicPlayer;
 
 public class EffectsManager {
     private static LoudnessEnhancer loudnessEnhancer;

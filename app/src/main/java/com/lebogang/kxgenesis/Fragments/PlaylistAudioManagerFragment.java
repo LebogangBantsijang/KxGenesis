@@ -24,24 +24,31 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.audiofilemanager.Models.Playlist;
 import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistManager;
-import com.lebogang.kxgenesis.Adapters.PlaylistAudioManagerAdapter;
+import com.lebogang.kxgenesis.Adapters.PlaylistAudioAdapter;
+import com.lebogang.kxgenesis.AppUtils.PlaylistDeleteListener;
+import com.lebogang.kxgenesis.MainActivity;
+import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistItemManagerBinding;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class PlaylistAudioManagerFragment extends Fragment implements AudioCallbacks {
     private FragmentPlaylistItemManagerBinding binding;
     private Playlist playlist;
-    private PlaylistAudioManagerAdapter adapter = new PlaylistAudioManagerAdapter();
+    private PlaylistAudioAdapter adapter = new PlaylistAudioAdapter();
     private AudioViewModel viewModel;
+    private PlaylistManager playlistManager;
 
     public PlaylistAudioManagerFragment() {
     }
@@ -51,6 +58,7 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlaylistItemManagerBinding.inflate(inflater, container, false);
         playlist = getArguments().getParcelable("Playlist");
+        playlistManager = new PlaylistManager(getContext());
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(AudioViewModel.class);
         viewModel.init(getContext());
@@ -63,24 +71,32 @@ public class PlaylistAudioManagerFragment extends Fragment implements AudioCallb
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
         setupDeleteBtn();
+        initOtherViews();
+    }
+
+    private void initOtherViews(){
+        binding.backButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigateUp();
+        });
     }
 
     private void setupRecyclerView(){
         binding.titleTextView.setText(playlist.getTitle());
-        adapter.setContext(getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
     }
 
     private void setupDeleteBtn(){
         binding.saveButton.setOnClickListener(v->{
-            HashMap<Long, Audio> map = adapter.getCheckedItems();
-            PlaylistManager playlistManager = new PlaylistManager(getContext());
-            map.forEach((aLong, audio) -> {
-                boolean b = playlistManager.deleteAudioFromPlaylist(playlist.getId(), audio.getId());
-                if (b)
-                    adapter.removeItem(audio);
-            });
+            ArrayList<Audio> list = adapter.getCheckedItems();
+            String[] strings = new String[adapter.getCheckedItems().size()];
+            for (int x = 0; x < list.size(); x++){
+                Audio audio = list.get(x);
+                strings[x] = Long.toString(audio.getId());
+                adapter.deleteAudio(audio);
+            }
+            playlistManager.deleteAudioFromPlaylist(playlist.getId(),strings);
         });
     }
 

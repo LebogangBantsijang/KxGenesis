@@ -13,7 +13,7 @@
         android:height="156dp"
         android:gravity="center">
         <inset
-            android:drawable="@drawable/ic_circled_play_logo"
+            android:drawable="@drawable/ic_google_play"
             />
     </item>
 

@@ -20,9 +20,9 @@
     android:layout_width="match_parent"
     android:layout_height="156dp"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="6dp"
     android:layout_margin="3dp"
     app:cardElevation="0dp"
+    app:cardCornerRadius="6dp"
     tools:viewBindingIgnore="true">
 
     <LinearLayout
@@ -33,9 +33,10 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
+            android:background="?colorButtonNormal"
             app:srcCompat="@drawable/ic_music_record_light" />
 
         <TextView

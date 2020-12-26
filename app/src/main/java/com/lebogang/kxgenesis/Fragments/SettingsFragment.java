@@ -19,19 +19,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
-import com.lebogang.kxgenesis.Preferences;
+import com.lebogang.kxgenesis.AppUtils.AppSettings;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
-    //private SharedPreferences preferences;
-    private Preferences preferences;
 
     public SettingsFragment() {
     }
@@ -39,7 +40,6 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        preferences = new Preferences(getContext());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -50,38 +50,47 @@ public class SettingsFragment extends Fragment {
         initRepeatSwitch();
         initDisplayChips();
         initThemeChips();
+        initOtherViews();
+        initPlayerSpinner();
+    }
+
+    private void initOtherViews(){
+        binding.backButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigateUp();
+        });
     }
 
     private void initRepeatSwitch(){
-        binding.repeatSwitch.setChecked(preferences.isSaveRepeatEnabled());
-        binding.repeatSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> preferences.setSaveRepeatEnabled(isChecked));
+        boolean value = AppSettings.isRepeatModeSaved(requireContext());
+        binding.repeatSwitch.setChecked(value);
+        binding.repeatSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> AppSettings.setRepeatModeSaved(requireContext(), isChecked));
     }
 
     private void initDisplayChips(){
-        binding.chipGroup.check(preferences.isDisplayGrid()? R.id.multiLineChip: R.id.singleLineChip);
+        boolean value = AppSettings.displayGrid(requireContext());
+        binding.chipGroup.check(value? R.id.multiLineChip: R.id.singleLineChip);
         binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.multiLineChip)
-                preferences.setDisplayGrid(true);
-            else
-                preferences.setDisplayGrid(false);
+            AppSettings.setDisplayGrid(requireContext(), checkedId == R.id.multiLineChip);
         });
     }
 
     private void initThemeChips(){
-        binding.themeSwitch.setChecked(preferences.isThemeLight());
-        binding.themeSwitch.setOnCheckedChangeListener((buttonView, isChecked)-> preferences.setThemeLight(isChecked));
-
-        switch (preferences.getThemeIndex()){
-            case 0 :
+        boolean value = AppSettings.isThemeLight(requireContext());
+        binding.themeSwitch.setChecked(value);
+        binding.themeSwitch.setOnCheckedChangeListener((buttonView, isChecked)-> AppSettings.setLightTheme(requireContext(), isChecked));
+        int themeIndex = AppSettings.getThemeIndex(requireContext());
+        switch (themeIndex){
+            case 0:
                 binding.themeColorChipGroup.check(R.id.colorOneChip);
                 break;
-            case 1 :
+            case 1:
                 binding.themeColorChipGroup.check(R.id.colorTwoChip);
                 break;
-            case 2 :
+            case 2:
                 binding.themeColorChipGroup.check(R.id.colorThreeChip);
                 break;
-            case 3 :
+            case 3:
                 binding.themeColorChipGroup.check(R.id.colorFourChip);
                 break;
             case 4:
@@ -91,23 +100,33 @@ public class SettingsFragment extends Fragment {
 
         binding.themeColorChipGroup.setOnCheckedChangeListener(((group, checkedId) -> {
             switch (checkedId){
-                case R.id.colorOneChip :
-                    preferences.setThemeIndex(0);
+                case R.id.colorOneChip :AppSettings.setThemeIndex(requireContext(), 0);
                     break;
-                case R.id.colorTwoChip :
-                    preferences.setThemeIndex(1);
+                case R.id.colorTwoChip :AppSettings.setThemeIndex(requireContext(), 1);
                     break;
-                case R.id.colorThreeChip :
-                    preferences.setThemeIndex(2);
+                case R.id.colorThreeChip :AppSettings.setThemeIndex(requireContext(), 2);
                     break;
-                case R.id.colorFourChip :
-                    preferences.setThemeIndex(3);
+                case R.id.colorFourChip :AppSettings.setThemeIndex(requireContext(), 3);
                     break;
-                case R.id.colorFiveChip :
-                    preferences.setThemeIndex(4);
+                case R.id.colorFiveChip :AppSettings.setThemeIndex(requireContext(), 4);
                     break;
             }
         }));
     }
 
+    private void initPlayerSpinner(){
+        binding.spinner.setSelection(AppSettings.getSelectedPlayerIndex(requireContext()));
+
+        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                AppSettings.setPlayer(requireContext(), position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 }

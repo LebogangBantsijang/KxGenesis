@@ -17,6 +17,8 @@ package com.lebogang.kxgenesis.Dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AlertDialog;
@@ -55,7 +57,7 @@ public class PlaylistCreateUpdate {
     }
 
     private void setupCreateView(){
-        binding.nameEditText.addTextChangedListener(new AudioEdit.Watcher() {
+        binding.nameEditText.addTextChangedListener(new Watcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 super.onTextChanged(s, start, before, count);
@@ -80,7 +82,7 @@ public class PlaylistCreateUpdate {
         binding.textView.setText("Update Playlist");
         binding.nameEditText.setText(playlistItem.getTitle());
         binding.nameEditText.setHint("update playlist name");
-        binding.nameEditText.addTextChangedListener(new AudioEdit.Watcher() {
+        binding.nameEditText.addTextChangedListener(new Watcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 super.onTextChanged(s, start, before, count);
@@ -107,5 +109,17 @@ public class PlaylistCreateUpdate {
                     dialog.dismiss();
             }
         };
+    }
+
+    public abstract static class Watcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
     }
 }

@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (c) 2020. Lebogang Bantsijang
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,43 @@
 package com.lebogang.kxgenesis.Fragments;
 
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.media.session.MediaControllerCompat;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.lebogang.kxgenesis.Adapters.RecentPagerAdapter;
-import com.lebogang.kxgenesis.Animations.PagerTransformer;
-import com.lebogang.kxgenesis.databinding.FragmentRecentBinding;
+import com.bumptech.glide.Glide;
+import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
+import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.kxgenesis.Adapters.SongsAdapter;
+import com.lebogang.kxgenesis.AppUtils.SongClickListener;
+import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
+import com.lebogang.kxgenesis.Dialogs.SongsDialog;
+import com.lebogang.kxgenesis.MainActivity;
+import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
+import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
+import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
 
-public class RecentFragment extends Fragment {
-    private FragmentRecentBinding binding;
-    private RecentPagerAdapter pagerAdapter;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RecentFragment extends Fragment implements SongClickListener, AudioCallbacks, SongDeleteListener, PopupMenu.OnMenuItemClickListener {
+    private FragmentLayoutBinding binding;
+    private AudioViewModel viewModel;
+    private final SongsAdapter songsAdapter = new SongsAdapter();
 
     public RecentFragment() {
     }
@@ -39,31 +60,108 @@ public class RecentFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentRecentBinding.inflate(inflater,container, false);
-        pagerAdapter = new RecentPagerAdapter(getChildFragmentManager(), getLifecycle());
+        binding = FragmentLayoutBinding.inflate(inflater,container, false);
+        ViewModelProvider provider = new ViewModelProvider(this);
+        viewModel = provider.get(AudioViewModel.class);
+        viewModel.init(getContext());
+        viewModel.getAudioManager().setSortOrder(MediaStore.Audio.Media.DATE_ADDED + " DESC");
+        viewModel.registerCallback(this,this);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupPager();
+        initRecyclerView();
+        observer();
     }
 
-    private void setupPager(){
-        binding.pager.setAdapter(pagerAdapter);
-        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
-            switch (position){
-                case 0:
-                    tab.setText("Recent Songs");
-                    break;
-                case 1:
-                    tab.setText("Recent Albums");
-                    break;
-            }
-        }).attach();
-        binding.pager.setPageTransformer(new PagerTransformer(getContext()));
-        binding.pager.setOffscreenPageLimit(2);
+    private void initRecyclerView(){
+        songsAdapter.setSongClickListener(this);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setAdapter(songsAdapter);
+        initOtherViews();
     }
 
+    private void initOtherViews(){
+        binding.searchButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigate(R.id.search_fragment);
+        });
+        binding.menuButton.setOnClickListener(v->{
+            PopupMenu popup = new PopupMenu(getContext(), v);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.toolbar_menu, popup.getMenu());
+            popup.setOnMenuItemClickListener(this);
+            popup.show();
+        });
+        binding.expandView.setOnClickListener(v->{
+            ((MainActivity) requireActivity()).expandBottomSheets();
+        });
+    }
+
+    private void observer(){
+        AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
+            int color = AudioIndicator.Colors.getDefaultColor();
+            songsAdapter.setAudioIdHighlightingColor(mediaItem.getId(), color);
+            int position = songsAdapter.getAudioPosition(mediaItem);
+            binding.recyclerView.scrollToPosition(position);
+            binding.expandView.setVisibility(View.VISIBLE);
+            binding.titleTextText.setText(mediaItem.getTitle());
+            binding.subtitleTextView.setText(mediaItem.getAlbumTitle());
+            Glide.with(this)
+                    .load(mediaItem.getAlbumArtUri())
+                    .error(R.drawable.ic_music_light)
+                    .dontAnimate()
+                    .into(binding.coverImageView)
+                    .waitForLayout();
+        });
+    }
+
+    @Override
+    public void onClick(Audio audio) {
+        MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(getActivity());
+        if (mediaControllerCompat != null){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("Item", audio);
+            bundle.putParcelableArrayList("List", songsAdapter.getList());
+            mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
+            ((MainActivity)getActivity()).setPagerData(songsAdapter.getList());
+        }
+    }
+
+    @Override
+    public void onClickOptions(Audio audio) {
+        SongsDialog songsDialog = new SongsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
+        songsDialog.setSongDeleteListener(this);
+        songsDialog.createDialog(audio);
+    }
+
+    @Override
+    public void onQueryComplete(List<Audio> audioList) {
+        songsAdapter.setList(new ArrayList<>(audioList));
+    }
+
+    @Override
+    public void onDelete(Audio audio) {
+        songsAdapter.deleteAudio(audio);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                navController.navigate(R.id.settings_fragment);
+                return true;
+            case R.id.menu_about:
+                navController.navigate(R.id.about_fragment);
+                return true;
+            case R.id.menu_volume:
+                navController.navigate(R.id.volume_fragment);
+                return true;
+            default:
+                return false;
+        }
+    }
 }

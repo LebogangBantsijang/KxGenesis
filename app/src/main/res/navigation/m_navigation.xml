@@ -18,13 +18,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/m_navigation.xml"
-    app:startDestination="@id/home_fragment">
+    app:startDestination="@id/songs_fragment">
 
-    <fragment
-        android:id="@+id/home_fragment"
-        tools:layout="@layout/fragment_home"
-        android:label="Music"
-        android:name="com.lebogang.kxgenesis.Fragments.HomeFragment" />
 
     <fragment
         android:id="@+id/about_fragment"
@@ -87,8 +82,33 @@
         android:name="com.lebogang.kxgenesis.Fragments.VolumeControlFragment"/>
 
     <fragment
+        android:id="@+id/songs_fragment"
+        tools:layout="@layout/fragment_layout"
+        android:name="com.lebogang.kxgenesis.Fragments.SongsFragments"/>
+
+    <fragment
+        android:id="@+id/albums_fragment"
+        tools:layout="@layout/fragment_layout"
+        android:name="com.lebogang.kxgenesis.Fragments.AlbumFragments"/>
+
+    <fragment
+        android:id="@+id/artists_fragment"
+        tools:layout="@layout/fragment_layout"
+        android:name="com.lebogang.kxgenesis.Fragments.ArtistFragments"/>
+
+    <fragment
+        android:id="@+id/playlists_fragment"
+        tools:layout="@layout/fragment_layout"
+        android:name="com.lebogang.kxgenesis.Fragments.PlaylistFragments"/>
+
+    <fragment
+        android:id="@+id/genres_fragment"
+        tools:layout="@layout/fragment_layout"
+        android:name="com.lebogang.kxgenesis.Fragments.GenreFragments"/>
+
+    <fragment
         android:id="@+id/recent_fragment"
-        tools:layout="@layout/fragment_recent"
-        android:label="Recent"
+        tools:layout="@layout/fragment_layout"
         android:name="com.lebogang.kxgenesis.Fragments.RecentFragment"/>
+
 </navigation>

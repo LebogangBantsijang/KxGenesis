@@ -29,19 +29,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Album;
+import com.lebogang.kxgenesis.AppUtils.AlbumClickListener;
 import com.lebogang.kxgenesis.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
-    private Context context;
     private boolean isLayoutGrid = true;
     private List<Album> list = new ArrayList<>();
-    private OnClickInterface clickInterface;
+    private AlbumClickListener albumClickListener;
 
-    public AlbumAdapter(OnClickInterface clickInterface) {
-        this.clickInterface = clickInterface;
+    public void setAlbumClickListener(AlbumClickListener albumClickListener) {
+        this.albumClickListener = albumClickListener;
     }
 
     public void setLayoutGrid(boolean layoutGrid) {
@@ -53,10 +53,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
         notifyDataSetChanged();
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,7 +60,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_multiple_column,parent, false);
             return new Holder(view);
         }
-        View view = LayoutInflater.from(context).inflate(R.layout.item_album_single_column,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_single_column,parent, false);
         return new Holder(view);
     }
 
@@ -73,14 +69,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
         Album album = list.get(position);
         holder.title.setText(album.getTitle());
         holder.subtitle.setText(album.getArtist());
-        Glide.with(context).load(album.getAlbumArtUri())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+        Glide.with(holder.imageView).load(album.getAlbumArtUri())
                 .error(R.drawable.ic_music_record_light)
                 .downsample(DownsampleStrategy.AT_MOST)
                 .dontAnimate()
-                .skipMemoryCache(true)
                 .into(holder.imageView)
-                .clearOnDetach()
                 .waitForLayout();
     }
 
@@ -99,7 +92,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
             subtitle = itemView.findViewById(R.id.subtitleTextView);
             imageView = itemView.findViewById(R.id.imageView);
             itemView.setOnClickListener(v->{
-                clickInterface.onClick(list.get(getAdapterPosition()));
+                albumClickListener.onClick(list.get(getAdapterPosition()));
             });
         }
     }

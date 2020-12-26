@@ -34,7 +34,8 @@
         android:layout_height="58dp"
         android:layout_marginStart="8dp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/colorImageBackground">
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="?colorButtonNormal">
 
         <ImageView
             android:id="@+id/imageView"

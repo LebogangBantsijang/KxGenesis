@@ -25,22 +25,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lebogang.audiofilemanager.Models.Genre;
+import com.lebogang.kxgenesis.AppUtils.GenreClickListener;
 import com.lebogang.kxgenesis.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.Holder>{
-    private OnClickInterface clickInterface;
     private List<Genre> list = new ArrayList<>();
-    private Context context;
     private boolean isLayoutGrid = true;
-
-    public GenreAdapter(OnClickInterface clickInterface) {
-        this.clickInterface = clickInterface;
-    }
+    private GenreClickListener genreClickListener;
 
     public GenreAdapter() {
+    }
+
+    public void setGenreClickListener(GenreClickListener genreClickListener) {
+        this.genreClickListener = genreClickListener;
     }
 
     public void setList(List<Genre> list){
@@ -55,12 +55,11 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.Holder>{
     @NonNull
     @Override
     public GenreAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
         if (isLayoutGrid){
-            View view = LayoutInflater.from(context).inflate(R.layout.item_genre_multiple_column,parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre_multiple_column,parent, false);
             return new Holder(view);
         }
-        View view = LayoutInflater.from(context).inflate(R.layout.item_genre_single_column,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre_single_column,parent, false);
         return new Holder(view);
     }
 
@@ -82,7 +81,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.Holder>{
             super(itemView);
             this.title = itemView.findViewById(R.id.titleTextView);
             itemView.setOnClickListener(v -> {
-                clickInterface.onClick(list.get(getAdapterPosition()));
+                genreClickListener.onClick(list.get(getAdapterPosition()));
             });
         }
     }

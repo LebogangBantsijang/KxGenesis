@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lebogang.audiofilemanager.Models.Artist;
+import com.lebogang.kxgenesis.AppUtils.ArtistClickListener;
 import com.lebogang.kxgenesis.R;
 
 import java.util.ArrayList;
@@ -34,10 +35,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.Holder>{
     private Context context;
     private boolean isLayoutGrid = true;
     private List<Artist> list = new ArrayList<>();
-    private OnClickInterface clickInterface;
+    private ArtistClickListener artistClickListener;
 
-    public ArtistAdapter(OnClickInterface clickInterface) {
-        this.clickInterface = clickInterface;
+    public void setArtistClickListener(ArtistClickListener artistClickListener) {
+        this.artistClickListener = artistClickListener;
     }
 
     public void setLayoutGrid(boolean layoutGrid) {
@@ -78,7 +79,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.Holder>{
             super(itemView);
             title = itemView.findViewById(R.id.titleTextView);
             itemView.setOnClickListener(v->{
-                clickInterface.onClick(list.get(getAdapterPosition()));
+                artistClickListener.onClick(list.get(getAdapterPosition()));
             });
         }
     }

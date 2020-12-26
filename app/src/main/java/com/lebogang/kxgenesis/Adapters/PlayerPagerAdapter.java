@@ -29,15 +29,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.Holder>{
-    private Context context;
     private List<Audio> list = new ArrayList<>();
-    private OnClickInterface clickInterface;
+    private SongClickListener songClickListener;
     private long currentPlayingId = -1;
 
     public void setList(List<Audio> list) {
@@ -45,8 +45,12 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
         notifyDataSetChanged();
     }
 
-    public void setClickInterface(OnClickInterface clickInterface) {
-        this.clickInterface = clickInterface;
+    public void setSongClickListener(SongClickListener songClickListener) {
+        this.songClickListener = songClickListener;
+    }
+
+    public ArrayList<Audio> getList() {
+        return new ArrayList<>(list);
     }
 
     public void setCurrentPlayingId(long currentPlayingId) {
@@ -62,10 +66,6 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
         return 0;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -76,14 +76,11 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Audio audio = list.get(position);
-        Glide.with(context).load(audio.getAlbumArtUri())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+        Glide.with(holder.itemView).load(audio.getAlbumArtUri())
                 .error(R.drawable.ic_music_light)
                 .downsample(DownsampleStrategy.AT_MOST)
                 .dontAnimate()
-                .skipMemoryCache(true)
                 .into(holder.imageView)
-                .clearOnDetach()
                 .waitForLayout();
         String string = "" + (1+position) + " of " + list.size();
         holder.countTextView.setText(string);
@@ -109,7 +106,7 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
             imageView.setOnClickListener(v->{
                 Audio audio = list.get(getAdapterPosition());
                 if (audio.getId() != currentPlayingId)
-                    clickInterface.onClick(audio);
+                    songClickListener.onClick(audio);
             });
         }
     }
