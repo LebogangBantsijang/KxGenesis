@@ -3,7 +3,7 @@
 # KxGenesis
 ![API](https://img.shields.io/badge/Android-24+-brightgreen.svg) ![](https://img.shields.io/badge/Download-1.0.2-blue.svg)
 
-![Logo](https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png)
+![Logo](https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
 ## Andoid Music Player
 
@@ -11,7 +11,7 @@ Stylish android music player without ads. Keep in mind that this is the first an
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201205_091952_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011647_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011951_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201031_011759_com.lebogang.kxgenesis.jpg" height="480">
+<img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201225_201741_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201225_201936_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201226_095252_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201226_095125_com.lebogang.kxgenesis.jpg" height="480"> <img src="https://raw.githubusercontent.com/LebogangBantsijang/KxGenesis/master/screenshots/Screenshot_20201226_095219_com.lebogang.kxgenesis.jpg" height="480">
 
 ## Features
 * Navigation Component
