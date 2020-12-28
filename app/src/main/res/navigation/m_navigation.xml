@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/m_navigation.xml"
-    app:startDestination="@id/songs_fragment">
+    app:startDestination="@id/home_fragment">
 
 
     <fragment
@@ -103,12 +103,17 @@
 
     <fragment
         android:id="@+id/genres_fragment"
-        tools:layout="@layout/fragment_layout"
+        tools:layout="@layout/fragment_layout_other"
         android:name="com.lebogang.kxgenesis.Fragments.GenreFragments"/>
 
     <fragment
         android:id="@+id/recent_fragment"
-        tools:layout="@layout/fragment_layout"
+        tools:layout="@layout/fragment_layout_other"
         android:name="com.lebogang.kxgenesis.Fragments.RecentFragment"/>
+
+    <fragment
+        android:id="@+id/home_fragment"
+        tools:layout="@layout/fragment_home"
+        android:name="com.lebogang.kxgenesis.Fragments.HomeFragment"/>
 
 </navigation>

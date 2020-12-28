@@ -36,14 +36,16 @@ import com.lebogang.kxgenesis.Adapters.GenreAdapter;
 import com.lebogang.kxgenesis.AppUtils.AppSettings;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.AppUtils.GenreClickListener;
+import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.ViewModels.GenreViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
+import com.lebogang.kxgenesis.databinding.FragmentLayoutOtherBinding;
 
 import java.util.List;
 
 public class GenreFragments extends Fragment implements GenreClickListener, GenreCallbacks {
-    private FragmentLayoutBinding binding;
+    private FragmentLayoutOtherBinding binding;
     private final GenreAdapter adapter = new GenreAdapter();
     private GenreViewModel viewModel;
 
@@ -53,7 +55,7 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentLayoutBinding.inflate(inflater);
+        binding = FragmentLayoutOtherBinding.inflate(inflater, container, false);
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(GenreViewModel.class);
         viewModel.init(getContext());
@@ -65,7 +67,18 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
+        initOtherViews();
         observer();
+    }
+
+    private void initOtherViews(){
+        binding.backButton.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigateUp();
+        });
+        binding.expandView.setOnClickListener(v->{
+            ((MainActivity) requireActivity()).expandBottomSheets();
+        });
     }
 
     private void initRecyclerView(){

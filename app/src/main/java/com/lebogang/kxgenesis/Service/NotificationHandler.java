@@ -84,11 +84,15 @@ public class NotificationHandler {
         );
         builder.setCategory(NotificationCompat.CATEGORY_TRANSPORT);
         builder.setShowWhen(false);
-        builder.setContentText(mediaItem != null? mediaItem.getTitle():"unknown");
-        builder.setContentTitle(mediaItem != null? mediaItem.getArtistTitle():"unknown" + " - "
-                + mediaItem != null? mediaItem.getAlbumTitle(): "unknown");
-        Bitmap bitmap = AudioIndicator.getBitmap(context, mediaItem.getAlbumArtUri());
-        builder.setLargeIcon(bitmap);
+        //firebase test lab is forcing me to do this
+        if (mediaItem != null && mediaItem.getTitle() != null && mediaItem.getAlbumTitle()
+                != null && mediaItem.getArtistTitle() != null && mediaItem.getAlbumArtUri() != null){
+            builder.setContentText(mediaItem.getTitle());
+            builder.setContentTitle(mediaItem.getArtistTitle() + " - "
+                    +  mediaItem.getAlbumTitle());
+            Bitmap bitmap = AudioIndicator.getBitmap(context, mediaItem.getAlbumArtUri());
+            builder.setLargeIcon(bitmap);
+        }
         builder.setSilent(true);
         return builder.build();
     }

@@ -25,6 +25,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
 
     private ActivityMainBinding binding;
     private NavController navController;
-    private BottomSheetBehavior bottomSheetBehavior;
+    private BottomSheetBehavior<View> bottomSheetBehavior;
     private AbstractPlayer player;
     private ThreadHandler threadHandler;
     public static int COLOR;
@@ -77,7 +78,25 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        checkPermissions();
+        for(int result:grantResults){
+            if (result == PackageManager.PERMISSION_DENIED){
+                showPermissionDialog();
+                break;
+            }
+        }
+    }
+
+    private void showPermissionDialog(){
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Permission Error")
+                .setIcon(R.drawable.ic_round_warning_24)
+                .setMessage("Due to the fact that you refuse to grant the app permission to access your music files, " +
+                        "the app will shut down and you can try again by reopening the app and granting the permission. Thank you for your time.")
+                .setPositiveButton("Accept", null)
+                .setOnDismissListener(dialog -> {
+                    finish();
+                })
+                .create().show();
     }
 
     private void initViews(){
@@ -184,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
         int desId = destination.getId();
         if (desId == R.id.songs_fragment || desId == R.id.albums_fragment || desId == R.id.artists_fragment
-                || desId == R.id.playlists_fragment || desId == R.id.recent_fragment ){
+                || desId == R.id.playlists_fragment || desId == R.id.home_fragment){
             binding.bottomNavigation.setVisibility(View.VISIBLE);
         }else {
             binding.bottomNavigation.setVisibility(View.GONE);

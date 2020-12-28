@@ -45,12 +45,13 @@ import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
+import com.lebogang.kxgenesis.databinding.FragmentLayoutOtherBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecentFragment extends Fragment implements SongClickListener, AudioCallbacks, SongDeleteListener, PopupMenu.OnMenuItemClickListener {
-    private FragmentLayoutBinding binding;
+public class RecentFragment extends Fragment implements SongClickListener, AudioCallbacks, SongDeleteListener {
+    private FragmentLayoutOtherBinding binding;
     private AudioViewModel viewModel;
     private final SongsAdapter songsAdapter = new SongsAdapter();
 
@@ -60,7 +61,7 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentLayoutBinding.inflate(inflater,container, false);
+        binding = FragmentLayoutOtherBinding.inflate(inflater,container, false);
         ViewModelProvider provider = new ViewModelProvider(this);
         viewModel = provider.get(AudioViewModel.class);
         viewModel.init(getContext());
@@ -84,16 +85,9 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
     }
 
     private void initOtherViews(){
-        binding.searchButton.setOnClickListener(v->{
+        binding.backButton.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
-            navController.navigate(R.id.search_fragment);
-        });
-        binding.menuButton.setOnClickListener(v->{
-            PopupMenu popup = new PopupMenu(getContext(), v);
-            MenuInflater inflater = popup.getMenuInflater();
-            inflater.inflate(R.menu.toolbar_menu, popup.getMenu());
-            popup.setOnMenuItemClickListener(this);
-            popup.show();
+            navController.navigateUp();
         });
         binding.expandView.setOnClickListener(v->{
             ((MainActivity) requireActivity()).expandBottomSheets();
@@ -147,21 +141,4 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
         songsAdapter.deleteAudio(audio);
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-                navController.navigate(R.id.settings_fragment);
-                return true;
-            case R.id.menu_about:
-                navController.navigate(R.id.about_fragment);
-                return true;
-            case R.id.menu_volume:
-                navController.navigate(R.id.volume_fragment);
-                return true;
-            default:
-                return false;
-        }
-    }
 }

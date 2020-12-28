@@ -13,4 +13,9 @@
     <color name="themeThree">#00695C</color>
     <color name="themeFour">#F9A825</color>
     <color name="themeFive">#959595</color>
+
+    <color name="lightColorOne">#B2EBF2</color>
+    <color name="darkColorOne">#00ACC1</color>
+    <color name="lightColorTwo">#DCEDC8</color>
+    <color name="darkColorTwo">#7CB342</color>
 </resources>
