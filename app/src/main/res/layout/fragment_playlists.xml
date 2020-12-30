@@ -41,7 +41,7 @@
             android:gravity="end"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:text="Gene" />
+            android:text="Play" />
 
         <TextView
             android:id="@+id/textView4"
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:text="Sis" />
+            android:text="Lists" />
 
         <ImageButton
             android:id="@+id/menuButton"

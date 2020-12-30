@@ -54,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     public static int COLOR;
 
     @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED){
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new MusicConnection(this).connectService();
@@ -61,18 +70,9 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         setTheme(AppSettings.getTheme(this));
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        checkPermissions();
+        initViews();
         COLOR = getPrimaryColor();
         onMediaChange();
-    }
-
-    private void checkPermissions(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED){
-            initViews();
-        }
-        else
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
     }
 
     @Override
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     @Override
     public void onBackPressed() {
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         else if (!navController.navigateUp())
             moveTaskToBack(true);
     }

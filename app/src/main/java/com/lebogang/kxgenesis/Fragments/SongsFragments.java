@@ -77,6 +77,8 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
     }
 
     private void initOtherViews(){
+        binding.customToolbarTextView1.setText("All");
+        binding.customToolbarTextView2.setText("Songs");
         binding.searchButton.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
             navController.navigate(R.id.search_fragment);

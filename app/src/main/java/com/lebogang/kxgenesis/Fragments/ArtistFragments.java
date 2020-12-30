@@ -75,6 +75,8 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
     }
 
     private void initOtherViews(){
+        binding.customToolbarTextView1.setText("All");
+        binding.customToolbarTextView2.setText("Artists");
         binding.searchButton.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
             navController.navigate(R.id.search_fragment);

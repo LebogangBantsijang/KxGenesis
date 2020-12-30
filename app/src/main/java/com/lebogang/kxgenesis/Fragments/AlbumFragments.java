@@ -76,6 +76,8 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
     }
 
     private void initOtherViews(){
+        binding.customToolbarTextView1.setText("All");
+        binding.customToolbarTextView2.setText("Albums");
         binding.searchButton.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
             navController.navigate(R.id.search_fragment);

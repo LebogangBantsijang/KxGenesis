@@ -56,7 +56,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Holder>{
         holder.binding.dateTextView.setText(audio.getDateString());
         Glide.with(holder.itemView)
                 .load(uri)
-                .error(R.drawable.ic_music_16dp)
+                .error(R.drawable.ic_music_light)
                 .into(holder.binding.imageView)
                 .waitForLayout();
     }
