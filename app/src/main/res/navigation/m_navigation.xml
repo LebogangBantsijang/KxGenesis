@@ -116,4 +116,19 @@
         tools:layout="@layout/fragment_home"
         android:name="com.lebogang.kxgenesis.Fragments.HomeFragment"/>
 
+    <fragment
+        android:id="@+id/media_settings_fragment"
+        tools:layout="@layout/fragment_media_settings"
+        android:name="com.lebogang.kxgenesis.Fragments.MediaSettingsFragment"/>
+
+    <fragment
+        android:id="@+id/theme_settings_fragment"
+        tools:layout="@layout/fragment_theme_settings"
+        android:name="com.lebogang.kxgenesis.Fragments.ThemeSettingsFragment"/>
+
+    <fragment
+        android:id="@+id/display_settings_fragment"
+        tools:layout="@layout/fragment_display_settings"
+        android:name="com.lebogang.kxgenesis.Fragments.DisplaySettingsFragment"/>
+
 </navigation>

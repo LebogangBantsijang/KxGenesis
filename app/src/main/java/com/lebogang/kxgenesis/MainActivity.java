@@ -27,7 +27,10 @@ import androidx.navigation.ui.NavigationUI;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -37,11 +40,13 @@ import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.AppUtils.AppSettings;
 import com.lebogang.kxgenesis.Players.AbstractPlayer;
 import com.lebogang.kxgenesis.Players.PlayerControlsOne;
+import com.lebogang.kxgenesis.Players.PlayerControlsThree;
 import com.lebogang.kxgenesis.Players.PlayerControlsTwo;
 import com.lebogang.kxgenesis.Service.MusicConnection;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavController.OnDestinationChangedListener {
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     private AbstractPlayer player;
     private ThreadHandler threadHandler;
     public static int COLOR;
+    private List<Audio> list = new ArrayList<>();
 
     @Override
     public void onAttachedToWindow() {
@@ -103,8 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         navController = Navigation.findNavController(this, R.id.fragment_host);
         navController.addOnDestinationChangedListener(this);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
-        binding.bottomSheetsView.removeAllViews();
-        binding.bottomSheetsView.addView(selectedView());
+        setBottomSheetBehavior(false);
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetsView);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -123,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         });
     }
 
-    private View selectedView(){
+    public void setBottomSheetBehavior(boolean value){
+        binding.bottomSheetsView.removeAllViews();
         int playerRes = AppSettings.getSelectedPlayer(this);
         View view = getLayoutInflater().inflate(playerRes,
                 null);
@@ -134,10 +140,24 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
             case R.layout.player_view_two:
                 player = new PlayerControlsTwo(this, view);
                 break;
+            case R.layout.player_view_three:
+                player = new PlayerControlsThree(this, view);
+                break;
         }
         threadHandler.setSeekBar(player.getSeekBar());
         threadHandler.setStartDurationTextView(player.getStartDurationTextView());
-        return view;
+        binding.bottomSheetsView.addView(view);
+        if (value){
+            Audio audio = AudioIndicator.getCurrentItem().getValue();
+            if (audio != null){
+                threadHandler.onPlaybackStateChanged(PlaybackStateCompat.STATE_PAUSED);
+                player.setPagerData(list);
+                player.onMediaChanged(audio);
+                MediaControllerCompat mediaController = MediaControllerCompat.getMediaController(this);
+                player.onPlaybackChanged(mediaController.getPlaybackState().getState());
+                threadHandler.onPlaybackStateChanged(mediaController.getPlaybackState().getState());
+            }
+        }
     }
 
     private int getPrimaryColor(){
@@ -183,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     }
 
     public void setPagerData(List<Audio> list){
+        this.list = list;
         player.setPagerData(list);
     }
 
@@ -209,4 +230,5 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
             binding.bottomNavigation.setVisibility(View.GONE);
         }
     }
+
 }

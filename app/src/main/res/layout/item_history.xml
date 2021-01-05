@@ -67,17 +67,11 @@
             android:background="?android:attr/listDivider" />
     </LinearLayout>
 
-    <com.google.android.material.card.MaterialCardView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="8dp"
-        app:cardElevation="1dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_music_16dp" />
-
-    </com.google.android.material.card.MaterialCardView>
+        android:alpha="0.2"
+        app:srcCompat="@drawable/ic_music_16dp" />
 </LinearLayout>

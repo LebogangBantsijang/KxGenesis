@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:padding="12dp"
+            app:tint="?colorControlNormal"
             app:srcCompat="@drawable/ic_search" />
 
         <TextView
@@ -61,7 +62,8 @@
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:padding="12dp"
-            app:srcCompat="@drawable/ic_menu" />
+            app:tint="?colorControlNormal"
+            app:srcCompat="@drawable/ic_round_settings_24" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

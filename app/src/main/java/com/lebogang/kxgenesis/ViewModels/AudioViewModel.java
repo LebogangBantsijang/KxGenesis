@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel;
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.AudioManagement.AudioManager;
 import com.lebogang.audiofilemanager.Models.Audio;
+import com.lebogang.kxgenesis.AppUtils.AppSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class AudioViewModel extends ViewModel implements AudioCallbacks{
 
     public void init(Context context){
         audioFileManger = new AudioManager(context);
+        audioFileManger.setDuration(AppSettings.getFilterDuration(context, false));
     }
 
     public void registerCallback(AudioCallbacks audioCallbacks, LifecycleOwner owner){

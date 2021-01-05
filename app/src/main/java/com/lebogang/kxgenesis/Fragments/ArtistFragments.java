@@ -94,7 +94,7 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
     }
 
     private void initRecyclerView(){
-        boolean displayGrid = AppSettings.displayGrid(requireContext());
+        boolean displayGrid = AppSettings.getArtistDisplayGrid(requireContext());
         adapter.setArtistClickListener(this);
         adapter.setLayoutGrid(displayGrid);
         if (displayGrid)

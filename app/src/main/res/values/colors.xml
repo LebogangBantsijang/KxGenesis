@@ -8,14 +8,18 @@
     <color name="colorRed">#8BE11C1C</color>
     <color name="colorDrawableTint">#5A5A5A</color>
 
-    <color name="themeOne">#0097A7</color>
-    <color name="themeTwo">#D84315</color>
-    <color name="themeThree">#00695C</color>
-    <color name="themeFour">#F9A825</color>
+    <color name="themeOne">#D84315</color>
+    <color name="themeTwo">#F9A825</color>
+    <color name="themeThree">#00838F</color>
+    <color name="themeFour">#558B2F</color>
     <color name="themeFive">#959595</color>
 
     <color name="lightColorOne">#B2EBF2</color>
     <color name="darkColorOne">#00ACC1</color>
     <color name="lightColorTwo">#DCEDC8</color>
     <color name="darkColorTwo">#7CB342</color>
+    <color name="lightColorThree">#FFF9C4</color>
+    <color name="darkColorThree">#F9A825</color>
+    <color name="darkColorFour">#D84315</color>
+    <color name="lightColorFour">#FFCCBC</color>
 </resources>

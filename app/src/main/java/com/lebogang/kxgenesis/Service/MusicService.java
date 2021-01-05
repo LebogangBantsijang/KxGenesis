@@ -80,7 +80,7 @@ public class MusicService extends MediaBrowserServiceCompat {
     public class MusicCallbacks extends AudioFocusManager{
 
         private Audio currentAudio;
-        private ArrayList<Audio> currentPlaylist;
+        private ArrayList<Audio> currentPlaylist = new ArrayList<>();
 
         public MusicCallbacks(Context context) {
             super(context);

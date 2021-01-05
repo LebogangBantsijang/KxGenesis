@@ -82,13 +82,8 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
     }
 
     private void initRecyclerView(){
-        boolean displayGrid = AppSettings.displayGrid(requireContext());
         adapter.setGenreClickListener(this);
-        adapter.setLayoutGrid(displayGrid);
-        if (displayGrid)
-            binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        else
-            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
     }
 

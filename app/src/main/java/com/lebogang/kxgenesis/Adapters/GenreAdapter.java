@@ -33,7 +33,6 @@ import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.Holder>{
     private List<Genre> list = new ArrayList<>();
-    private boolean isLayoutGrid = true;
     private GenreClickListener genreClickListener;
 
     public GenreAdapter() {
@@ -48,18 +47,10 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.Holder>{
         notifyDataSetChanged();
     }
 
-    public void setLayoutGrid(boolean layoutGrid) {
-        isLayoutGrid = layoutGrid;
-    }
-
     @NonNull
     @Override
     public GenreAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (isLayoutGrid){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre_multiple_column,parent, false);
-            return new Holder(view);
-        }
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre_single_column,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre_multiple_column,parent, false);
         return new Holder(view);
     }
 

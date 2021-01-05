@@ -28,6 +28,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.lebogang.kxgenesis.AppUtils.AppSettings;
+import com.lebogang.kxgenesis.Dialogs.PlayerDialog;
+import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.FragmentSettingsBinding;
 
@@ -47,11 +49,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRepeatSwitch();
-        initDisplayChips();
-        initThemeChips();
         initOtherViews();
-        initPlayerSpinner();
     }
 
     private void initOtherViews(){
@@ -59,74 +57,21 @@ public class SettingsFragment extends Fragment {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
             navController.navigateUp();
         });
-    }
-
-    private void initRepeatSwitch(){
-        boolean value = AppSettings.isRepeatModeSaved(requireContext());
-        binding.repeatSwitch.setChecked(value);
-        binding.repeatSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> AppSettings.setRepeatModeSaved(requireContext(), isChecked));
-    }
-
-    private void initDisplayChips(){
-        boolean value = AppSettings.displayGrid(requireContext());
-        binding.chipGroup.check(value? R.id.multiLineChip: R.id.singleLineChip);
-        binding.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            AppSettings.setDisplayGrid(requireContext(), checkedId == R.id.multiLineChip);
+        binding.mediaSettings.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigate(R.id.media_settings_fragment);
+        });
+        binding.themeSettings.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigate(R.id.theme_settings_fragment);
+        });
+        binding.displaySettings.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigate(R.id.display_settings_fragment);
+        });
+        binding.playerSettings.setOnClickListener(v->{
+            new PlayerDialog((MainActivity) getActivity()).createDialog();
         });
     }
 
-    private void initThemeChips(){
-        boolean value = AppSettings.isThemeLight(requireContext());
-        binding.themeSwitch.setChecked(value);
-        binding.themeSwitch.setOnCheckedChangeListener((buttonView, isChecked)-> AppSettings.setLightTheme(requireContext(), isChecked));
-        int themeIndex = AppSettings.getThemeIndex(requireContext());
-        switch (themeIndex){
-            case 0:
-                binding.themeColorChipGroup.check(R.id.colorOneChip);
-                break;
-            case 1:
-                binding.themeColorChipGroup.check(R.id.colorTwoChip);
-                break;
-            case 2:
-                binding.themeColorChipGroup.check(R.id.colorThreeChip);
-                break;
-            case 3:
-                binding.themeColorChipGroup.check(R.id.colorFourChip);
-                break;
-            case 4:
-                binding.themeColorChipGroup.check(R.id.colorFiveChip);
-                break;
-        }
-
-        binding.themeColorChipGroup.setOnCheckedChangeListener(((group, checkedId) -> {
-            switch (checkedId){
-                case R.id.colorOneChip :AppSettings.setThemeIndex(requireContext(), 0);
-                    break;
-                case R.id.colorTwoChip :AppSettings.setThemeIndex(requireContext(), 1);
-                    break;
-                case R.id.colorThreeChip :AppSettings.setThemeIndex(requireContext(), 2);
-                    break;
-                case R.id.colorFourChip :AppSettings.setThemeIndex(requireContext(), 3);
-                    break;
-                case R.id.colorFiveChip :AppSettings.setThemeIndex(requireContext(), 4);
-                    break;
-            }
-        }));
-    }
-
-    private void initPlayerSpinner(){
-        binding.spinner.setSelection(AppSettings.getSelectedPlayerIndex(requireContext()));
-
-        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                AppSettings.setPlayer(requireContext(), position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
 }

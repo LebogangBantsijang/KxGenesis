@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:padding="12dp"
+            app:tint="?colorControlNormal"
             app:srcCompat="@drawable/ic_search" />
 
         <TextView
@@ -60,7 +61,8 @@
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:padding="12dp"
-            app:srcCompat="@drawable/ic_menu" />
+            app:tint="?colorControlNormal"
+            app:srcCompat="@drawable/ic_round_settings_24" />
     </LinearLayout>
 
     <TextView
@@ -96,16 +98,18 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="104dp"
-                    android:padding="24dp"
                     android:layout_weight="1"
-                    android:background="@color/lightColorOne"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/shaper_rectangle_round_corners_14dp"
+                    android:backgroundTint="@color/lightColorOne"
+                    android:padding="24dp"
                     android:src="@drawable/ic_time"
                     app:tint="@color/darkColorOne" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:orientation="vertical">
 
                     <TextView
@@ -133,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="18dp"
+                android:layout_marginBottom="4dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true">
@@ -143,14 +147,16 @@
                     android:layout_height="104dp"
                     android:padding="24dp"
                     android:layout_weight="1"
-                    android:background="@color/lightColorTwo"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/shaper_rectangle_round_corners_14dp"
+                    android:backgroundTint="@color/lightColorFour"
                     android:src="@drawable/ic_guitar_light"
-                    app:tint="@color/darkColorTwo" />
+                    app:tint="@color/darkColorFour" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:orientation="vertical">
 
                     <TextView
@@ -160,6 +166,53 @@
                         android:gravity="center_horizontal|bottom"
                         android:textStyle="bold"
                         android:text="Genre"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:textColor="?colorPrimary"
+                        android:text="view"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/viewSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="18dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="104dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/shaper_rectangle_round_corners_14dp"
+                    android:backgroundTint="@color/lightColorThree"
+                    android:padding="24dp"
+                    android:src="@drawable/ic_round_settings_24"
+                    app:tint="@color/darkColorThree" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|bottom"
+                        android:textStyle="bold"
+                        android:text="Settings"/>
 
                     <TextView
                         android:layout_width="match_parent"

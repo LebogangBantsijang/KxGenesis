@@ -35,6 +35,7 @@ import com.lebogang.kxgenesis.AppUtils.TimeUnitConvert;
 import com.lebogang.kxgenesis.databinding.ItemSongBinding;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> implements Filterable {
     private SongClickListener songClickListener;

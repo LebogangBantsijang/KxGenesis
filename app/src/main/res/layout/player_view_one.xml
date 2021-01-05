@@ -38,7 +38,26 @@
             android:layout_gravity="end"
             android:background="@null"
             android:padding="12dp"
+            app:tint="?colorControlNormal"
             app:srcCompat="@drawable/ic_expand_arrow_16dp" />
+
+        <ImageButton
+            android:id="@+id/pagerPrevButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:background="?selectableItemBackground"
+            app:srcCompat="@drawable/ic_round_arrow_left_24"
+            app:tint="?colorControlNormal" />
+
+        <ImageButton
+            android:id="@+id/pagerNextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:background="?selectableItemBackground"
+            app:srcCompat="@drawable/ic_round_arrow_right_24"
+            app:tint="?colorControlNormal"/>
     </FrameLayout>
 
     <LinearLayout
@@ -57,7 +76,7 @@
             android:layout_marginEnd="32dp"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="-1"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -144,6 +163,7 @@
                 android:elevation="4dp"
                 android:padding="12dp"
                 android:enabled="false"
+                app:tint="?colorControlNormal"
                 app:srcCompat="@drawable/ic_prev_32dp" />
 
             <ImageButton
@@ -169,6 +189,7 @@
                 android:elevation="4dp"
                 android:padding="12dp"
                 android:enabled="false"
+                app:tint="?colorControlNormal"
                 app:srcCompat="@drawable/ic_next_32dp" />
 
             <TextView
@@ -186,7 +207,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="kx:Genesis"
+            android:text="Genesis"
             android:alpha="0.35"
             android:layout_marginBottom="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"

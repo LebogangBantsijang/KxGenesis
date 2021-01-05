@@ -96,6 +96,10 @@ public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickL
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
             navController.navigate(R.id.genres_fragment);
         });
+        binding.viewSettings.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigate(R.id.settings_fragment);
+        });
         binding.clearButton.setOnClickListener(v->{
             viewModel.clear();
         });

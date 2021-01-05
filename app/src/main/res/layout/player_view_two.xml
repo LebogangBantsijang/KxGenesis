@@ -48,16 +48,24 @@
             android:layout_gravity="end"
             android:background="@null"
             android:padding="6dp"
-            app:srcCompat="@drawable/ic_expand_arrow_16dp" />
+            app:srcCompat="@drawable/ic_expand_arrow_16dp"
+            app:tint="?colorControlNormal" />
 
-        <ImageView
-            android:id="@+id/albumArtImageView"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:cardCornerRadius="16dp">
+
+            <ImageView
+                android:id="@+id/albumArtImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -158,6 +166,7 @@
                 android:elevation="4dp"
                 android:enabled="false"
                 android:padding="12dp"
+                app:tint="?colorControlNormal"
                 app:srcCompat="@drawable/ic_prev_32dp" />
 
             <ImageButton
@@ -184,6 +193,7 @@
                 android:elevation="4dp"
                 android:enabled="false"
                 android:padding="12dp"
+                app:tint="?colorControlNormal"
                 app:srcCompat="@drawable/ic_next_32dp" />
 
             <ImageButton
@@ -202,7 +212,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:alpha="0.35"
-            android:text="kx:Genesis"
+            android:text="Genesis"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
     </LinearLayout>

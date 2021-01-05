@@ -21,37 +21,42 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
-import com.lebogang.kxgenesis.Adapters.PlayerPagerAdapter;
-import com.lebogang.kxgenesis.Animations.PagerTransformer;
+import com.lebogang.kxgenesis.Adapters.SongsAdapter;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.AppUtils.TimeUnitConvert;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.blurry.Blurry;
 
-public class PlayerControlsOne extends AbstractPlayer implements SongClickListener {
+public class PlayerControlsThree extends AbstractPlayer implements SongClickListener {
     private final AppCompatActivity activity;
     private final ImageButton nextButton, playButton, prevButton
-            , shuffleButton, repeatButton, collapseButton, pagerPrevButton, pagerNextButton;
+            , shuffleButton, repeatButton, collapseButton;
     private final TextView titleTextView, subtitleTextView, startDurationTextView
             , endDurationTextView;
-    private final ViewPager2 viewPager;
     private final SeekBar seekBar;
-    private final PlayerPagerAdapter playerPagerAdapter = new PlayerPagerAdapter();
+    private final ImageView albumArtImageView, backImageView;
+    private final RecyclerView recyclerView;
+    private final SongsAdapter songsAdapter = new SongsAdapter();
 
 
-    public PlayerControlsOne(AppCompatActivity activity, View view) {
+    public PlayerControlsThree(AppCompatActivity activity, View view) {
         this.activity = activity;
         nextButton = view.findViewById(R.id.nextImageButton);
         playButton = view.findViewById(R.id.playImageButton);
@@ -63,11 +68,14 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
         subtitleTextView = view.findViewById(R.id.subTitleTextView);
         startDurationTextView = view.findViewById(R.id.startDuration);
         endDurationTextView = view.findViewById(R.id.endDuration);
-        viewPager = view.findViewById(R.id.pager);
         seekBar = view.findViewById(R.id.seekBar);
-        pagerPrevButton = view.findViewById(R.id.pagerPrevButton);
-        pagerNextButton = view.findViewById(R.id.pagerNextButton);
-        initViewPager();
+        albumArtImageView = view.findViewById(R.id.albumArtImageView);
+        backImageView = view.findViewById(R.id.backImageView);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        songsAdapter.setSongClickListener(this);
+        songsAdapter.setHideOptionsButton(true);
+        recyclerView.setAdapter(songsAdapter);
         super.initViews();
     }
 
@@ -79,24 +87,6 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
     @Override
     public TextView getStartDurationTextView() {
         return startDurationTextView;
-    }
-
-    private void initViewPager(){
-        playerPagerAdapter.setSongClickListener(this);
-        viewPager.setPageTransformer(new PagerTransformer(activity));
-        viewPager.setAdapter(playerPagerAdapter);
-        pagerNextButton.setOnClickListener(v ->{
-            int index = viewPager.getCurrentItem() + 1;
-            if (index < playerPagerAdapter.getItemCount()){
-                viewPager.setCurrentItem(index, true);
-            }
-        });
-        pagerPrevButton.setOnClickListener(v ->{
-            int index = viewPager.getCurrentItem() - 1;
-            if (index >= 0){
-                viewPager.setCurrentItem(index, true);
-            }
-        });
     }
 
     @Override
@@ -134,9 +124,20 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
         subtitleTextView.setText(audio.getArtistTitle());
         endDurationTextView.setText(TimeUnitConvert.toMinutes(audio.getAudioDuration()));
         seekBar.setMax((int) audio.getAudioDuration());
-        playerPagerAdapter.setCurrentPlayingId(audio.getId());
-        int index = playerPagerAdapter.getIndex(audio.getId());
-        viewPager.setCurrentItem(index);
+        Glide.with(activity)
+                .load(audio.getAlbumArtUri())
+                .error(R.drawable.ic_music_light)
+                .downsample(DownsampleStrategy.AT_MOST)
+                .dontAnimate()
+                .into(albumArtImageView)
+                .waitForLayout();
+        int color = AudioIndicator.Colors.getDefaultColor();
+        songsAdapter.setAudioIdHighlightingColor(audio.getId(), color);
+        Bitmap bitmap = AudioIndicator.getBitmap(activity, audio.getAlbumArtUri());
+        Blurry.with(activity)
+                .radius(30)
+                .from(bitmap)
+                .into(backImageView);
     }
 
     @Override
@@ -222,7 +223,7 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
 
     @Override
     public void setPagerData(List<Audio> list) {
-        playerPagerAdapter.setList(list);
+        songsAdapter.setList(new ArrayList<>(list));
     }
 
     @Override
@@ -231,7 +232,7 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
         if (mediaControllerCompat != null){
             Bundle bundle = new Bundle();
             bundle.putParcelable("Item", audio);
-            bundle.putParcelableArrayList("List", playerPagerAdapter.getList());
+            bundle.putParcelableArrayList("List",songsAdapter.getList());
             mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
         }
     }

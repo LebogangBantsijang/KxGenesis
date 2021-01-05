@@ -18,14 +18,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="64dp"
-    android:clipToPadding="false"
-    android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:background="@drawable/shaper_rectangle_round_corners_4dp_with_bg"
+    android:gravity="center_vertical"
     android:clickable="true"
-    android:focusable="auto"
+    android:focusable="true"
     android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
-    android:orientation="horizontal">
+    android:layout_marginBottom="2dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="46dp"
@@ -95,4 +94,5 @@
         android:padding="12dp"
         app:tint="?colorControlNormal"
         app:srcCompat="@drawable/ic_menu" />
+
 </LinearLayout>

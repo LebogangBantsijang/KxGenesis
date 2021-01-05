@@ -20,8 +20,10 @@ import android.view.View;
 
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.lebogang.kxgenesis.R;
+
 public class PagerTransformer implements ViewPager2.PageTransformer {
-    private int maxTranslateOffsetX;
+    private final int maxTranslateOffsetX;
 
     public PagerTransformer(Context context) {
         this.maxTranslateOffsetX = dp2px(context, 180);

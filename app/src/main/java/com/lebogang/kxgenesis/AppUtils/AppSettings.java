@@ -124,7 +124,8 @@ public class AppSettings {
                 return R.layout.player_view_one;
             case 1:
                 return R.layout.player_view_two;
-
+            case 2:
+                return R.layout.player_view_three;
         }
         return R.layout.player_view_one;
     }
@@ -141,15 +142,43 @@ public class AppSettings {
         preferences.edit().putInt("Player", index).apply();
     }
 
-    public static boolean displayGrid(Context context){
+    public static boolean getAlbumDisplayGrid(Context context){
         SharedPreferences preferences = context.getApplicationContext()
                 .getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        return preferences.getBoolean("displayGrid", true);
+        return preferences.getBoolean("AlbumGrid", true);
     }
 
-    public static void setDisplayGrid(Context context, boolean value){
+    public static boolean getArtistDisplayGrid(Context context){
         SharedPreferences preferences = context.getApplicationContext()
                 .getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        preferences.edit().putBoolean("displayGrid",value).apply();
+        return preferences.getBoolean("ArtistGrid", true);
+    }
+
+    public static void setAlbumGridDisplay(Context context, boolean value){
+        SharedPreferences preferences = context.getApplicationContext()
+                .getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        preferences.edit().putBoolean("AlbumGrid",value).apply();
+    }
+
+    public static void setArtistGridDisplay(Context context, boolean value){
+        SharedPreferences preferences = context.getApplicationContext()
+                .getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        preferences.edit().putBoolean("ArtistGrid",value).apply();
+    }
+
+    public static void setFilter(Context context, int duration){
+        SharedPreferences preferences = context.getApplicationContext()
+                .getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        preferences.edit().putInt("Filter", duration).apply();
+    }
+
+    public static int getFilterDuration(Context context, boolean asIndex){
+        SharedPreferences preferences = context.getApplicationContext()
+                .getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        if (asIndex){
+            return preferences.getInt("Filter", 0);
+        }else {
+            return (preferences.getInt("Filter", 0) * 30000);
+        }
     }
 }

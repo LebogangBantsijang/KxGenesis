@@ -95,6 +95,13 @@ public class AudioIndicator {
             return drawableTint;
         }
 
+        public static int getTextColor(){
+            if (swatch != null){
+                return swatch.getTitleTextColor();
+            }
+            return defaultColor;
+        }
+
         private static Bitmap getBitmap(Context context, Uri uri){
             try {
                 InputStream inputStream = context.getContentResolver().openInputStream(uri);

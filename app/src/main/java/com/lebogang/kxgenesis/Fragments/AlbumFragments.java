@@ -95,7 +95,7 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
     }
 
     private void initRecyclerView(){
-        boolean displayGrid = AppSettings.displayGrid(requireContext());
+        boolean displayGrid = AppSettings.getAlbumDisplayGrid(requireContext());
         adapter.setAlbumClickListener(this);
         adapter.setLayoutGrid(displayGrid);
         if (displayGrid)

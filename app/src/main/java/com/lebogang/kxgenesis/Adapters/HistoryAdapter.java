@@ -50,15 +50,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Holder>{
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Audio audio = list.get(position);
-        Uri uri = Uri.parse(audio.getArtUri());
         holder.binding.titleTextView.setText(audio.getAudioName());
         holder.binding.subtitleTextView.setText(audio.getArtistName() + " - " + audio.getAlbumName());
         holder.binding.dateTextView.setText(audio.getDateString());
-        Glide.with(holder.itemView)
-                .load(uri)
-                .error(R.drawable.ic_music_light)
-                .into(holder.binding.imageView)
-                .waitForLayout();
     }
 
     @Override
