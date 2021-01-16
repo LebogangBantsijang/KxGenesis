@@ -44,6 +44,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.AppUtils.AppSettings;
 import com.lebogang.kxgenesis.Players.AbstractPlayer;
+import com.lebogang.kxgenesis.Players.PlayerControlsFive;
 import com.lebogang.kxgenesis.Players.PlayerControlsFour;
 import com.lebogang.kxgenesis.Players.PlayerControlsOne;
 import com.lebogang.kxgenesis.Players.PlayerControlsThree;
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     }
 
     public void setNavigationColor(int color, boolean allow){
-        if (selectedPlayerIndex == 3 && allow)
+        if ((selectedPlayerIndex == 1||selectedPlayerIndex == 2 ||selectedPlayerIndex == 3) && allow)
             getWindow().setNavigationBarColor(color);
     }
 
@@ -171,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
                 break;
             case R.layout.player_view_four:
                 player = new PlayerControlsFour(this, view);
+                break;
+            case R.layout.player_view_five:
+                player = new PlayerControlsFive(this, view);
                 break;
         }
         threadHandler.setSeekBar(player.getSeekBar());

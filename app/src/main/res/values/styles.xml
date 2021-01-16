@@ -18,6 +18,8 @@
         <item name="android:windowSplashscreenContent" tools:ignore="NewApi">@drawable/splash</item>
     </style>
 
+    <style name="Dark.Overlay" parent="ThemeOverlay.MaterialComponents.Dark" />
+
     <style name="ThemeTwo.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/themeTwo</item>

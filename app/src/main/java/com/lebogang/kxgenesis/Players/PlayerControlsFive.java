@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Lebogang Bantsijang
+ * Copyright (c) 2021. Lebogang Bantsijang
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,10 +15,13 @@
 
 package com.lebogang.kxgenesis.Players;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
-import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
@@ -28,33 +31,30 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.lebogang.audiofilemanager.Models.Audio;
-import com.lebogang.kxgenesis.Adapters.PlayerPagerAdapter;
-import com.lebogang.kxgenesis.Animations.PagerTransformer;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
-import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.AppUtils.TimeUnitConvert;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 
 import java.util.List;
 
-public class PlayerControlsTwo extends AbstractPlayer implements SongClickListener {
+import jp.wasabeef.blurry.Blurry;
+
+public class PlayerControlsFive extends AbstractPlayer{
     private final AppCompatActivity activity;
     private final ImageButton nextButton, playButton, prevButton
-            , shuffleButton, repeatButton, collapseButton;
+            , shuffleButton, repeatButton, collapseButton, shareButton;
     private final TextView titleTextView, subtitleTextView, startDurationTextView
             , endDurationTextView;
     private final SeekBar seekBar, volSeekBar;
     private final ImageView albumArtImageView, backImageView;
 
-
-    public PlayerControlsTwo(AppCompatActivity activity, View view) {
+    public PlayerControlsFive(AppCompatActivity activity, View view) {
         this.activity = activity;
         nextButton = view.findViewById(R.id.nextImageButton);
         playButton = view.findViewById(R.id.playImageButton);
@@ -62,6 +62,7 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
         shuffleButton = view.findViewById(R.id.shuffleImageButton);
         repeatButton = view.findViewById(R.id.repeatImageButton);
         collapseButton = view.findViewById(R.id.collapseImageButton);
+        shareButton = view.findViewById(R.id.shareImageButton);
         titleTextView = view.findViewById(R.id.titleTextText);
         subtitleTextView = view.findViewById(R.id.subTitleTextView);
         startDurationTextView = view.findViewById(R.id.startDuration);
@@ -72,6 +73,7 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
         backImageView = view.findViewById(R.id.backImageView);
         super.initViews();
     }
+
 
     @Override
     public SeekBar getSeekBar() {
@@ -125,13 +127,16 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
                 .dontAnimate()
                 .into(albumArtImageView)
                 .waitForLayout();
-        Glide.with(activity)
-                .load(audio.getAlbumArtUri())
-                .error(R.drawable.ic_music_light)
-                .downsample(DownsampleStrategy.AT_MOST)
-                .dontAnimate()
-                .into(backImageView)
-                .waitForLayout();
+        @SuppressLint("UseCompatLoadingForDrawables")
+        GradientDrawable gradientDrawable = (GradientDrawable) activity.getResources().getDrawable(R.drawable.shape_overlay, activity.getTheme());
+        int colorTop = activity.getResources().getColor(R.color.colorTranslucent,activity.getTheme());
+        int[] colors = {colorTop, AudioIndicator.Colors.getBackgroundColor()};
+        gradientDrawable.setColors(colors);
+        Bitmap bitmap = AudioIndicator.getBitmap(activity, audio.getAlbumArtUri());
+        Blurry.with(activity)
+                .radius(30)
+                .from(bitmap)
+                .into(backImageView);
         ((MainActivity) activity).setNavigationColor(AudioIndicator.Colors.getBackgroundColor()
                 , ((MainActivity) activity).getBottomSheetState() == BottomSheetBehavior.STATE_EXPANDED);
     }
@@ -219,6 +224,16 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
 
     @Override
     public void onShare() {
+        shareButton.setOnClickListener(v->{
+            Audio audio = AudioIndicator.getCurrentItem().getValue();
+            if (audio != null){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("audio/*");
+                intent.putExtra(Intent.EXTRA_STREAM, audio.getUri());
+                activity.startActivity(Intent.createChooser(intent,"Share Song"));
+            }
+        });
     }
 
     @Override
@@ -255,18 +270,4 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
     public void setPagerData(List<Audio> list) {
     }
 
-    @Override
-    public void onClick(Audio audio) {
-        MediaControllerCompat mediaControllerCompat = MediaControllerCompat.getMediaController(activity);
-        if (mediaControllerCompat != null){
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("Item", audio);
-            mediaControllerCompat.getTransportControls().playFromUri(audio.getUri(), bundle);
-        }
-    }
-
-    @Override
-    public void onClickOptions(Audio audio) {
-
-    }
 }

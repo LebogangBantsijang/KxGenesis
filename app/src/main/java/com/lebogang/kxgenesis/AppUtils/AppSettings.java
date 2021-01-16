@@ -123,11 +123,13 @@ public class AppSettings {
             case 0:
                 return R.layout.player_view_one;
             case 1:
-                return R.layout.player_view_two;
-            case 2:
-                return R.layout.player_view_three;
-            case 3:
                 return R.layout.player_view_four;
+            case 2:
+                return R.layout.player_view_five;
+            case 3:
+                return R.layout.player_view_two;
+            case 4:
+                return R.layout.player_view_three;
         }
         return R.layout.player_view_one;
     }

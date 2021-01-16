@@ -46,7 +46,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="bottom"
-            android:background="?colorSurface">
+            android:background="?colorSurface"
+            android:alpha="0.8">
 
             <LinearLayout
                 android:id="@+id/linearLayout6"

@@ -30,7 +30,7 @@
         android:layout_margin="8dp"
         app:civ_border_color="?colorPrimary"
         app:civ_circle_background_color="?colorSurface"
-        app:civ_border_width="2dp"/>
+        app:civ_border_width="1dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
+            android:layout_marginEnd="18dp"
             android:gravity="bottom"
             android:text="TextView" />
 
@@ -52,9 +53,11 @@
             android:id="@+id/subtitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:text="TextView"
             android:maxLines="1"
+            android:textColor="?android:textColorSecondaryInverseNoDisable"
+            android:layout_marginEnd="18dp"
             android:ellipsize="end"/>
 
         <TextView
@@ -62,11 +65,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:ellipsize="end"
             android:maxLines="1"
             android:gravity="end"
-            android:textStyle="bold"
             android:text="01/01/2020 - 12:36" />
 
     </LinearLayout>
