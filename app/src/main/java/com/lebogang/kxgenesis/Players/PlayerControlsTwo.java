@@ -15,6 +15,9 @@
 
 package com.lebogang.kxgenesis.Players;
 
+import android.content.Context;
+import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -46,7 +49,7 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
             , shuffleButton, repeatButton, collapseButton;
     private final TextView titleTextView, subtitleTextView, startDurationTextView
             , endDurationTextView;
-    private final SeekBar seekBar;
+    private final SeekBar seekBar, volSeekBar;
     private final ImageView albumArtImageView, backImageView;
 
 
@@ -63,6 +66,7 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
         startDurationTextView = view.findViewById(R.id.startDuration);
         endDurationTextView = view.findViewById(R.id.endDuration);
         seekBar = view.findViewById(R.id.seekBar);
+        volSeekBar = view.findViewById(R.id.volSeekBar);
         albumArtImageView = view.findViewById(R.id.albumArtImageView);
         backImageView = view.findViewById(R.id.backImageView);
         super.initViews();
@@ -208,6 +212,40 @@ public class PlayerControlsTwo extends AbstractPlayer implements SongClickListen
         collapseButton.setOnClickListener(v->{
             ((MainActivity) activity).collapse();
         });
+    }
+
+    @Override
+    public void onShare() {
+    }
+
+    @Override
+    protected void onVolume() {
+        AudioManager audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        volSeekBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        volSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        volSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser){
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    @Override
+    public void setVolumeToSeekBar(int volume) {
+        volSeekBar.setProgress(volume);
     }
 
     @Override

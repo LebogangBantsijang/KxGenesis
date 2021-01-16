@@ -15,7 +15,10 @@
 
 package com.lebogang.kxgenesis.Players;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -47,10 +50,10 @@ import jp.wasabeef.blurry.Blurry;
 public class PlayerControlsThree extends AbstractPlayer implements SongClickListener {
     private final AppCompatActivity activity;
     private final ImageButton nextButton, playButton, prevButton
-            , shuffleButton, repeatButton, collapseButton;
+            , shuffleButton, repeatButton, collapseButton, shareImageButton;
     private final TextView titleTextView, subtitleTextView, startDurationTextView
             , endDurationTextView;
-    private final SeekBar seekBar;
+    private final SeekBar seekBar, volSeekBar;
     private final ImageView albumArtImageView, backImageView;
     private final RecyclerView recyclerView;
     private final SongsAdapter songsAdapter = new SongsAdapter();
@@ -63,6 +66,8 @@ public class PlayerControlsThree extends AbstractPlayer implements SongClickList
         prevButton = view.findViewById(R.id.prevImageButton);
         shuffleButton = view.findViewById(R.id.shuffleImageButton);
         repeatButton = view.findViewById(R.id.repeatImageButton);
+        shareImageButton = view.findViewById(R.id.shareImageButton);
+        volSeekBar = view.findViewById(R.id.volSeekBar);
         collapseButton = view.findViewById(R.id.collapseImageButton);
         titleTextView = view.findViewById(R.id.titleTextText);
         subtitleTextView = view.findViewById(R.id.subTitleTextView);
@@ -131,13 +136,14 @@ public class PlayerControlsThree extends AbstractPlayer implements SongClickList
                 .dontAnimate()
                 .into(albumArtImageView)
                 .waitForLayout();
-        int color = AudioIndicator.Colors.getDefaultColor();
+        int color = AudioIndicator.Colors.getPrimaryColor();
         songsAdapter.setAudioIdHighlightingColor(audio.getId(), color);
         Bitmap bitmap = AudioIndicator.getBitmap(activity, audio.getAlbumArtUri());
         Blurry.with(activity)
                 .radius(30)
                 .from(bitmap)
                 .into(backImageView);
+        recyclerView.scrollToPosition(songsAdapter.getAudioPosition(audio));
     }
 
     @Override
@@ -219,6 +225,50 @@ public class PlayerControlsThree extends AbstractPlayer implements SongClickList
         collapseButton.setOnClickListener(v->{
             ((MainActivity) activity).collapse();
         });
+    }
+
+    @Override
+    public void onShare() {
+        shareImageButton.setOnClickListener(v->{
+            Audio audio = AudioIndicator.getCurrentItem().getValue();
+            if (audio != null){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("audio/*");
+                intent.putExtra(Intent.EXTRA_STREAM, audio.getUri());
+                activity.startActivity(Intent.createChooser(intent,"Share Song"));
+            }
+        });
+    }
+
+    @Override
+    protected void onVolume() {
+        AudioManager audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        volSeekBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        volSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        volSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser){
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    @Override
+    public void setVolumeToSeekBar(int volume) {
+        volSeekBar.setProgress(volume);
     }
 
     @Override

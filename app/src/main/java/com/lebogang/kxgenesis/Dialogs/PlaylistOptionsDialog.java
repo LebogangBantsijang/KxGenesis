@@ -18,8 +18,10 @@ package com.lebogang.kxgenesis.Dialogs;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,27 +29,28 @@ import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.lebogang.audiofilemanager.Models.Playlist;
-import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistManager;
 import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.Room.Model.PlaylistDetails;
+import com.lebogang.kxgenesis.ViewModels.PlaylistViewModel;
 import com.lebogang.kxgenesis.databinding.LayoutPlaylistOptionsBinding;
 
-public class PlaylistDialog {
+public class PlaylistOptionsDialog {
 
     private LayoutPlaylistOptionsBinding binding;
-    private final PlaylistManager playlistFileManager;
+    private final PlaylistViewModel viewModel;
     private AlertDialog dialog;
-    private final AppCompatActivity activity;
+    private final Context context;
 
-    public PlaylistDialog(PlaylistManager playlistFileManager, AppCompatActivity activity) {
-        this.playlistFileManager = playlistFileManager;
-        this.activity = activity;
+    public PlaylistOptionsDialog(Context context, PlaylistViewModel viewModel) {
+        this.viewModel = viewModel;
+        this.context = context;
     }
 
-    public void createDialog(Playlist playlistItem){
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
-        LayoutInflater inflater = LayoutInflater.from(activity);
+    public void createDialog(PlaylistDetails playlistItem){
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
         binding = LayoutPlaylistOptionsBinding.inflate(inflater);
         builder.setView(binding.getRoot());
         builder.setNegativeButton("Cancel", null);
@@ -56,27 +59,24 @@ public class PlaylistDialog {
         dialog.show();
     }
 
-    private void setupViews(Playlist playlistItem){
+    private void setupViews(PlaylistDetails playlistItem){
         binding.editPlaylist.setOnClickListener(c->{
-            PlaylistCreateUpdate playlistCreateUpdate = new PlaylistCreateUpdate(activity);
-            playlistCreateUpdate.setPlaylistFileManager(playlistFileManager);
+            PlaylistCreateUpdate playlistCreateUpdate = new PlaylistCreateUpdate(context, viewModel);
+            dialog.dismiss();
             playlistCreateUpdate.updateDialog(playlistItem);
         });
         binding.deletePlaylist.setOnClickListener(v->{
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED){
-                playlistFileManager.deletePlaylist(playlistItem.getId());
-                dialog.dismiss();
-            }else
-                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
-        });
-        binding.removeItems.setOnClickListener(v->{
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("Playlist", playlistItem);
+            viewModel.deletePlaylist(playlistItem);
+            Toast.makeText(context, "PLaylist removed", Toast.LENGTH_LONG).show();
             dialog.dismiss();
-            NavController navController = Navigation.findNavController(activity, R.id.fragment_host);
-            navController.navigate(R.id.playlist_audio_manager_fragment, bundle);
         });
-        binding.titleTextView.setText(playlistItem.getTitle());
+        binding.titleTextView.setText(playlistItem.getPlaylistName());
+        Uri uri = Uri.parse(playlistItem.getArtUri());
+        Glide.with(binding.imageView)
+                .load(uri)
+                .error(R.drawable.ic_playlist)
+                .dontAnimate()
+                .into(binding.imageView)
+                .waitForLayout();
     }
 }

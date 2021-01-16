@@ -15,6 +15,7 @@
 
 package com.lebogang.kxgenesis.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -60,9 +61,7 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentLayoutBinding.inflate(inflater);
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(AlbumViewModel.class);
-        viewModel.init(getContext());
+        viewModel = new AlbumViewModel.AlbumViewModelFactory(getContext()).create(AlbumViewModel.class);
         viewModel.registerCallbacks(this, getViewLifecycleOwner());
         return binding.getRoot();
     }
@@ -72,7 +71,18 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         initOtherViews();
-        observer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addObserver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        removeObserver();
     }
 
     private void initOtherViews(){
@@ -105,7 +115,7 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void observer(){
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             binding.expandView.setVisibility(View.VISIBLE);
             binding.titleTextText.setText(mediaItem.getTitle());
@@ -119,9 +129,13 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
         });
     }
 
+    private void removeObserver(){
+        AudioIndicator.getCurrentItem().removeObservers(getViewLifecycleOwner());
+    }
+
     @Override
     public void onQueryComplete(List<Album> albumList) {
-        adapter.setList(AlbumManager.groupByName(albumList));
+        adapter.setList(albumList);
     }
 
     @Override
@@ -132,6 +146,7 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
         navController.navigate(R.id.album_view_fragment, bundle);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -144,6 +159,12 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
                 return true;
             case R.id.menu_volume:
                 navController.navigate(R.id.volume_fragment);
+                return true;
+            case R.id.menu_recent:
+                navController.navigate(R.id.recent_fragment);
+                return true;
+            case R.id.menu_history:
+                navController.navigate(R.id.history_fragment);
                 return true;
             default:
                 return false;

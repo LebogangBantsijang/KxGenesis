@@ -15,9 +15,9 @@
 
 package com.lebogang.kxgenesis.AppUtils;
 
-import com.lebogang.audiofilemanager.Models.Playlist;
+import com.lebogang.kxgenesis.Room.Model.PlaylistDetails;
 
 public interface PlaylistClickListener {
-    void onClick(Playlist playlist);
-    void onClickOptions(Playlist playlist);
+    void onClick(PlaylistDetails playlist);
+    void onClickOptions(PlaylistDetails playlist);
 }

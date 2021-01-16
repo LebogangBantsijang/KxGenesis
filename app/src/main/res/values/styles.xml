@@ -6,10 +6,12 @@
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#00AF3232</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -22,10 +24,12 @@
         <item name="colorPrimaryDark">@color/themeTwo</item>
         <item name="colorAccent">@color/themeTwo</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#00AF3232</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -38,10 +42,12 @@
         <item name="colorPrimaryDark">@color/themeThree</item>
         <item name="colorAccent">@color/themeThree</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#00AF3232</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -54,10 +60,12 @@
         <item name="colorPrimaryDark">@color/themeFour</item>
         <item name="colorAccent">@color/themeFour</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#00AF3232</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -70,10 +78,12 @@
         <item name="colorPrimaryDark">@color/themeFive</item>
         <item name="colorAccent">@color/themeFive</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#00AF3232</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -91,11 +101,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSurface">?colorBackgroundFloating</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -108,10 +121,12 @@
         <item name="colorPrimaryDark">@color/themeTwo</item>
         <item name="colorAccent">@color/themeTwo</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -124,10 +139,12 @@
         <item name="colorPrimaryDark">@color/themeThree</item>
         <item name="colorAccent">@color/themeThree</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -140,10 +157,12 @@
         <item name="colorPrimaryDark">@color/themeFour</item>
         <item name="colorAccent">@color/themeFour</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>
@@ -156,10 +175,12 @@
         <item name="colorPrimaryDark">@color/themeFive</item>
         <item name="colorAccent">@color/themeFive</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
         <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">?attr/colorPrimary</item>
         <item name="android:shadowColor">?attr/colorPrimary</item>

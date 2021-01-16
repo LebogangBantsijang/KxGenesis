@@ -31,19 +31,11 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.google.android.material.card.MaterialCardView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
-            app:cardCornerRadius="8dp">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_playlist_light" />
-
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_marginEnd="8dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,22 +90,8 @@
                 android:drawablePadding="8dp"
                 android:focusable="auto"
                 android:padding="16dp"
-                android:text="Edit playlist"
+                android:text="Rename playlist"
                 app:drawableTint="?colorPrimary" />
-
-            <TextView
-                android:id="@+id/removeItems"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:drawableStart="@drawable/ic_lounge_music_playlist"
-                android:drawableEnd="@drawable/ic_forward"
-                android:drawablePadding="8dp"
-                android:focusable="auto"
-                android:padding="16dp"
-                android:text="Remove items"
-                app:drawableTint="?attr/colorPrimary" />
 
             <TextView
                 android:id="@+id/deletePlaylist"

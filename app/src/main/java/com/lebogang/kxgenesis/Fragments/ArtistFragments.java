@@ -15,6 +15,7 @@
 
 package com.lebogang.kxgenesis.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -59,9 +60,7 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentLayoutBinding.inflate(inflater);
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(ArtistViewModel.class);
-        viewModel.init(getContext());
+        viewModel = new ArtistViewModel.ArtistViewModelFactory(getContext()).create(ArtistViewModel.class);
         viewModel.registerCallbacks(this,this);
         return binding.getRoot();
     }
@@ -71,7 +70,18 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         initOtherViews();
-        observer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addObserver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        removeObserver();
     }
 
     private void initOtherViews(){
@@ -104,7 +114,7 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void observer(){
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             binding.expandView.setVisibility(View.VISIBLE);
             binding.titleTextText.setText(mediaItem.getTitle());
@@ -118,9 +128,13 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
         });
     }
 
+    private void removeObserver(){
+        AudioIndicator.getCurrentItem().removeObservers(getViewLifecycleOwner());
+    }
+
     @Override
     public void onQueryComplete(List<Artist> artistList) {
-        adapter.setList(ArtistManager.groupByName(artistList));
+        adapter.setList(artistList);
     }
 
     @Override
@@ -131,6 +145,7 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
         navController.navigate(R.id.artist_view_fragment, bundle);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -143,6 +158,12 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
                 return true;
             case R.id.menu_volume:
                 navController.navigate(R.id.volume_fragment);
+                return true;
+            case R.id.menu_recent:
+                navController.navigate(R.id.recent_fragment);
+                return true;
+            case R.id.menu_history:
+                navController.navigate(R.id.history_fragment);
                 return true;
             default:
                 return false;

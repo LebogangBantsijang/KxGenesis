@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.support.v4.media.session.MediaControllerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,4 +88,5 @@ public class MediaSettingsFragment extends Fragment {
             }
         });
     }
+
 }

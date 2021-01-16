@@ -14,13 +14,13 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:resizeableActivity="false"
-
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ThemeTwo.Light"
         android:requestLegacyExternalStorage="true">
         <activity android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

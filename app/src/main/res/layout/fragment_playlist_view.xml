@@ -76,16 +76,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_rectangle_round_corner_bottom"
-                android:backgroundTint="?attr/colorSurface"
-                android:orientation="horizontal"
-                >
+                android:theme="@style/ThemeTwo.Dark">
+
+                <ImageView
+                    android:id="@+id/playlistImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="156dp"
+                    android:alpha="0.8"
+                    android:foreground="@color/colorLottieBackground"
+                    android:scaleType="centerCrop"
+                    />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
@@ -98,9 +104,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:ellipsize="middle"
-                        android:maxLines="2"
-                        android:text="TextView"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Playlist name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
                     <TextView
@@ -108,58 +114,65 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text="Playlist"
+                        android:maxLines="1"
+                        android:text="Date Updated: "
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="?colorPrimary" />
+                        />
 
                     <TextView
                         android:id="@+id/numSongsTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Total: 0"
+                        android:text="Total Songs: 0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     <TextView
                         android:id="@+id/durationTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="00:00"
+                        android:text="Duration: 00:00"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         />
                 </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:outlineSpotShadowColor="?attr/colorPrimary"
-                    android:outlineAmbientShadowColor="?attr/colorPrimary"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp">
+                <ImageButton
+                    android:id="@+id/addImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="bottom|end"
+                    android:padding="8dp"
+                    android:backgroundTint="?colorButtonNormal"
+                    android:background="@drawable/shape_circle"
+                    app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/ic_playlist_light"
-                        app:tint="?colorPrimary" />
-                </com.google.android.material.card.MaterialCardView>
+            </FrameLayout>
 
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+                <ImageButton
+                    android:id="@+id/addAudioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_add_list"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="bottom|end"
+                    android:padding="14dp"
+                    android:backgroundTint="?colorButtonNormal"
+                    android:background="@drawable/shape_circle"
+                    app:tint="?colorPrimary" />
+
+            </FrameLayout>
 
         </LinearLayout>
 

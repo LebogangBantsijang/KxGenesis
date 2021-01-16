@@ -29,9 +29,11 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.media.app.NotificationCompat.MediaStyle;
+import androidx.media.session.MediaButtonReceiver;
 
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
+import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 
 public class NotificationHandler {
@@ -44,6 +46,7 @@ public class NotificationHandler {
     private PendingIntent prevPendingIntent, playPausePendingIntent, nextPendingIntent;
 
     public NotificationHandler(Context context, MediaSessionCompat.Token token) {
+        //MediaButtonReceiver.buildMediaButtonPendingIntent()
         this.context = context;
         this.token = token;
         prevPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(CustomReceiver.ACTION_PREVIOUS),PendingIntent.FLAG_UPDATE_CURRENT);
@@ -64,7 +67,7 @@ public class NotificationHandler {
 
     public Notification getNotification(Audio mediaItem, int state){
         builder = new NotificationCompat.Builder(context, NOTIFICATION_ID);
-        builder.addAction(R.drawable.ic_round_navigate_before_24,"Prev", prevPendingIntent);
+        builder.addAction(R.drawable.ic_round_navigate_before_24,"Prev",prevPendingIntent);
         if (state == PlaybackStateCompat.STATE_PLAYING){
             builder.addAction(R.drawable.ic_round_pause_24,"Pause", playPausePendingIntent);
             builder.setSubText("Playing");
@@ -82,6 +85,7 @@ public class NotificationHandler {
                 .setShowActionsInCompactView(0,1,2)
                 .setShowCancelButton(false)
         );
+        builder.setContentIntent(MainActivity.getPendingIntent());
         builder.setCategory(NotificationCompat.CATEGORY_TRANSPORT);
         builder.setShowWhen(false);
         //firebase test lab is forcing me to do this

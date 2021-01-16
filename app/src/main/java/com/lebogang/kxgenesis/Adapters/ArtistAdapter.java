@@ -27,11 +27,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lebogang.audiofilemanager.Models.Artist;
 import com.lebogang.kxgenesis.AppUtils.ArtistClickListener;
 import com.lebogang.kxgenesis.R;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.Holder>{
+public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.Holder> implements FastScrollRecyclerView.SectionedAdapter {
     private Context context;
     private boolean isLayoutGrid = true;
     private List<Artist> list = new ArrayList<>();
@@ -71,6 +72,13 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.Holder>{
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        String name = list.get(position).getTitle() != null? list.get(position).getTitle():"?";
+        return name.substring(0,1).toUpperCase();
     }
 
     public class Holder extends RecyclerView.ViewHolder{

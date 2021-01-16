@@ -21,7 +21,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
         android:layout_weight="1">
 
         <androidx.viewpager2.widget.ViewPager2
@@ -34,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
             android:layout_gravity="end"
             android:background="@null"
             android:padding="12dp"
@@ -68,16 +68,88 @@
         android:layout_gravity="bottom"
         android:background="?colorSurface">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="56dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_round_volume_down_16" />
+
+            <SeekBar
+                android:id="@+id/volSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumbTint="?colorControlNormal"
+                android:progressTint="?colorControlNormal"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_round_volume_up_16" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="start">
+
+            <ImageButton
+                android:id="@+id/repeatImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:padding="4dp"
+                app:tint="?colorControlNormal"
+                app:srcCompat="@drawable/ic_repeat_off" />
+
+            <ImageButton
+                android:id="@+id/shareImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:tint="?colorControlNormal"
+                app:srcCompat="@drawable/ic_share_24dp" />
+
+            <ImageButton
+                android:id="@+id/shuffleImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:padding="4dp"
+                app:tint="?colorControlNormal"
+                app:srcCompat="@drawable/ic_shuffle_off" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/titleTextText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:ellipsize="marquee"
-            android:marqueeRepeatLimit="-1"
-            android:layout_marginBottom="6dp"
             android:gravity="center"
+            android:marqueeRepeatLimit="-1"
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:singleLine="true" />
@@ -87,53 +159,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:gravity="center"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:maxLines="1"
+            android:gravity="center"
             android:text=""
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="?colorPrimary" />
+            />
 
-        <LinearLayout
+        <SeekBar
+            android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="24dp">
-
-            <ImageButton
-                android:id="@+id/repeatImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="4dp"
-                app:tint="?colorPrimary"
-                app:srcCompat="@drawable/ic_repeat_off" />
-
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:enabled="false"
-                android:max="0"
-                android:progressTint="?colorPrimary"
-                android:thumbTint="?colorPrimary" />
-
-            <ImageButton
-                android:id="@+id/shuffleImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="4dp"
-                app:tint="?colorPrimary"
-                app:srcCompat="@drawable/ic_shuffle_off" />
-
-        </LinearLayout>
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:enabled="false"
+            android:max="0"
+            android:progressTint="?colorPrimary"
+            android:thumbTint="?colorPrimary" />
 
         <LinearLayout
             android:id="@+id/linearLayout6"
@@ -141,7 +186,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="6dp"
             android:gravity="center"
             android:orientation="horizontal">
 

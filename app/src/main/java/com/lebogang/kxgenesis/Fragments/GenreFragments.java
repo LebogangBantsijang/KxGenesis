@@ -68,9 +68,19 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         initOtherViews();
-        observer();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        addObserver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        removeObserver();
+    }
     private void initOtherViews(){
         binding.backButton.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -87,7 +97,7 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void observer(){
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             binding.expandView.setVisibility(View.VISIBLE);
             binding.titleTextText.setText(mediaItem.getTitle());
@@ -99,6 +109,10 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
                     .into(binding.coverImageView)
                     .waitForLayout();
         });
+    }
+
+    private void removeObserver(){
+        AudioIndicator.getCurrentItem().removeObservers(getViewLifecycleOwner());
     }
 
     @Override

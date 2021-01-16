@@ -15,6 +15,7 @@
 
 package com.lebogang.kxgenesis.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -38,7 +40,7 @@ import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.Adapters.SongsAdapter;
 import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
-import com.lebogang.kxgenesis.Dialogs.SongsDialog;
+import com.lebogang.kxgenesis.Dialogs.SongsOptionsDialog;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.R;
@@ -48,7 +50,8 @@ import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongsFragments extends Fragment implements SongClickListener, AudioCallbacks, SongDeleteListener, PopupMenu.OnMenuItemClickListener {
+public class SongsFragments extends Fragment implements SongClickListener, AudioCallbacks, SongDeleteListener,
+        PopupMenu.OnMenuItemClickListener, DefaultLifecycleObserver {
 
     private FragmentLayoutBinding binding;
     private AudioViewModel viewModel;
@@ -57,13 +60,18 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
     public SongsFragments() {
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentLayoutBinding.inflate(inflater);
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(AudioViewModel.class);
-        viewModel.init(getContext());
+        initRecyclerView();
+        initOtherViews();
+        viewModel = new AudioViewModel.AudioViewModelFactory(getContext()).create(AudioViewModel.class);
         viewModel.registerCallback(this,this);
         return binding.getRoot();
     }
@@ -71,9 +79,7 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRecyclerView();
-        initOtherViews();
-        observer();
+        addObserver();
     }
 
     private void initOtherViews(){
@@ -98,12 +104,16 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
     private void initRecyclerView(){
         songsAdapter.setSongClickListener(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.getItemAnimator().setAddDuration(500);
+        binding.recyclerView.getItemAnimator().setMoveDuration(500);
+        binding.recyclerView.getItemAnimator().setRemoveDuration(500);
+        binding.recyclerView.getItemAnimator().setChangeDuration(500);
         binding.recyclerView.setAdapter(songsAdapter);
     }
 
-    private void observer(){
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(),mediaItem -> {
-            int color = AudioIndicator.Colors.getDefaultColor();
+            int color = AudioIndicator.Colors.getPrimaryColor();
             songsAdapter.setAudioIdHighlightingColor(mediaItem.getId(), color);
             int position = songsAdapter.getAudioPosition(mediaItem);
             binding.recyclerView.scrollToPosition(position);
@@ -117,6 +127,10 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
                     .into(binding.coverImageView)
                     .waitForLayout();
         });
+    }
+
+    private void removeObserver(){
+        AudioIndicator.getCurrentItem().removeObservers(getViewLifecycleOwner());
     }
 
     @Override
@@ -138,9 +152,9 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
 
     @Override
     public void onClickOptions(Audio audio) {
-        SongsDialog songsDialog = new SongsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
-        songsDialog.setSongDeleteListener(this);
-        songsDialog.createDialog(audio);
+        SongsOptionsDialog songsOptionsDialog = new SongsOptionsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
+        songsOptionsDialog.setSongDeleteListener(this);
+        songsOptionsDialog.createDialog(audio);
     }
 
     @Override
@@ -148,6 +162,7 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
         songsAdapter.deleteAudio(audio);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -161,8 +176,15 @@ public class SongsFragments extends Fragment implements SongClickListener, Audio
             case R.id.menu_volume:
                 navController.navigate(R.id.volume_fragment);
                 return true;
+            case R.id.menu_recent:
+                navController.navigate(R.id.recent_fragment);
+                return true;
+            case R.id.menu_history:
+                navController.navigate(R.id.history_fragment);
+                return true;
             default:
                 return false;
         }
     }
+
 }

@@ -37,7 +37,7 @@ import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.Adapters.SongsAdapter;
 import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
-import com.lebogang.kxgenesis.Dialogs.SongsDialog;
+import com.lebogang.kxgenesis.Dialogs.SongsOptionsDialog;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
@@ -59,9 +59,7 @@ public class SearchFragment extends Fragment implements SongClickListener, Audio
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(AudioViewModel.class);
-        viewModel.init(getContext());
+        viewModel = new AudioViewModel.AudioViewModelFactory(getContext()).create(AudioViewModel.class);
         viewModel.registerCallback(this,this);
         return binding.getRoot();
     }
@@ -72,6 +70,18 @@ public class SearchFragment extends Fragment implements SongClickListener, Audio
         setupRecyclerView();
         setupEditText();
         initViews();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addObserver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        removeObserver();
     }
 
     private void setupEditText(){
@@ -94,8 +104,11 @@ public class SearchFragment extends Fragment implements SongClickListener, Audio
         songsAdapter.setUserSearching(true);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(songsAdapter);
+    }
+
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = AudioIndicator.Colors.getDefaultColor();
+            int color = AudioIndicator.Colors.getPrimaryColor();
             songsAdapter.setAudioIdHighlightingColor(mediaItem.getId(), color);
             int position = songsAdapter.getAudioPosition(mediaItem);
             binding.recyclerView.scrollToPosition(position);
@@ -109,6 +122,10 @@ public class SearchFragment extends Fragment implements SongClickListener, Audio
                     .into(binding.coverImageView)
                     .waitForLayout();
         });
+    }
+
+    private void removeObserver(){
+        AudioIndicator.getCurrentItem().removeObservers(getViewLifecycleOwner());
     }
 
     private void initViews(){
@@ -140,9 +157,9 @@ public class SearchFragment extends Fragment implements SongClickListener, Audio
 
     @Override
     public void onClickOptions(Audio audio) {
-        SongsDialog songsDialog = new SongsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
-        songsDialog.setSongDeleteListener(this);
-        songsDialog.createDialog(audio);
+        SongsOptionsDialog songsOptionsDialog = new SongsOptionsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
+        songsOptionsDialog.setSongDeleteListener(this);
+        songsOptionsDialog.createDialog(audio);
     }
 
     @Override

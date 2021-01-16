@@ -16,6 +16,7 @@
 package com.lebogang.kxgenesis.AppUtils;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -57,18 +58,22 @@ public class AudioIndicator {
     }
 
     public static class Colors{
-        private static int defaultColor;
+        private static int primaryColor;
         private static int windowColor;
         private static int drawableTint;
+        private static int textColor;
         private static Palette.Swatch swatch;
 
         protected static void setContext(Context context, Uri uri){
-            defaultColor = MainActivity.COLOR;
-            windowColor = context.getApplicationContext().getResources().getColor(R.color.colorTranslucent);
-            drawableTint = context.getApplicationContext().getResources().getColor(R.color.colorDrawableTint);
+            primaryColor = MainActivity.COLOR;
+            windowColor = MainActivity.COLOR_SURFACE;
+            drawableTint = MainActivity.COLOR;
+            textColor = MainActivity.TEXT_COLOR;
             Bitmap bitmap = getBitmap(context.getApplicationContext(), uri);
             if (bitmap != null){
-                swatch = Palette.from(bitmap).generate().getDarkVibrantSwatch();
+                swatch = Palette.from(bitmap).generate().getDominantSwatch();
+                if (swatch == null)
+                    swatch = Palette.from(bitmap).generate().getDarkVibrantSwatch();
                 if (swatch == null)
                     swatch = Palette.from(bitmap).generate().getLightVibrantSwatch();
                 if (swatch == null)
@@ -77,10 +82,10 @@ public class AudioIndicator {
                 swatch = null;
         }
 
-        public static int getDefaultColor(){
+        public static int getPrimaryColor(){
             if (swatch != null)
                 return swatch.getRgb();
-            return defaultColor;
+            return primaryColor;
         }
 
         public static int getBackgroundColor(){
@@ -99,7 +104,7 @@ public class AudioIndicator {
             if (swatch != null){
                 return swatch.getTitleTextColor();
             }
-            return defaultColor;
+            return textColor;
         }
 
         private static Bitmap getBitmap(Context context, Uri uri){

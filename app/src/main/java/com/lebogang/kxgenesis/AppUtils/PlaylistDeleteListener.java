@@ -16,7 +16,6 @@
 package com.lebogang.kxgenesis.AppUtils;
 
 import com.lebogang.audiofilemanager.Models.Audio;
-import com.lebogang.audiofilemanager.Models.Playlist;
 
 public interface PlaylistDeleteListener {
     void onDelete(Audio audio);

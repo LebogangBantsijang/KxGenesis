@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Lebogang Bantsijang
+ * Copyright (c) 2021. Lebogang Bantsijang
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,37 +17,27 @@ package com.lebogang.kxgenesis.Room.DataAccessObjects;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-
-import com.lebogang.kxgenesis.Room.Model.Audio;
+import com.lebogang.kxgenesis.Room.Model.PlaylistAudio;
 
 import java.util.List;
 
 @Dao
-public interface AudioDao {
+public interface PlaylistAudioDao {
 
-    @Query("SELECT * FROM Audio ORDER BY date DESC")
-    LiveData<List<Audio>> getAudio();
-
-    @Query("SELECT audioId FROM Audio ORDER BY date DESC")
-    LiveData<List<Long>> getAudioIds();
-
-    @Query("SELECT albumId FROM Audio ORDER BY date DESC")
-    LiveData<List<Long>> getAlbumIds();
-
-    @Query("SELECT artistId FROM Audio ORDER BY date DESC")
-    LiveData<List<Long>> getArtistIds();
+    @Query("SELECT audioId FROM PlaylistsAudioBridge WHERE playlistId =:id")
+    LiveData<List<Long>> getPlaylistAudioIds(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addAudio(Audio audio);
+    void addAudio(PlaylistAudio playlistAudio);
 
-    @Delete
-    void removeAudio(Audio audio);
+    @Query("DELETE FROM PlaylistsAudioBridge WHERE playlistId =:id")
+    void clearPlaylistAudio(int id);
 
-    @Query("DELETE FROM Audio")
-    void clear();
+    @Query("DELETE FROM PlaylistsAudioBridge WHERE playlistId =:playlistId AND audioId =:audioId")
+    void deleteAudio(int playlistId, long audioId);
+
 }

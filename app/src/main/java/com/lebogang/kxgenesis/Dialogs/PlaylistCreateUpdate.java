@@ -17,31 +17,32 @@ package com.lebogang.kxgenesis.Dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.icu.util.Calendar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.lebogang.audiofilemanager.Models.Playlist;
-import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistManager;
+import com.lebogang.kxgenesis.Room.Model.PlaylistDetails;
+import com.lebogang.kxgenesis.ViewModels.PlaylistViewModel;
 import com.lebogang.kxgenesis.databinding.LayoutNewPlaylistBinding;
+
+import java.util.Date;
+import java.util.List;
 
 public class PlaylistCreateUpdate {
     private LayoutNewPlaylistBinding binding;
-    private String name = "";
+    private String name = null;
     private AlertDialog dialog;
-    private PlaylistManager playlistFileManager;
-    private Context context;
+    private final Context context;
+    private final PlaylistViewModel viewModel;
 
-    public PlaylistCreateUpdate(Context context) {
+    public PlaylistCreateUpdate(Context context,PlaylistViewModel viewModel) {
         this.context = context;
-        this.playlistFileManager = new PlaylistManager(context);
-    }
-
-    public void setPlaylistFileManager(PlaylistManager playlistFileManager) {
-        this.playlistFileManager = playlistFileManager;
+        this.viewModel = viewModel;
     }
 
     public void createDialog(){
@@ -66,7 +67,7 @@ public class PlaylistCreateUpdate {
         });
     }
 
-    public void updateDialog(Playlist playlistItem){
+    public void updateDialog(PlaylistDetails playlistItem){
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         binding = LayoutNewPlaylistBinding.inflate(inflater);
@@ -78,9 +79,9 @@ public class PlaylistCreateUpdate {
         dialog.show();
     }
 
-    private void setupUpdateView(Playlist playlistItem){
+    private void setupUpdateView(PlaylistDetails playlistItem){
         binding.textView.setText("Update Playlist");
-        binding.nameEditText.setText(playlistItem.getTitle());
+        binding.nameEditText.setText(playlistItem.getPlaylistName());
         binding.nameEditText.setHint("update playlist name");
         binding.nameEditText.addTextChangedListener(new Watcher() {
             @Override
@@ -91,23 +92,32 @@ public class PlaylistCreateUpdate {
         });
     }
 
-    private DialogInterface.OnClickListener getUpdateOnClickListener(Playlist playlist){
+    private DialogInterface.OnClickListener getUpdateOnClickListener(PlaylistDetails playlist){
         return (dialog, which)->{
-            if (name.length() > 0){
-                boolean result =playlistFileManager.updatePlaylist(playlist.getId(), name);
-                if (result)
-                    dialog.dismiss();
+            if (name != null){
+                Date date = Calendar.getInstance().getTime();
+                playlist.setPlaylistName(name);
+                playlist.setDateCreated("Updated on: " + date.toString());
+                viewModel.updatePlaylist(playlist);
+                Toast.makeText(context.getApplicationContext(), "Playlist Updated", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(context, "Playlist name empty", Toast.LENGTH_LONG).show();
             }
+            dialog.dismiss();
         };
     }
 
     private DialogInterface.OnClickListener getCreateOnClickListener(){
         return (dialog, which)->{
-            if (name.length() > 0){
-                boolean result =playlistFileManager.createPlaylist(name);
-                if (result)
-                    dialog.dismiss();
+            if (name != null){
+                Date date = Calendar.getInstance().getTime();
+                PlaylistDetails playlist = new PlaylistDetails(0, name, date.toString(), "no uri");
+                viewModel.insertPlaylist(playlist);
+                Toast.makeText(context.getApplicationContext(), "Playlist Added", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(context.getApplicationContext(), "Playlist name empty", Toast.LENGTH_LONG).show();
             }
+            dialog.dismiss();
         };
     }
 

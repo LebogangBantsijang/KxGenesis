@@ -65,15 +65,18 @@
             app:srcCompat="@null" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:scrollbarSize="8dp"
-        android:fadeScrollbars="true"
-        android:scrollbarStyle="insideOverlay"/>
+        app:fastScrollAutoHide="false"
+        app:fastScrollPopupTextColor="#FFFFFF"
+        app:fastScrollPopupTextSize="56sp"
+        app:fastScrollPopupBgColor="?colorPrimary"
+        app:fastScrollThumbColor="?colorPrimary"
+        app:fastScrollTrackColor="@null"
+        app:fastScrollPopupBackgroundSize="86dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

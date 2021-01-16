@@ -39,7 +39,7 @@ import com.lebogang.kxgenesis.Adapters.ContributingAlbumsAdapter;
 import com.lebogang.kxgenesis.Adapters.SongsAdapter;
 import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
-import com.lebogang.kxgenesis.Dialogs.SongsDialog;
+import com.lebogang.kxgenesis.Dialogs.SongsOptionsDialog;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
@@ -65,9 +65,7 @@ public class ArtistViewFragment extends Fragment implements SongClickListener, S
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentArtistViewBinding.inflate(inflater, container, false);
         artist = getArguments().getParcelable("Artist");
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(AudioViewModel.class);
-        viewModel.init(getContext());
+        viewModel = new AudioViewModel.AudioViewModelFactory(getContext()).create(AudioViewModel.class);
         viewModel.registerCallbacksForArtistAudio(this, this, artist.getTitle());
         return binding.getRoot();
     }
@@ -79,7 +77,18 @@ public class ArtistViewFragment extends Fragment implements SongClickListener, S
         initRecyclerView();
         initBottomRecyclerView();
         initOtherViews();
-        observer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addObserver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        removeObserver();
     }
 
     private void initOtherViews(){
@@ -111,7 +120,7 @@ public class ArtistViewFragment extends Fragment implements SongClickListener, S
             @Override
             public void onClick(Audio audio) {
                 AlbumManager albumManager = new AlbumManager(getContext());
-                Album album = albumManager.getAlbumItemWithName(audio.getAlbumTitle());
+                Album album = albumManager.getAlbumByName(audio.getAlbumTitle());
                 NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Album", album);
@@ -123,9 +132,9 @@ public class ArtistViewFragment extends Fragment implements SongClickListener, S
         });
     }
 
-    private void observer(){
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = AudioIndicator.Colors.getDefaultColor();
+            int color = AudioIndicator.Colors.getPrimaryColor();
             songsAdapter.setAudioIdHighlightingColor(mediaItem.getId(), color);
             int position = songsAdapter.getAudioPosition(mediaItem);
             binding.recyclerView.scrollToPosition(position);
@@ -139,6 +148,10 @@ public class ArtistViewFragment extends Fragment implements SongClickListener, S
                     .into(binding.coverImageView)
                     .waitForLayout();
         });
+    }
+
+    private void removeObserver(){
+        AudioIndicator.getCurrentItem().removeObservers(getViewLifecycleOwner());
     }
 
     @Override
@@ -171,9 +184,9 @@ public class ArtistViewFragment extends Fragment implements SongClickListener, S
 
     @Override
     public void onClickOptions(Audio audio) {
-        SongsDialog songsDialog = new SongsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
-        songsDialog.setSongDeleteListener(this);
-        songsDialog.createDialog(audio);
+        SongsOptionsDialog songsOptionsDialog = new SongsOptionsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
+        songsOptionsDialog.setSongDeleteListener(this);
+        songsOptionsDialog.createDialog(audio);
     }
 
     @Override

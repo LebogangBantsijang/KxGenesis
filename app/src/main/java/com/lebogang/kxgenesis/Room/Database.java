@@ -20,16 +20,25 @@ import android.content.Context;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.lebogang.kxgenesis.Room.DataAccessObjects.AudioDao;
-import com.lebogang.kxgenesis.Room.Model.Audio;
+import com.lebogang.kxgenesis.Room.DataAccessObjects.AlbumHistoryDao;
+import com.lebogang.kxgenesis.Room.DataAccessObjects.SongHistoryDao;
+import com.lebogang.kxgenesis.Room.DataAccessObjects.PlaylistAudioDao;
+import com.lebogang.kxgenesis.Room.DataAccessObjects.PlaylistDao;
+import com.lebogang.kxgenesis.Room.Model.AlbumHistory;
+import com.lebogang.kxgenesis.Room.Model.SongHistory;
+import com.lebogang.kxgenesis.Room.Model.PlaylistAudio;
+import com.lebogang.kxgenesis.Room.Model.PlaylistDetails;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@androidx.room.Database(entities = {Audio.class},
+@androidx.room.Database(entities = {SongHistory.class, AlbumHistory.class, PlaylistDetails.class, PlaylistAudio.class},
         version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
-    public abstract AudioDao audioDao();
+    public abstract SongHistoryDao songHistoryDao();
+    public abstract PlaylistAudioDao playlistAudioDao();
+    public abstract PlaylistDao playlistDao();
+    public abstract AlbumHistoryDao albumHistoryDao();
 
     private static volatile Database database;
     public static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(4);
@@ -38,7 +47,8 @@ public abstract class Database extends RoomDatabase {
         if ( database == null){
             synchronized (Database.class){
                 database = Room.databaseBuilder(context.getApplicationContext()
-                        ,Database.class, "PlayDatabase")
+                        ,Database.class, "KxGenesisDatabase")
+                        .fallbackToDestructiveMigration()
                         .build();
             }
         }

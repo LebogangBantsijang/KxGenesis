@@ -126,6 +126,8 @@ public class AppSettings {
                 return R.layout.player_view_two;
             case 2:
                 return R.layout.player_view_three;
+            case 3:
+                return R.layout.player_view_four;
         }
         return R.layout.player_view_one;
     }
@@ -181,4 +183,5 @@ public class AppSettings {
             return (preferences.getInt("Filter", 0) * 30000);
         }
     }
+
 }

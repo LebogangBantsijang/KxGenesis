@@ -31,11 +31,12 @@ import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Album;
 import com.lebogang.kxgenesis.AppUtils.AlbumClickListener;
 import com.lebogang.kxgenesis.R;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder> implements FastScrollRecyclerView.SectionedAdapter {
     private boolean isLayoutGrid = true;
     private List<Album> list = new ArrayList<>();
     private AlbumClickListener albumClickListener;
@@ -80,6 +81,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.Holder>{
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        String name = list.get(position).getTitle() != null? list.get(position).getTitle():"?";
+        return name.substring(0,1).toUpperCase();
     }
 
     public class Holder extends RecyclerView.ViewHolder{

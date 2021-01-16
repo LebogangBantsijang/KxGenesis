@@ -55,7 +55,7 @@
         android:id="@+id/playlist_view_fragment"
         tools:layout="@layout/fragment_playlist_view"
         android:label="Playlist"
-        android:name="com.lebogang.kxgenesis.Fragments.PlaylistViewFragment"/>
+        android:name="com.lebogang.kxgenesis.Fragments.PlaylistAudioViewFragment"/>
 
     <fragment
         android:id="@+id/search_fragment"
@@ -64,10 +64,10 @@
         android:name="com.lebogang.kxgenesis.Fragments.SearchFragment"/>
 
     <fragment
-        android:id="@+id/playlist_audio_manager_fragment"
-        tools:layout="@layout/fragment_playlist_item_manager"
+        android:id="@+id/playlist_add_audio_fragment"
+        tools:layout="@layout/fragment_playlist_add_audio"
         android:label="Edit Playlist"
-        android:name="com.lebogang.kxgenesis.Fragments.PlaylistAudioManagerFragment"/>
+        android:name="com.lebogang.kxgenesis.Fragments.PlaylistAddAudioFragment"/>
 
     <fragment
         android:id="@+id/audio_info_fragment"
@@ -130,5 +130,10 @@
         android:id="@+id/display_settings_fragment"
         tools:layout="@layout/fragment_display_settings"
         android:name="com.lebogang.kxgenesis.Fragments.DisplaySettingsFragment"/>
+
+    <fragment
+        android:id="@+id/history_fragment"
+        tools:layout="@layout/fragment_history"
+        android:name="com.lebogang.kxgenesis.Fragments.HistoryFragment"/>
 
 </navigation>

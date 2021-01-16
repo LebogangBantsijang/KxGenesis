@@ -16,6 +16,7 @@
 package com.lebogang.kxgenesis.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,22 +25,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lebogang.audiofilemanager.Models.Playlist;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.kxgenesis.AppUtils.PlaylistClickListener;
 import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.Room.Model.PlaylistDetails;
+import com.lebogang.kxgenesis.databinding.ItemPlaylistBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Holder>{
-    private List<Playlist> list = new ArrayList<>();
+    private List<PlaylistDetails> list = new ArrayList<>();
     private PlaylistClickListener playlistClickListener;
 
     public void setPlaylistClickListener(PlaylistClickListener playlistClickListener) {
         this.playlistClickListener = playlistClickListener;
     }
 
-    public void setList(List<Playlist> list) {
+    public void setList(List<PlaylistDetails> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -47,14 +52,23 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Holder
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_playlist_single_line, parent, false);
-        return new Holder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        ItemPlaylistBinding binding = ItemPlaylistBinding.inflate(inflater, parent, false);
+        return new Holder(binding.getRoot(), binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        Playlist playlist = list.get(position);
-        holder.title.setText(playlist.getTitle());
+        PlaylistDetails playlist = list.get(position);
+        holder.binding.titleTextView.setText(playlist.getPlaylistName());
+        holder.binding.subTitleTextView.setText(playlist.getDateCreated());
+        Uri uri = Uri.parse(playlist.getArtUri());
+        Glide.with(holder.itemView).load(uri)
+                .downsample(DownsampleStrategy.AT_MOST)
+                .error(R.drawable.ic_playlist)
+                .override(holder.binding.imageView.getWidth(), holder.binding.imageView.getHeight())
+                .dontAnimate()
+                .into(holder.binding.imageView);
     }
 
     @Override
@@ -63,14 +77,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Holder
     }
 
     public class Holder extends RecyclerView.ViewHolder{
-        private TextView title;
-        public Holder(@NonNull View itemView) {
+        private final ItemPlaylistBinding binding;
+        public Holder(@NonNull View itemView, ItemPlaylistBinding binding) {
             super(itemView);
-            title = itemView.findViewById(R.id.titleTextView);
-            itemView.setOnClickListener(v->{
+            this.binding = binding;
+            binding.getRoot().setOnClickListener(v->{
                 playlistClickListener.onClick(list.get(getAdapterPosition()));
             });
-            itemView.findViewById(R.id.imageButton).setOnClickListener(v->{
+            binding.imageButton.setOnClickListener(v->{
                 playlistClickListener.onClickOptions(list.get(getAdapterPosition()));
             });
         }

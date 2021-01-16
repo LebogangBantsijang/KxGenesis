@@ -32,6 +32,8 @@ import androidx.media.MediaBrowserServiceCompat;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.AppUtils.AppSettings;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
+import com.lebogang.kxgenesis.Room.Model.AlbumHistory;
+import com.lebogang.kxgenesis.Room.Model.SongHistory;
 import com.lebogang.kxgenesis.Room.Repository;
 
 import java.util.ArrayList;
@@ -44,7 +46,6 @@ public class MusicService extends MediaBrowserServiceCompat {
     private NotificationHandler notificationHandler;
     private Context context;
     private Repository repository;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -101,11 +102,10 @@ public class MusicService extends MediaBrowserServiceCompat {
 
         private void addToRoom(Audio audio){
             Date date = Calendar.getInstance().getTime();
-            com.lebogang.kxgenesis.Room.Model.Audio audioToAdd =
-                    new com.lebogang.kxgenesis.Room.Model.Audio(0,audio.getId(),audio.getAlbumId(), audio.getArtistId()
-                            , audio.getTitle(), audio.getAlbumTitle(), audio.getArtistTitle(), audio.getAlbumArtUri().toString()
-                            , date.getTime(),"Played on: " + date.toString());
-            repository.addAudio(audioToAdd);
+            SongHistory songHistory = new SongHistory(audio.getId(),date.toString(), date.getTime());
+            AlbumHistory albumHistory = new AlbumHistory(audio.getAlbumId(), audio.getAlbumTitle(), date.getTime(), date.toString());
+            repository.addSongHistory(songHistory);
+            repository.addAlbumHistory(albumHistory);
         }
 
         @Override
@@ -145,7 +145,6 @@ public class MusicService extends MediaBrowserServiceCompat {
                 playbackStateBuilder.setState(PlaybackStateCompat.STATE_SKIPPING_TO_NEXT, 0,1f);
                 mediaSessionCompat.setPlaybackState(playbackStateBuilder.build());
                 currentAudio = currentPlaylist.get(index);
-
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Item", currentAudio);
                 bundle.putParcelableArrayList("List", currentPlaylist);

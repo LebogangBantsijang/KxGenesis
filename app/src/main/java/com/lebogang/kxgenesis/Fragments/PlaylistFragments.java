@@ -15,6 +15,7 @@
 
 package com.lebogang.kxgenesis.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -26,27 +27,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.lebogang.audiofilemanager.Models.Playlist;
-import com.lebogang.audiofilemanager.PlaylistManagement.PlaylistCallbacks;
 import com.lebogang.kxgenesis.Adapters.PlaylistAdapter;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.AppUtils.PlaylistClickListener;
 import com.lebogang.kxgenesis.Dialogs.PlaylistCreateUpdate;
-import com.lebogang.kxgenesis.Dialogs.PlaylistDialog;
+import com.lebogang.kxgenesis.Dialogs.PlaylistOptionsDialog;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
+import com.lebogang.kxgenesis.Room.Model.PlaylistDetails;
 import com.lebogang.kxgenesis.ViewModels.PlaylistViewModel;
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistsBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistFragments extends Fragment implements PlaylistClickListener, PlaylistCallbacks, PopupMenu.OnMenuItemClickListener {
+public class PlaylistFragments extends Fragment implements PlaylistClickListener, PopupMenu.OnMenuItemClickListener {
     private FragmentPlaylistsBinding binding;
     private final PlaylistAdapter adapter = new PlaylistAdapter();
 
@@ -59,10 +59,7 @@ public class PlaylistFragments extends Fragment implements PlaylistClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlaylistsBinding.inflate(inflater);
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(PlaylistViewModel.class);
-        viewModel.init(getContext());
-        viewModel.registerCallbacks(this, this);
+        viewModel = new PlaylistViewModel.PlaylistViewModelFactory(getContext()).create(PlaylistViewModel.class);
         return binding.getRoot();
     }
 
@@ -70,14 +67,21 @@ public class PlaylistFragments extends Fragment implements PlaylistClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
+        getPlaylists();
         initOtherViews();
-        observer();
+        addObserver();
     }
 
     private void initRecyclerView(){
         adapter.setPlaylistClickListener(this);
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void getPlaylists(){
+        viewModel.getPlaylist().observe(getViewLifecycleOwner(), playlistDetails -> {
+            adapter.setList(playlistDetails);
+        });
     }
 
     private void initOtherViews(){
@@ -96,14 +100,13 @@ public class PlaylistFragments extends Fragment implements PlaylistClickListener
             ((MainActivity) requireActivity()).expandBottomSheets();
         });
         binding.newPlaylistButton.setOnClickListener(v->{
-            PlaylistCreateUpdate playlistCreateUpdate = new PlaylistCreateUpdate(getContext());
-            playlistCreateUpdate.setPlaylistFileManager(viewModel.getPlaylistManager());
+            PlaylistCreateUpdate playlistCreateUpdate = new PlaylistCreateUpdate(getContext(), viewModel);
             playlistCreateUpdate.createDialog();
         });
     }
 
 
-    private void observer(){
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             binding.expandView.setVisibility(View.VISIBLE);
             binding.titleTextText.setText(mediaItem.getTitle());
@@ -117,25 +120,7 @@ public class PlaylistFragments extends Fragment implements PlaylistClickListener
         });
     }
 
-    @Override
-    public void onQueryComplete(List<Playlist> playlists) {
-        adapter.setList(playlists);
-    }
-
-    @Override
-    public void onClick(Playlist playlist) {
-        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("Playlist", playlist);
-        navController.navigate(R.id.playlist_view_fragment, bundle);
-    }
-
-    @Override
-    public void onClickOptions(Playlist playlist) {
-        PlaylistDialog playlistOptions = new PlaylistDialog(viewModel.getPlaylistManager(), (MainActivity) getActivity());
-        playlistOptions.createDialog(playlist);
-    }
-
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -149,8 +134,28 @@ public class PlaylistFragments extends Fragment implements PlaylistClickListener
             case R.id.menu_volume:
                 navController.navigate(R.id.volume_fragment);
                 return true;
+            case R.id.menu_recent:
+                navController.navigate(R.id.recent_fragment);
+                return true;
+            case R.id.menu_history:
+                navController.navigate(R.id.history_fragment);
+                return true;
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void onClick(PlaylistDetails playlist) {
+        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_host);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("Playlist", playlist);
+        navController.navigate(R.id.playlist_view_fragment, bundle);
+    }
+
+    @Override
+    public void onClickOptions(PlaylistDetails playlist) {
+        PlaylistOptionsDialog playlistOptionsDialog = new PlaylistOptionsDialog(getContext(), viewModel);
+        playlistOptionsDialog.createDialog(playlist);
     }
 }

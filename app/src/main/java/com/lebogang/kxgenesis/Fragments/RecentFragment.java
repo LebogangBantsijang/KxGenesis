@@ -19,14 +19,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -39,12 +36,11 @@ import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.Adapters.SongsAdapter;
 import com.lebogang.kxgenesis.AppUtils.SongClickListener;
 import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
-import com.lebogang.kxgenesis.Dialogs.SongsDialog;
+import com.lebogang.kxgenesis.Dialogs.SongsOptionsDialog;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.ViewModels.AudioViewModel;
-import com.lebogang.kxgenesis.databinding.FragmentLayoutBinding;
 import com.lebogang.kxgenesis.databinding.FragmentLayoutOtherBinding;
 
 import java.util.ArrayList;
@@ -62,9 +58,7 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentLayoutOtherBinding.inflate(inflater,container, false);
-        ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(AudioViewModel.class);
-        viewModel.init(getContext());
+        viewModel = new AudioViewModel.AudioViewModelFactory(getContext()).create(AudioViewModel.class);
         viewModel.getAudioManager().setSortOrder(MediaStore.Audio.Media.DATE_ADDED + " DESC");
         viewModel.registerCallback(this,this);
         return binding.getRoot();
@@ -74,14 +68,25 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
-        observer();
+        initOtherViews();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addObserver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        removeObserver();
     }
 
     private void initRecyclerView(){
         songsAdapter.setSongClickListener(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(songsAdapter);
-        initOtherViews();
     }
 
     private void initOtherViews(){
@@ -94,9 +99,9 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
         });
     }
 
-    private void observer(){
+    private void addObserver(){
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
-            int color = AudioIndicator.Colors.getDefaultColor();
+            int color = AudioIndicator.Colors.getPrimaryColor();
             songsAdapter.setAudioIdHighlightingColor(mediaItem.getId(), color);
             int position = songsAdapter.getAudioPosition(mediaItem);
             binding.recyclerView.scrollToPosition(position);
@@ -110,6 +115,10 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
                     .into(binding.coverImageView)
                     .waitForLayout();
         });
+    }
+
+    private void removeObserver(){
+        AudioIndicator.getCurrentItem().removeObservers(getViewLifecycleOwner());
     }
 
     @Override
@@ -126,9 +135,9 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
 
     @Override
     public void onClickOptions(Audio audio) {
-        SongsDialog songsDialog = new SongsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
-        songsDialog.setSongDeleteListener(this);
-        songsDialog.createDialog(audio);
+        SongsOptionsDialog songsOptionsDialog = new SongsOptionsDialog((MainActivity)getActivity(), viewModel.getAudioManager());
+        songsOptionsDialog.setSongDeleteListener(this);
+        songsOptionsDialog.createDialog(audio);
     }
 
     @Override

@@ -15,6 +15,7 @@
 
 package com.lebogang.kxgenesis.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,6 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -32,7 +32,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.lebogang.kxgenesis.Adapters.HistoryAdapter;
 import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
@@ -42,7 +41,6 @@ import com.lebogang.kxgenesis.databinding.FragmentHomeBinding;
 public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickListener{
     private FragmentHomeBinding binding;
     private HistoryViewModel viewModel;
-    private final HistoryAdapter adapter = new HistoryAdapter();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -59,7 +57,6 @@ public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRecyclerView();
         initOtherViews();
         initButtons();
         observe();
@@ -82,11 +79,6 @@ public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickL
         });
     }
 
-    private void initRecyclerView(){
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerView.setAdapter(adapter);
-    }
-
     private void initButtons(){
         binding.viewRecent.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -100,15 +92,13 @@ public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickL
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
             navController.navigate(R.id.settings_fragment);
         });
-        binding.clearButton.setOnClickListener(v->{
-            viewModel.clear();
+        binding.viewHistory.setOnClickListener(v->{
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
+            navController.navigate(R.id.history_fragment);
         });
     }
 
     private void observe(){
-        viewModel.getAudio().observe(getViewLifecycleOwner(), list->{
-            adapter.setList(list);
-        });
         AudioIndicator.getCurrentItem().observe(getViewLifecycleOwner(), mediaItem -> {
             binding.expandView.setVisibility(View.VISIBLE);
             binding.titleTextText.setText(mediaItem.getTitle());
@@ -122,6 +112,7 @@ public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickL
         });
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -134,6 +125,12 @@ public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickL
                 return true;
             case R.id.menu_volume:
                 navController.navigate(R.id.volume_fragment);
+                return true;
+            case R.id.menu_recent:
+                navController.navigate(R.id.recent_fragment);
+                return true;
+            case R.id.menu_history:
+                navController.navigate(R.id.history_fragment);
                 return true;
             default:
                 return false;

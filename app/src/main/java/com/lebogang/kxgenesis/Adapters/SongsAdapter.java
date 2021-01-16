@@ -15,6 +15,7 @@
 
 package com.lebogang.kxgenesis.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -30,14 +31,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.AppUtils.SongClickListener;
-import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.AppUtils.TimeUnitConvert;
+import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.databinding.ItemSongBinding;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
-public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> implements Filterable {
+public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> implements Filterable, FastScrollRecyclerView.SectionedAdapter {
     private SongClickListener songClickListener;
     private ArrayList<Audio> list = new ArrayList<>();
     private final ArrayList<Audio> searchList = new ArrayList<>();
@@ -65,7 +66,12 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> impl
     }
 
     public int getAudioPosition(Audio audio){
-        return list.indexOf(audio);
+        for (Audio item:list){
+            if (audio.getId() == item.getId()){
+                return list.indexOf(item);
+            }
+        }
+        return 0;
     }
 
     public void setAudioIdHighlightingColor(long audioId, int highlightingColor) {
@@ -108,6 +114,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> impl
         return new Holder(binding.getRoot(), binding);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Audio audio;
@@ -121,6 +128,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> impl
         Glide.with(holder.itemView)
                 .load(audio.getAlbumArtUri())
                 .error(R.drawable.ic_music_light)
+                .override(holder.binding.imageView.getWidth(), holder.binding.imageView.getHeight())
                 .downsample(DownsampleStrategy.AT_MOST)
                 .dontAnimate()
                 .into(holder.binding.imageView)
@@ -131,7 +139,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> impl
     private void highlight(Holder holder, Audio audioItem, Context context){
         if (audioItem.getId() == audioId){
             holder.binding.lottieAnimationView.setVisibility(View.VISIBLE);
-            GradientDrawable gradientDrawable = (GradientDrawable)
+            @SuppressLint("UseCompatLoadingForDrawables") GradientDrawable gradientDrawable = (GradientDrawable)
                     context.getDrawable(R.drawable.shaper_rectangle_round_corners_4dp_with_cp);
             gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             gradientDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
@@ -178,6 +186,18 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.Holder> impl
                 notifyDataSetChanged();
             }
         };
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        String name;
+        if (isUserSearching){
+            name = searchList.get(position).getTitle() != null? searchList.get(position).getTitle():"?";
+        }else {
+            name = list.get(position).getTitle() != null? list.get(position).getTitle():"?";
+        }
+        return name.substring(0,1).toUpperCase();
     }
 
 

@@ -25,13 +25,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -39,6 +44,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.AppUtils.AppSettings;
 import com.lebogang.kxgenesis.Players.AbstractPlayer;
+import com.lebogang.kxgenesis.Players.PlayerControlsFour;
 import com.lebogang.kxgenesis.Players.PlayerControlsOne;
 import com.lebogang.kxgenesis.Players.PlayerControlsThree;
 import com.lebogang.kxgenesis.Players.PlayerControlsTwo;
@@ -57,7 +63,12 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
     private AbstractPlayer player;
     private ThreadHandler threadHandler;
     public static int COLOR;
+    public static int COLOR_SURFACE;
+    public static int TEXT_COLOR;
     private List<Audio> list = new ArrayList<>();
+    private static PendingIntent PENDING_INTENT;
+    private AudioManager audioManager;
+    private int selectedPlayerIndex;
 
     @Override
     public void onAttachedToWindow() {
@@ -77,8 +88,11 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initViews();
-        COLOR = getPrimaryColor();
-        onMediaChange();
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        PENDING_INTENT = PendingIntent.getActivity(this,1211
+                ,Intent.makeMainActivity(getComponentName()).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
+                , PendingIntent.FLAG_UPDATE_CURRENT);
+        initColors();
     }
 
     @Override
@@ -99,9 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
                 .setMessage("Due to the fact that you refuse to grant the app permission to access your music files, " +
                         "the app will shut down and you can try again by reopening the app and granting the permission. Thank you for your time.")
                 .setPositiveButton("Accept", null)
-                .setOnDismissListener(dialog -> {
-                    finish();
-                })
+                .setOnDismissListener(dialog -> finish())
                 .create().show();
     }
 
@@ -117,9 +129,11 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
             public void onStateChanged(@NonNull View view, int i) {
                 if (i == BottomSheetBehavior.STATE_EXPANDED){
                     binding.fragmentHostContainerView.setVisibility(View.GONE);
+                    setNavigationColor(AudioIndicator.Colors.getBackgroundColor(), true);
                 }
                 if (i == BottomSheetBehavior.STATE_HIDDEN){
                     binding.fragmentHostContainerView.setVisibility(View.VISIBLE);
+                    setNavigationColor(MainActivity.COLOR_SURFACE, true);
                 }
             }
             @Override
@@ -128,9 +142,20 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         });
     }
 
+    public void setNavigationColor(int color, boolean allow){
+        if (selectedPlayerIndex == 3 && allow)
+            getWindow().setNavigationBarColor(color);
+    }
+
+    public int getBottomSheetState(){
+        return bottomSheetBehavior.getState();
+    }
+
+    @SuppressLint("NonConstantResourceId")
     public void setBottomSheetBehavior(boolean value){
         binding.bottomSheetsView.removeAllViews();
         int playerRes = AppSettings.getSelectedPlayer(this);
+        selectedPlayerIndex = AppSettings.getSelectedPlayerIndex(this);
         View view = getLayoutInflater().inflate(playerRes,
                 null);
         switch (playerRes){
@@ -142,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
                 break;
             case R.layout.player_view_three:
                 player = new PlayerControlsThree(this, view);
+                break;
+            case R.layout.player_view_four:
+                player = new PlayerControlsFour(this, view);
                 break;
         }
         threadHandler.setSeekBar(player.getSeekBar());
@@ -155,15 +183,24 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
                 player.onMediaChanged(audio);
                 MediaControllerCompat mediaController = MediaControllerCompat.getMediaController(this);
                 player.onPlaybackChanged(mediaController.getPlaybackState().getState());
+                player.onRepeatModeChange(mediaController.getRepeatMode());
+                player.onShuffleModeChanged(mediaController.getShuffleMode());
                 threadHandler.onPlaybackStateChanged(mediaController.getPlaybackState().getState());
             }
         }
     }
 
-    private int getPrimaryColor(){
+    private void initColors(){
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(android.R.attr.colorAccent, typedValue, true);
-        return typedValue.data;
+        MainActivity.COLOR = typedValue.data;
+        if (AppSettings.isThemeLight(this)){
+            MainActivity.COLOR_SURFACE = getResources().getColor(R.color.colorWhite, getTheme());
+            MainActivity.TEXT_COLOR = getResources().getColor(R.color.colorSurfaceDark, getTheme());
+        }else {
+            MainActivity.COLOR_SURFACE = getResources().getColor(R.color.colorSurfaceDark, getTheme());
+            MainActivity.TEXT_COLOR = getResources().getColor(R.color.colorWhite, getTheme());
+        }
     }
 
     public void expandBottomSheets(){
@@ -196,10 +233,17 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         builder.create().show();
     }
 
-    private void onMediaChange(){
-        AudioIndicator.getCurrentItem().observe(this, audio ->{
-            player.onMediaChanged(audio);
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        
+        AudioIndicator.getCurrentItem().observe(this, audio -> player.onMediaChanged(audio));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        AudioIndicator.getCurrentItem().removeObservers(this);
     }
 
     public void setPagerData(List<Audio> list){
@@ -230,5 +274,19 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
             binding.bottomNavigation.setVisibility(View.GONE);
         }
     }
+
+    public static PendingIntent getPendingIntent(){
+        return PENDING_INTENT;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP|| keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
+                || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE ){
+            player.setVolumeToSeekBar(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }

@@ -38,9 +38,10 @@ import com.lebogang.audiofilemanager.Models.Audio;
 import com.lebogang.kxgenesis.AppUtils.SongDeleteListener;
 import com.lebogang.kxgenesis.R;
 import com.lebogang.kxgenesis.AppUtils.TimeUnitConvert;
+import com.lebogang.kxgenesis.ViewModels.PlaylistViewModel;
 import com.lebogang.kxgenesis.databinding.LayoutSongOptionsBinding;
 
-public class SongsDialog{
+public class SongsOptionsDialog {
     private LayoutSongOptionsBinding binding;
     private AlertDialog dialog;
     private final AlbumManager albumManager;
@@ -49,7 +50,7 @@ public class SongsDialog{
     private final AudioManager audioManager;
     private SongDeleteListener songDeleteListener;
 
-    public SongsDialog(AppCompatActivity activity, AudioManager audioManager) {
+    public SongsOptionsDialog(AppCompatActivity activity, AudioManager audioManager) {
         this.activity = activity;
         this.audioManager = audioManager;
         albumManager = new AlbumManager(activity);
@@ -84,7 +85,7 @@ public class SongsDialog{
 
     private void initOptions(Audio audioItem){
         binding.goToAlbum.setOnClickListener(v->{
-            Album item = albumManager.getAlbumItemWithName(audioItem.getAlbumTitle());
+            Album item = albumManager.getAlbumByName(audioItem.getAlbumTitle());
             Bundle bundle = new Bundle();
             bundle.putParcelable("Album", item);
             dialog.dismiss();
@@ -92,7 +93,7 @@ public class SongsDialog{
             navController.navigate(R.id.album_view_fragment, bundle);
         });
         binding.goToArtist.setOnClickListener(v->{
-            Artist item = artistManager.getArtistItemWithName(audioItem.getArtistTitle());
+            Artist item = artistManager.getArtistByName(audioItem.getArtistTitle());
             Bundle bundle = new Bundle();
             bundle.putParcelable("Artist", item);
             dialog.dismiss();
@@ -107,23 +108,14 @@ public class SongsDialog{
             activity.startActivity(Intent.createChooser(intent,"Share Song"));
         });
         binding.delete.setOnClickListener(v->{
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED){
-                boolean result = audioManager.deleteAudio(audioItem.getId());
-                if (result)
-                    dialog.dismiss();
-                songDeleteListener.onDelete(audioItem);
-            }else {
-                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
-            }
+            boolean result = audioManager.deleteAudio(audioItem.getId());
+            if (result)
+                dialog.dismiss();
+            songDeleteListener.onDelete(audioItem);
         });
         binding.editTags.setOnClickListener(v->{
             SongsEditDialog songsEditDialog = new SongsEditDialog(activity, audioManager);
             songsEditDialog.createDialog(audioItem);
-        });
-        binding.addToPlaylist.setOnClickListener(v->{
-            SongPlaylistDialog songPlaylistDialog = new SongPlaylistDialog(activity);
-            songPlaylistDialog.createDiaLog(audioItem);
         });
         binding.info.setOnClickListener(v->{
             Bundle bundle = new Bundle();

@@ -83,9 +83,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Preferences"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                 android:textColor="?colorPrimary"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle" />
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/repeatCheckBox"
@@ -97,9 +97,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:layout_marginTop="8dp"
                 android:text="Filter Songs" />
 
             <TextView
@@ -112,20 +112,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="0" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="60" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

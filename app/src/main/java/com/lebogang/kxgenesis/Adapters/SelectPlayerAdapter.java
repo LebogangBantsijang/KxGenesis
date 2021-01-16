@@ -38,6 +38,7 @@ public class SelectPlayerAdapter extends RecyclerView.Adapter<SelectPlayerAdapte
         resourceList.add(R.raw.player_1);
         resourceList.add(R.raw.player_2);
         resourceList.add(R.raw.player_3);
+        resourceList.add(R.drawable.ic_circled_play);
     }
 
     @NonNull

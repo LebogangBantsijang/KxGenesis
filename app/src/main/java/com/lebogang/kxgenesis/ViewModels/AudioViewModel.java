@@ -17,8 +17,10 @@ package com.lebogang.kxgenesis.ViewModels;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.lebogang.audiofilemanager.AudioManagement.AudioCallbacks;
 import com.lebogang.audiofilemanager.AudioManagement.AudioManager;
@@ -34,10 +36,11 @@ public class AudioViewModel extends ViewModel implements AudioCallbacks{
     private List<Audio> list = new ArrayList<>();
     private boolean update = false;
 
-    public void init(Context context){
+    public AudioViewModel(Context context) {
         audioFileManger = new AudioManager(context);
         audioFileManger.setDuration(AppSettings.getFilterDuration(context, false));
     }
+
 
     public void registerCallback(AudioCallbacks audioCallbacks, LifecycleOwner owner){
         this.callbacks = audioCallbacks;
@@ -54,7 +57,7 @@ public class AudioViewModel extends ViewModel implements AudioCallbacks{
         audioFileManger.registerCallbacksForArtistAudio(this,owner,artistName);
     }
 
-    public void registerCallbacksForAudioIds(AudioCallbacks callbacks, LifecycleOwner owner, String[] audioIds){
+    public void registerCallbacksForAudioIds(AudioCallbacks callbacks, LifecycleOwner owner, List<Long> audioIds){
         this.callbacks = callbacks;
         audioFileManger.registerCallbacksForAudioIds(this, owner, audioIds);
     }
@@ -75,6 +78,24 @@ public class AudioViewModel extends ViewModel implements AudioCallbacks{
                 list = audioList;
                 callbacks.onQueryComplete(list);
             }
+        }
+    }
+
+    public static class AudioViewModelFactory implements ViewModelProvider.Factory{
+
+        private final Context context;
+
+        public AudioViewModelFactory(Context context) {
+            this.context = context;
+        }
+
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            if (modelClass.isAssignableFrom(AudioViewModel.class)){
+                return (T) new AudioViewModel(context);
+            }
+            throw new IllegalArgumentException();
         }
     }
 }

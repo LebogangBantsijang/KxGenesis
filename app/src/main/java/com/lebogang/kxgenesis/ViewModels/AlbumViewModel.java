@@ -17,8 +17,10 @@ package com.lebogang.kxgenesis.ViewModels;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.lebogang.audiofilemanager.AlbumManagement.AlbumCallbacks;
 import com.lebogang.audiofilemanager.AlbumManagement.AlbumManager;
@@ -29,12 +31,12 @@ import java.util.List;
 
 
 public class AlbumViewModel extends ViewModel implements AlbumCallbacks{
-    private AlbumManager albumManager;
+    private final AlbumManager albumManager;
     private AlbumCallbacks callbacks;
     private List<Album> list = new ArrayList<>();
     private boolean update = false;
 
-    public void init(Context context){
+    public AlbumViewModel(Context context) {
         albumManager = new AlbumManager(context);
     }
 
@@ -59,6 +61,23 @@ public class AlbumViewModel extends ViewModel implements AlbumCallbacks{
                 list = albumList;
                 callbacks.onQueryComplete(list);
             }
+        }
+    }
+
+    public static class AlbumViewModelFactory implements ViewModelProvider.Factory{
+        private final Context context;
+
+        public AlbumViewModelFactory(Context context) {
+            this.context = context;
+        }
+
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            if (modelClass.isAssignableFrom(AlbumViewModel.class)){
+                return (T) new AlbumViewModel(context);
+            }
+            throw new IllegalArgumentException();
         }
     }
 }

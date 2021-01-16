@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) 2021. Lebogang Bantsijang
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector android:height="48dp" android:viewportHeight="30"
+    android:viewportWidth="30" android:width="48dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#034460" android:pathData="M15,3C8.373,3 3,8.373 3,15c0,6.627 5.373,12 12,12s12,-5.373 12,-12C27,8.373 21.627,3 15,3zM20.304,15.402l-7.608,4.392C12.313,20.015 12,19.834 12,19.392v-8.785c0,-0.442 0.313,-0.623 0.696,-0.402l7.608,4.392C20.687,14.819 20.687,15.181 20.304,15.402z"/>
+</vector>

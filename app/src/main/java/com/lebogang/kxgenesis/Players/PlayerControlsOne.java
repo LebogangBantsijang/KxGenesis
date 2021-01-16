@@ -15,7 +15,10 @@
 
 package com.lebogang.kxgenesis.Players;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -25,6 +28,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media.AudioManagerCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.lebogang.audiofilemanager.Models.Audio;
@@ -43,11 +47,11 @@ import jp.wasabeef.blurry.Blurry;
 public class PlayerControlsOne extends AbstractPlayer implements SongClickListener {
     private final AppCompatActivity activity;
     private final ImageButton nextButton, playButton, prevButton
-            , shuffleButton, repeatButton, collapseButton, pagerPrevButton, pagerNextButton;
+            , shuffleButton, repeatButton, collapseButton, pagerPrevButton, pagerNextButton, shareImageButton;
     private final TextView titleTextView, subtitleTextView, startDurationTextView
             , endDurationTextView;
     private final ViewPager2 viewPager;
-    private final SeekBar seekBar;
+    private final SeekBar seekBar, volSeekBar;
     private final PlayerPagerAdapter playerPagerAdapter = new PlayerPagerAdapter();
 
 
@@ -58,6 +62,7 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
         prevButton = view.findViewById(R.id.prevImageButton);
         shuffleButton = view.findViewById(R.id.shuffleImageButton);
         repeatButton = view.findViewById(R.id.repeatImageButton);
+        shareImageButton = view.findViewById(R.id.shareImageButton);
         collapseButton = view.findViewById(R.id.collapseImageButton);
         titleTextView = view.findViewById(R.id.titleTextText);
         subtitleTextView = view.findViewById(R.id.subTitleTextView);
@@ -65,6 +70,7 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
         endDurationTextView = view.findViewById(R.id.endDuration);
         viewPager = view.findViewById(R.id.pager);
         seekBar = view.findViewById(R.id.seekBar);
+        volSeekBar = view.findViewById(R.id.volSeekBar);
         pagerPrevButton = view.findViewById(R.id.pagerPrevButton);
         pagerNextButton = view.findViewById(R.id.pagerNextButton);
         initViewPager();
@@ -218,6 +224,50 @@ public class PlayerControlsOne extends AbstractPlayer implements SongClickListen
         collapseButton.setOnClickListener(v->{
             ((MainActivity) activity).collapse();
         });
+    }
+
+    @Override
+    public void onShare() {
+        shareImageButton.setOnClickListener(v->{
+            Audio audio = AudioIndicator.getCurrentItem().getValue();
+            if (audio != null){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("audio/*");
+                intent.putExtra(Intent.EXTRA_STREAM, audio.getUri());
+                activity.startActivity(Intent.createChooser(intent,"Share Song"));
+            }
+        });
+    }
+
+    @Override
+    protected void onVolume() {
+        AudioManager audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        volSeekBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        volSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        volSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser){
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    @Override
+    public void setVolumeToSeekBar(int volume) {
+        volSeekBar.setProgress(volume);
     }
 
     @Override

@@ -33,9 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="26dp"
         android:background="@drawable/shaper_rectangle_round_corners_16dp"
         android:backgroundTint="?colorSurface"
@@ -47,15 +47,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@null"
-            android:padding="6dp"
+            android:padding="8dp"
             app:srcCompat="@drawable/ic_expand_arrow_16dp"
             app:tint="?colorControlNormal" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
             app:cardCornerRadius="16dp">
 
@@ -67,13 +68,23 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:max="0"
+            android:progressTint="?colorPrimary"
+            android:thumbTint="?colorPrimary" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -98,14 +109,14 @@
 
         </LinearLayout>
 
+
         <TextView
             android:id="@+id/titleTextText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:ellipsize="marquee"
             android:gravity="center"
             android:marqueeRepeatLimit="-1"
@@ -116,9 +127,9 @@
             android:id="@+id/subTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="18dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
@@ -126,17 +137,36 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="?colorPrimary" />
 
-        <SeekBar
-            android:id="@+id/seekBar"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:max="0"
-            android:progressTint="?colorPrimary"
-            android:thumbTint="?colorPrimary" />
+            android:orientation="horizontal"
+            android:layout_marginEnd="56dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_round_volume_down_16" />
+
+            <SeekBar
+                android:id="@+id/volSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumbTint="?colorControlNormal"
+                android:progressTint="?colorControlNormal"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_round_volume_up_16" />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linearLayout6"
@@ -144,7 +174,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:orientation="horizontal">
 

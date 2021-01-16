@@ -7,6 +7,8 @@
     <color name="colorLottieBackground">#AE000000</color>
     <color name="colorRed">#8BE11C1C</color>
     <color name="colorDrawableTint">#5A5A5A</color>
+    <color name="colorSurfaceDark">#424242</color>
+    <color name="colorWhite">#FFFFFF</color>
 
     <color name="themeOne">#D84315</color>
     <color name="themeTwo">#F9A825</color>

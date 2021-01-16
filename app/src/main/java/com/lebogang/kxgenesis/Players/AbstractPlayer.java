@@ -47,6 +47,12 @@ public abstract class AbstractPlayer {
 
     public abstract void onCollapse();
 
+    public abstract void onShare();
+
+    protected abstract void onVolume();
+
+    public abstract void setVolumeToSeekBar(int volume);
+
     public abstract void setPagerData(List<Audio> list);
 
     public abstract SeekBar getSeekBar();
@@ -61,5 +67,7 @@ public abstract class AbstractPlayer {
         onShuffleClick();
         onSeek();
         onCollapse();
+        onShare();
+        onVolume();
     }
 }

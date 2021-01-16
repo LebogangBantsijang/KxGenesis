@@ -89,8 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:padding="8dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true">
@@ -136,8 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:padding="8dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true">
@@ -183,8 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="18dp"
+                android:padding="8dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true">
@@ -225,36 +222,51 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:alpha="0.5"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:background="?android:attr/listDivider" />
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/viewHistory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="History"
-                android:drawableEnd="@drawable/ic_baseline_history_24"
-                android:drawablePadding="6dp"
-                android:gravity="end|center_vertical"
-                android:padding="12dp"/>
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/clearButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="clear history"
-                app:icon="@drawable/ic_baseline_delete_24"
-                app:iconSize="18dp"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="104dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/shaper_rectangle_round_corners_14dp"
+                    android:backgroundTint="@color/lightColorTwo"
+                    android:padding="24dp"
+                    android:src="@drawable/ic_round_bar_chart_24"
+                    app:tint="@color/darkColorTwo" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|bottom"
+                        android:textStyle="bold"
+                        android:text="History"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:textColor="?colorPrimary"
+                        android:text="view"/>
+
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

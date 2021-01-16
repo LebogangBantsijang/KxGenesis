@@ -18,6 +18,7 @@ package com.lebogang.kxgenesis.Service;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -33,6 +34,7 @@ public class MusicPlayer extends MediaSessionCompat.Callback implements AudioMan
         this.context = context;
         if (mediaPlayer == null)
             mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnCompletionListener(this);
     }
 
