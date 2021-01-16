@@ -68,19 +68,9 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         initOtherViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         addObserver();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        removeObserver();
-    }
     private void initOtherViews(){
         binding.backButton.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_host);
@@ -93,7 +83,7 @@ public class GenreFragments extends Fragment implements GenreClickListener, Genr
 
     private void initRecyclerView(){
         adapter.setGenreClickListener(this);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         binding.recyclerView.setAdapter(adapter);
     }
 

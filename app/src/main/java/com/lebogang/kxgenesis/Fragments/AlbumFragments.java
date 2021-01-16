@@ -71,18 +71,7 @@ public class AlbumFragments extends Fragment implements AlbumClickListener, Albu
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         initOtherViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         addObserver();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        removeObserver();
     }
 
     private void initOtherViews(){

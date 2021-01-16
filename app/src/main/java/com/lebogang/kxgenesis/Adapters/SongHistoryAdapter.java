@@ -124,9 +124,13 @@ public class SongHistoryAdapter extends RecyclerView.Adapter<SongHistoryAdapter.
                     context.getTheme())});
             holder.binding.getRoot().setBackground(gradientDrawable);
             holder.binding.titleTextView.setTextAppearance(R.style.LightTextColor);
+            holder.binding.subtitleTextView.setTextAppearance(R.style.LightTextColor);
+            holder.binding.dateTextView.setTextAppearance(R.style.LightTextColor);
         }else {
             holder.binding.getRoot().setBackgroundResource(R.drawable.shaper_rectangle_round_corners_4dp_with_bg);
             holder.binding.titleTextView.setTextAppearance(R.style.textColor);
+            holder.binding.subtitleTextView.setTextAppearance(R.style.textColor);
+            holder.binding.dateTextView.setTextAppearance(R.style.textColor);
         }
     }
 

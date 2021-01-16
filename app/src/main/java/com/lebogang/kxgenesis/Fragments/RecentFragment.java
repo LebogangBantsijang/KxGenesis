@@ -69,18 +69,7 @@ public class RecentFragment extends Fragment implements SongClickListener, Audio
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         initOtherViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         addObserver();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        removeObserver();
     }
 
     private void initRecyclerView(){

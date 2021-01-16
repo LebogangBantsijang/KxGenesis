@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
                 ,Intent.makeMainActivity(getComponentName()).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
                 , PendingIntent.FLAG_UPDATE_CURRENT);
         initColors();
+        AudioIndicator.getCurrentItem().observe(this, audio -> player.onMediaChanged(audio));
     }
 
     @Override
@@ -231,19 +232,6 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         builder.setMessage("The Music service failed to start. The behaviour of the app is unknown at this point." +
                 " It might crash or not respond, we don't know.\n\nBest solution is to restart the application");
         builder.create().show();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        
-        AudioIndicator.getCurrentItem().observe(this, audio -> player.onMediaChanged(audio));
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        AudioIndicator.getCurrentItem().removeObservers(this);
     }
 
     public void setPagerData(List<Audio> list){

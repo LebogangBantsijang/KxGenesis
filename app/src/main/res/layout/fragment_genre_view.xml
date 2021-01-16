@@ -220,6 +220,18 @@
 
         </LinearLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            app:lottie_rawRes="@raw/sound_wave_animation"
+            app:lottie_repeatMode="restart"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="?colorPrimary"
+            android:visibility="visible"
+            />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

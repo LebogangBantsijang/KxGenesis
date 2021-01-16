@@ -40,7 +40,6 @@ import com.lebogang.kxgenesis.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickListener{
     private FragmentHomeBinding binding;
-    private HistoryViewModel viewModel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,7 +49,6 @@ public class HomeFragment extends Fragment implements PopupMenu.OnMenuItemClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        viewModel = new HistoryViewModel.HistoryFactory(requireContext()).create(HistoryViewModel.class);
         return binding.getRoot();
     }
 

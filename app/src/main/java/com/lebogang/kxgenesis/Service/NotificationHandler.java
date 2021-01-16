@@ -22,6 +22,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -36,14 +38,17 @@ import com.lebogang.kxgenesis.AppUtils.AudioIndicator;
 import com.lebogang.kxgenesis.MainActivity;
 import com.lebogang.kxgenesis.R;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class NotificationHandler {
     private final String NOTIFICATION_ID = "1021";
-    private Context context;
-    private MediaSessionCompat.Token token;
-    private NotificationCompat.Builder builder;
-    private NotificationChannel channel;
-    private NotificationManagerCompat managerCompat;
-    private PendingIntent prevPendingIntent, playPausePendingIntent, nextPendingIntent;
+    private final Context context;
+    private final MediaSessionCompat.Token token;
+    private final NotificationManagerCompat managerCompat;
+    private final PendingIntent prevPendingIntent;
+    private final PendingIntent playPausePendingIntent;
+    private final PendingIntent nextPendingIntent;
 
     public NotificationHandler(Context context, MediaSessionCompat.Token token) {
         //MediaButtonReceiver.buildMediaButtonPendingIntent()
@@ -54,7 +59,7 @@ public class NotificationHandler {
         nextPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(CustomReceiver.ACTION_NEXT),PendingIntent.FLAG_UPDATE_CURRENT);
         managerCompat = NotificationManagerCompat.from(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channel = new NotificationChannel(NOTIFICATION_ID, "KxGen", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID, "KxGen", NotificationManager.IMPORTANCE_LOW);
             channel.enableLights(false);
             channel.enableVibration(false);
             managerCompat.createNotificationChannel(channel);
@@ -66,7 +71,7 @@ public class NotificationHandler {
     }
 
     public Notification getNotification(Audio mediaItem, int state){
-        builder = new NotificationCompat.Builder(context, NOTIFICATION_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_ID);
         builder.addAction(R.drawable.ic_round_navigate_before_24,"Prev",prevPendingIntent);
         if (state == PlaybackStateCompat.STATE_PLAYING){
             builder.addAction(R.drawable.ic_round_pause_24,"Pause", playPausePendingIntent);
@@ -94,11 +99,21 @@ public class NotificationHandler {
             builder.setContentText(mediaItem.getTitle());
             builder.setContentTitle(mediaItem.getArtistTitle() + " - "
                     +  mediaItem.getAlbumTitle());
-            Bitmap bitmap = AudioIndicator.getBitmap(context, mediaItem.getAlbumArtUri());
+            Bitmap bitmap = getBitmap(mediaItem.getAlbumArtUri());
             builder.setLargeIcon(bitmap);
         }
         builder.setSilent(true);
         return builder.build();
+    }
+
+    private Bitmap getBitmap(Uri uri){
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            return BitmapFactory.decodeStream(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return BitmapFactory.decodeResource(context.getResources(),R.raw.default_bg);
+        }
     }
 
 }

@@ -49,7 +49,6 @@ import java.util.List;
 public class PlaylistFragments extends Fragment implements PlaylistClickListener, PopupMenu.OnMenuItemClickListener {
     private FragmentPlaylistsBinding binding;
     private final PlaylistAdapter adapter = new PlaylistAdapter();
-
     private PlaylistViewModel viewModel;
 
     public PlaylistFragments() {

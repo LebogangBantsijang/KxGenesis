@@ -70,18 +70,7 @@ public class SearchFragment extends Fragment implements SongClickListener, Audio
         setupRecyclerView();
         setupEditText();
         initViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         addObserver();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        removeObserver();
     }
 
     private void setupEditText(){

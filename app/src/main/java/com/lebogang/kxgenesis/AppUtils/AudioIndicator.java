@@ -32,7 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class AudioIndicator {
-    private static MutableLiveData<Audio> currentItem = new MutableLiveData<>();
+    private static final MutableLiveData<Audio> currentItem = new MutableLiveData<>();
     private static Palette.Swatch swatch;
 
     public static void setCurrentItem(Context context, Audio item) {

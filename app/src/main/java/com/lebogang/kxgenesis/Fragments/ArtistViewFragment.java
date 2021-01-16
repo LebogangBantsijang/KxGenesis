@@ -77,18 +77,7 @@ public class ArtistViewFragment extends Fragment implements SongClickListener, S
         initRecyclerView();
         initBottomRecyclerView();
         initOtherViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         addObserver();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        removeObserver();
     }
 
     private void initOtherViews(){

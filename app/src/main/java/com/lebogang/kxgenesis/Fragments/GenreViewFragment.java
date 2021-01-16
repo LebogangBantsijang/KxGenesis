@@ -72,18 +72,7 @@ public class GenreViewFragment extends Fragment implements SongClickListener, So
         setupMediaItemDetails();
         setupRecyclerView();
         initOtherViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         addObserver();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        removeObserver();
     }
 
     private void initOtherViews(){

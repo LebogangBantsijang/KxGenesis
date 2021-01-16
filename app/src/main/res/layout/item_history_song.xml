@@ -19,15 +19,23 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp"
     android:gravity="center_vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="8dp"
+        app:civ_border_color="?colorPrimary"
+        app:civ_circle_background_color="?colorSurface"
+        app:civ_border_width="2dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="6dp"
         android:layout_marginEnd="4dp"
         android:orientation="vertical">
 
@@ -53,21 +61,14 @@
             android:id="@+id/dateTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:ellipsize="end"
             android:maxLines="1"
+            android:gravity="end"
             android:textStyle="bold"
             android:text="01/01/2020 - 12:36" />
 
     </LinearLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="8dp"
-        app:civ_border_color="?colorPrimary"
-        app:civ_border_width="2dp"/>
 </LinearLayout>

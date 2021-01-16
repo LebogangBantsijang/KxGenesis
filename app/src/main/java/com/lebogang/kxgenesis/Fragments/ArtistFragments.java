@@ -70,19 +70,9 @@ public class ArtistFragments extends Fragment implements ArtistClickListener, Ar
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         initOtherViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         addObserver();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        removeObserver();
-    }
 
     private void initOtherViews(){
         binding.customToolbarTextView1.setText("All");

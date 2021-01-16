@@ -71,110 +71,116 @@
         android:layout_weight="1"
         android:fillViewport="true">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/ThemeTwo.Dark">
+
+                    <ImageView
+                        android:id="@+id/playlistImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="156dp"
+                        android:alpha="0.8"
+                        android:foreground="@color/colorLottieBackground"
+                        android:scaleType="centerCrop"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/titleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Playlist name"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+                        <TextView
+                            android:id="@+id/subtitleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Date Updated: "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            />
+
+                        <TextView
+                            android:id="@+id/numSongsTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Total Songs: 0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <TextView
+                            android:id="@+id/durationTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Duration: 00:00"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/addImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:layout_gravity="bottom|end"
+                        android:padding="8dp"
+                        android:backgroundTint="?colorButtonNormal"
+                        android:background="@drawable/shape_circle"
+                        app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/addAudioButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/ThemeTwo.Dark">
+                app:srcCompat="@drawable/ic_add_list"
+                android:layout_margin="16dp"
+                android:layout_gravity="bottom|end"
+                android:padding="14dp"
+                android:backgroundTint="?colorPrimary"
+                android:background="@drawable/shape_circle"
+                app:tint="@color/colorWhite" />
 
-                <ImageView
-                    android:id="@+id/playlistImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="156dp"
-                    android:alpha="0.8"
-                    android:foreground="@color/colorLottieBackground"
-                    android:scaleType="centerCrop"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/titleTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="Playlist name"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-
-                    <TextView
-                        android:id="@+id/subtitleTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="Date Updated: "
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        />
-
-                    <TextView
-                        android:id="@+id/numSongsTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Total Songs: 0"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-                    <TextView
-                        android:id="@+id/durationTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Duration: 00:00"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        />
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/addImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_gravity="bottom|end"
-                    android:padding="8dp"
-                    android:backgroundTint="?colorButtonNormal"
-                    android:background="@drawable/shape_circle"
-                    app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-                <ImageButton
-                    android:id="@+id/addAudioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_add_list"
-                    android:layout_margin="16dp"
-                    android:layout_gravity="bottom|end"
-                    android:padding="14dp"
-                    android:backgroundTint="?colorButtonNormal"
-                    android:background="@drawable/shape_circle"
-                    app:tint="?colorPrimary" />
-
-            </FrameLayout>
-
-        </LinearLayout>
+        </FrameLayout>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -234,6 +240,18 @@
                 android:text="Now Playing" />
 
         </LinearLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            app:lottie_rawRes="@raw/sound_wave_animation"
+            app:lottie_repeatMode="restart"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="?colorPrimary"
+            android:visibility="visible"
+            />
 
         <ImageView
             android:layout_width="wrap_content"
